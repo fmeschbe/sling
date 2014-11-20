@@ -50,16 +50,4 @@ public abstract class RuntimeExtensionComponent implements RuntimeExtension {
             throw new RuntimeExtensionException(String.format("Extension %s requires %d arguments", name(), count));
         }
     }
-
-    protected void checkArguments(Object[] arguments, Class<?> ... classes) {
-        checkArgumentCount(arguments, classes.length);
-        for (int i = 0; i < arguments.length; i++) {
-            Object arg = arguments[i];
-            Class<?> cls = classes[i];
-            if (!(cls.isAssignableFrom(arg.getClass()))) {
-                throw new RuntimeExtensionException(String.format("Argument on position %d is not of expected type %s",
-                        i, cls.getCanonicalName()));
-            }
-        }
-    }
 }
