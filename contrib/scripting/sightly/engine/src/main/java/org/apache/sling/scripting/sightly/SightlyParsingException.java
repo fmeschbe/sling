@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly;
 /**
  * The runtime {@code SightlyParsingException} is thrown during the parsing stage for any grammar offending input.
  */
-public class SightlyParsingException extends SightlyEngineException {
+public class SightlyParsingException extends SightlyException {
 
     private String offendingInput;
 

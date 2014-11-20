@@ -19,12 +19,12 @@
 
 package org.apache.sling.scripting.sightly.use;
 
-import org.apache.sling.scripting.sightly.SightlyEngineException;
+import org.apache.sling.scripting.sightly.SightlyException;
 
 /**
  * Exception raised by the use resolving mechanism
  */
-public class SightlyUseException extends SightlyEngineException {
+public class SightlyUseException extends SightlyException {
     public SightlyUseException() {
     }
 

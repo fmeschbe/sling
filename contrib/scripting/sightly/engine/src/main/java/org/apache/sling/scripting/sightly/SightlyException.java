@@ -23,20 +23,20 @@ import org.apache.sling.api.SlingException;
 /**
  * Exceptions caused by the Sightly engine
  */
-public class SightlyEngineException extends SlingException {
+public class SightlyException extends SlingException {
 
-    public SightlyEngineException() {
+    public SightlyException() {
     }
 
-    public SightlyEngineException(String message) {
+    public SightlyException(String message) {
         super(message);
     }
 
-    public SightlyEngineException(String message, Throwable cause) {
+    public SightlyException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public SightlyEngineException(Throwable cause) {
+    public SightlyException(Throwable cause) {
         super(cause);
     }
 }

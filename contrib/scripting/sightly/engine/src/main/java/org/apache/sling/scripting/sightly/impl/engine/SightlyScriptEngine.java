@@ -38,7 +38,7 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoader;
 import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
-import org.apache.sling.scripting.sightly.SightlyEngineException;
+import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.StackedWriter;
 import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.common.SightlyRuntimeImpl;
@@ -172,7 +172,7 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
         try {
             return rrf.getAdministrativeResourceResolver(null);
         } catch (LoginException e) {
-            throw new SightlyEngineException(e);
+            throw new SightlyException(e);
         }
     }
 }

@@ -50,7 +50,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.scripting.sightly.SightlyEngineException;
+import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.SightlyParsingException;
 import org.apache.sling.scripting.sightly.SightlyRenderException;
 import org.apache.sling.scripting.sightly.impl.compiled.CompilationOutput;
@@ -188,7 +188,7 @@ public class ClassUnitLoader implements UnitLoader, EventHandler {
                 obj = sightlyCompileService.getInstance(javaClassResource, sourceIdentifier.getFullyQualifiedName(), true);
             }
             if (!(obj instanceof RenderUnit)) {
-                throw new SightlyEngineException("Class is not a RenderUnit instance");
+                throw new SightlyRenderException("Class is not a RenderUnit instance");
             }
             return (RenderUnit) obj;
         } catch (LoginException e) {
@@ -332,12 +332,12 @@ public class ClassUnitLoader implements UnitLoader, EventHandler {
         try {
             URL url = componentContext.getBundleContext().getBundle().getEntry(path);
             if (url == null) {
-                throw new SightlyEngineException("No bundle resource resides at " + path);
+                throw new SightlyException("No bundle resource resides at " + path);
             }
             inputStream = componentContext.getBundleContext().getBundle().getEntry(path).openStream();
             return IOUtils.toString(inputStream);
         } catch (IOException e) {
-            throw new SightlyEngineException("Java class templates could not be found");
+            throw new SightlyException("Java class templates could not be found");
         } finally {
             if (inputStream != null) {
                 try {

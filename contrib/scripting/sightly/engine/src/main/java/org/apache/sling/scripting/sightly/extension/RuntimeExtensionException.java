@@ -18,13 +18,13 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.extension;
 
-import org.apache.sling.scripting.sightly.SightlyEngineException;
+import org.apache.sling.scripting.sightly.SightlyException;
 
 /**
  * Exception thrown by runtime extensions
  * @see RuntimeExtension
  */
-public class RuntimeExtensionException extends SightlyEngineException {
+public class RuntimeExtensionException extends SightlyException {
 
     public RuntimeExtensionException() {
     }
