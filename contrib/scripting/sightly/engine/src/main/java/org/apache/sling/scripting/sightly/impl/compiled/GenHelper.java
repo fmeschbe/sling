@@ -22,8 +22,7 @@ package org.apache.sling.scripting.sightly.impl.compiled;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.api.ObjectModel;
-import org.apache.sling.scripting.sightly.api.ObjectModel;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.TypedNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;

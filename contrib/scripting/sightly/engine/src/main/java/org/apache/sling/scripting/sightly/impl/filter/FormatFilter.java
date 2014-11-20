@@ -24,16 +24,15 @@ import java.util.regex.Pattern;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionException;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Implementation for the format filter & runtime support.

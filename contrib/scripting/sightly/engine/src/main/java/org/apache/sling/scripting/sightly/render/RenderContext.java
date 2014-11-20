@@ -17,12 +17,16 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.render;
 
 import java.util.Map;
 
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
+
+import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.StackedWriter;
 
 import aQute.bnd.annotation.ProviderType;
 

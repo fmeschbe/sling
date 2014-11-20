@@ -16,24 +16,22 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
-
-import javax.script.Bindings;
+package org.apache.sling.scripting.sightly.render;
 
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * Basic unit of rendering. This also extends the record interface.
- * The properties for a unit are the sub-units
+ * Locates rendering units
  */
 @ProviderType
-public interface RenderUnit extends Record<RenderUnit> {
+public interface UnitLocator {
 
     /**
-     * Render the main script template
-     * @param renderContext - the rendering context
-     * @param arguments - the arguments for this unit
+     * Locate the given rendering unit
+     * @param path - the path of the unit
+     * @return - the rendering unit, or null if the path could not be resolved to a valid
+     * rendering unit
      */
-    void render(RenderContext renderContext, Bindings arguments);
+    RenderUnit locate(String path);
 
 }

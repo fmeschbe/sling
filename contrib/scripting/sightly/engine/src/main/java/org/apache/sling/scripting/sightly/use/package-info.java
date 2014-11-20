@@ -17,6 +17,6 @@
  * under the License.
  ******************************************************************************/
 @Version("1.0.0")
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.use;
 
 import aQute.bnd.annotation.Version;

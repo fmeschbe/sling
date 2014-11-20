@@ -16,25 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
+@Version("1.0.0")
+package org.apache.sling.scripting.sightly;
 
-/**
- * Exceptions caused by the Sightly engine
- */
-public class SightlyEngineException extends RuntimeException {
-
-    public SightlyEngineException() {
-    }
-
-    public SightlyEngineException(String message) {
-        super(message);
-    }
-
-    public SightlyEngineException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SightlyEngineException(Throwable cause) {
-        super(cause);
-    }
-}
+import aQute.bnd.annotation.Version;

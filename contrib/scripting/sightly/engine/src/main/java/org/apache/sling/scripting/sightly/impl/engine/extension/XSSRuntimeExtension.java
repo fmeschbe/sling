@@ -30,18 +30,18 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionComponent;
 import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionException;
+import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.compiler.api.CompilerException;
 import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.MarkupContext;
 import org.apache.sling.scripting.sightly.impl.filter.XSSFilter;
 import org.apache.sling.scripting.sightly.impl.html.MarkupUtils;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Runtime support for XSS filtering

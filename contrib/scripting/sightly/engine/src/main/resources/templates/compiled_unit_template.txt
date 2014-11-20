@@ -21,11 +21,11 @@ package ##PackageName##;
 import java.util.Collection;
 import javax.script.Bindings;
 
-import org.apache.sling.scripting.sightly.api.ObjectModel;
-import org.apache.sling.scripting.sightly.api.StackedWriter;
-import org.apache.sling.scripting.sightly.api.SightlyRuntime;
-import org.apache.sling.scripting.sightly.api.BaseRenderUnit;
-import org.apache.sling.scripting.sightly.api.RenderContext;
+import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.StackedWriter;
+import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.render.BaseRenderUnit;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 public final class ##ClassName## extends BaseRenderUnit {
 

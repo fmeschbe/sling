@@ -21,7 +21,7 @@ package org.apache.sling.scripting.sightly.js.impl.rhino;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.sling.scripting.sightly.api.Record;
+import org.apache.sling.scripting.sightly.Record;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;

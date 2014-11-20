@@ -22,10 +22,10 @@ package org.apache.sling.scripting.sightly.js.impl.use;
 import javax.script.Bindings;
 
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
 import org.apache.sling.scripting.sightly.js.impl.JsEnvironment;
 import org.apache.sling.scripting.sightly.js.impl.Utils;
 import org.apache.sling.scripting.sightly.js.impl.async.UnaryCallback;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
 
 /**
  * Resolves dependencies specified by the Use function

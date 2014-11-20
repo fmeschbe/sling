@@ -22,12 +22,11 @@ package org.apache.sling.scripting.sightly.impl.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.SightlyRenderException;
-import org.apache.sling.scripting.sightly.api.SightlyRuntime;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
+import org.apache.sling.scripting.sightly.SightlyRenderException;
+import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Implementation for apache runtime

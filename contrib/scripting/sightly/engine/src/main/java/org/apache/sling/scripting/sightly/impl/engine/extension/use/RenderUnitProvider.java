@@ -23,17 +23,13 @@ import javax.script.Bindings;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RenderUnit;
-import org.apache.sling.scripting.sightly.api.UnitLocator;
-import org.apache.sling.scripting.sightly.api.UseProvider;
-import org.apache.sling.scripting.sightly.api.UseProviderComponent;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.RenderUnit;
-import org.apache.sling.scripting.sightly.api.UnitLocator;
-import org.apache.sling.scripting.sightly.api.UseProvider;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.render.RenderUnit;
+import org.apache.sling.scripting.sightly.render.UnitLocator;
+import org.apache.sling.scripting.sightly.use.ProviderOutcome;
+import org.apache.sling.scripting.sightly.use.UseProvider;
+import org.apache.sling.scripting.sightly.use.UseProviderComponent;
 
 /**
  * Interprets identifiers as paths to other Sightly templates

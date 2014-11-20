@@ -29,8 +29,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.sling.scripting.sightly.api.SightlyParsingException;
+import org.apache.sling.scripting.sightly.SightlyParsingException;
 
 /**
  * The {@code SightlyParserErrorListener} handles parsing error reporting by sending offending input to a logger.

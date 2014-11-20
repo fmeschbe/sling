@@ -24,9 +24,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-
-import org.apache.sling.scripting.sightly.api.ResourceResolution;
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
+import org.apache.sling.scripting.sightly.ResourceResolution;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
 
 /**
  * Utilities for script evaluation

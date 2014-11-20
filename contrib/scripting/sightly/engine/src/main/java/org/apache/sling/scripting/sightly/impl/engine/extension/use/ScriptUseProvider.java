@@ -33,16 +33,13 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScript;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.UseProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
-import org.apache.sling.scripting.sightly.api.UseProvider;
-import org.apache.sling.scripting.sightly.api.UseProviderComponent;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.use.ProviderOutcome;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
+import org.apache.sling.scripting.sightly.use.UseProvider;
+import org.apache.sling.scripting.sightly.use.UseProviderComponent;
 
 /**
  * Use provider that interprets the identifier as a script path, and runs the respective script using a script engine that matches the

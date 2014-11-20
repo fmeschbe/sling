@@ -17,7 +17,7 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;

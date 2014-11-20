@@ -38,10 +38,9 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.adapter.Adaptable;
 import org.apache.sling.api.resource.ValueMap;
-
-import org.apache.sling.scripting.sightly.api.ObjectModel;
-import org.apache.sling.scripting.sightly.api.Record;
-import org.apache.sling.scripting.sightly.api.SightlyRenderException;
+import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.Record;
+import org.apache.sling.scripting.sightly.SightlyRenderException;
 
 /**
  * Default implementation for the object model

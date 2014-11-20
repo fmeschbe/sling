@@ -38,17 +38,16 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoader;
 import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
-import org.apache.sling.scripting.sightly.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.sling.scripting.sightly.api.SightlyEngineException;
+import org.apache.sling.scripting.sightly.SightlyEngineException;
+import org.apache.sling.scripting.sightly.StackedWriter;
 import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.common.SightlyRuntimeImpl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.UnitLocatorImpl;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RenderUnit;
-import org.apache.sling.scripting.sightly.api.StackedWriter;
-import org.apache.sling.scripting.sightly.api.UnitLocator;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.render.RenderUnit;
+import org.apache.sling.scripting.sightly.render.UnitLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Sightly Script engine

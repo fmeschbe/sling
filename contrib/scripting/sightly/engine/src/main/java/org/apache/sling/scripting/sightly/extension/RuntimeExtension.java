@@ -16,22 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.extension;
 
-import aQute.bnd.annotation.ProviderType;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+
+import aQute.bnd.annotation.ConsumerType;
 
 /**
- * Locates rendering units
+ * Extensions provided to the Sightly runtime
  */
-@ProviderType
-public interface UnitLocator {
+@ConsumerType
+public interface RuntimeExtension {
 
     /**
-     * Locate the given rendering unit
-     * @param path - the path of the unit
-     * @return - the rendering unit, or null if the path could not be resolved to a valid
-     * rendering unit
+     * Provide an instance of this extension
+     * @param renderContext - the runtime context
+     * @return an extension instance
      */
-    RenderUnit locate(String path);
+    ExtensionInstance provide(RenderContext renderContext);
 
+    /**
+     * The name of this extension
+     * @return - the name of the extension
+     */
+    String name();
 }

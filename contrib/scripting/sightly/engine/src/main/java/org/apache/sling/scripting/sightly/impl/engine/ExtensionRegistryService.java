@@ -20,7 +20,7 @@ package org.apache.sling.scripting.sightly.impl.engine;
 
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 
 /**
  * Aggregator for all runtime extensions.

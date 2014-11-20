@@ -33,8 +33,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.scripting.sightly.api.ResourceResolution;
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
+import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.mozilla.javascript.Context;
 import org.slf4j.LoggerFactory;
 import org.apache.sling.scripting.sightly.js.impl.async.AsyncContainer;
@@ -46,6 +45,7 @@ import org.apache.sling.scripting.sightly.js.impl.loop.EventLoopInterop;
 import org.apache.sling.scripting.sightly.js.impl.loop.Task;
 import org.apache.sling.scripting.sightly.js.impl.use.DependencyResolver;
 import org.apache.sling.scripting.sightly.js.impl.use.UseFunction;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
 
 /**
  * Environment for running JS scripts

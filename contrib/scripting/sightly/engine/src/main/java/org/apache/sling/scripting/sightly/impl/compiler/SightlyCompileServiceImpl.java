@@ -40,7 +40,7 @@ import org.apache.sling.commons.compiler.CompilationUnit;
 import org.apache.sling.commons.compiler.CompilerMessage;
 import org.apache.sling.commons.compiler.Options;
 import org.apache.sling.jcr.compiler.JcrJavaCompiler;
-import org.apache.sling.scripting.sightly.api.ResourceResolution;
+import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

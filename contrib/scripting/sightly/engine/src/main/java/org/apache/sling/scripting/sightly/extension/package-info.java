@@ -16,26 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
+@Version("1.0.0")
+package org.apache.sling.scripting.sightly.extension;
 
-package org.apache.sling.scripting.sightly.impl.engine;
-
-import javax.script.Bindings;
-
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
-
-/**
- * Create rendering units from resources
- */
-public interface UnitLoader {
-
-    /**
-     * Create a render unit from the given resource
-     *
-     * @param resource      the resource
-     * @param bindings      the bindings
-     * @return the render unit
-     */
-    RenderUnit createUnit(Resource resource, Bindings bindings);
-
-}
+import aQute.bnd.annotation.Version;

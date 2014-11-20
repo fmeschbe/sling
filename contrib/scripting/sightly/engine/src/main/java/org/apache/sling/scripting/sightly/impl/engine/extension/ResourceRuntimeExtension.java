@@ -39,12 +39,12 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.SyntheticResource;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionComponent;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionException;
+import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.plugin.ResourcePlugin;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

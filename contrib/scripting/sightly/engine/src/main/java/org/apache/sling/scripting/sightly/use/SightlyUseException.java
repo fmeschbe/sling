@@ -17,41 +17,24 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.use;
 
 /**
- * The runtime {@code SightlyParsingException} is thrown during the parsing stage for any grammar offending input.
+ * Exception raised by the use resolving mechanism
  */
-public class SightlyParsingException extends RuntimeException {
-
-    private String offendingInput;
-
-    public SightlyParsingException() {
+public class SightlyUseException extends RuntimeException {
+    public SightlyUseException() {
     }
 
-    public SightlyParsingException(String message) {
+    public SightlyUseException(String message) {
         super(message);
     }
 
-    public SightlyParsingException(String message, String offendingInput) {
-        super(message);
-        this.offendingInput = offendingInput;
-    }
-
-    public SightlyParsingException(String message, Throwable cause) {
+    public SightlyUseException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public SightlyParsingException(String message, String offendingInput, Throwable cause) {
-        super(message, cause);
-        this.offendingInput = offendingInput;
-    }
-
-    public SightlyParsingException(Throwable cause) {
+    public SightlyUseException(Throwable cause) {
         super(cause);
-    }
-
-    public String getOffendingInput() {
-        return offendingInput;
     }
 }

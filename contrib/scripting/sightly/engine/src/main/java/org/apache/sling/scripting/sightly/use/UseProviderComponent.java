@@ -17,7 +17,7 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.use;
 
 import javax.script.Bindings;
 import javax.script.SimpleBindings;

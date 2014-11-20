@@ -21,7 +21,7 @@ package org.apache.sling.scripting.sightly.js.impl.loop;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

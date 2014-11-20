@@ -16,25 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.extension;
 
 /**
- * Exception raised by the use resolving mechanism
+ * Exception thrown by runtime extensions
+ * @see RuntimeExtension
  */
-public class SightlyUseException extends RuntimeException {
-    public SightlyUseException() {
+public class RuntimeExtensionException extends RuntimeException {
+
+    public RuntimeExtensionException() {
     }
 
-    public SightlyUseException(String message) {
+    public RuntimeExtensionException(String message) {
         super(message);
     }
 
-    public SightlyUseException(String message, Throwable cause) {
+    public RuntimeExtensionException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public SightlyUseException(Throwable cause) {
+    public RuntimeExtensionException(Throwable cause) {
         super(cause);
     }
 }

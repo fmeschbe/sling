@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.scripting.sightly.api.ObjectModel;
+import org.apache.sling.scripting.sightly.ObjectModel;
 
 /**
  * Extends the object model by providing implementations for all Sightly

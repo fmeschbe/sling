@@ -16,26 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
+
+package org.apache.sling.scripting.sightly;
 
 /**
- * Exception thrown by runtime extensions
- * @see RuntimeExtension
+ * The runtime {@code SightlyParsingException} is thrown during the parsing stage for any grammar offending input.
  */
-public class RuntimeExtensionException extends RuntimeException {
+public class SightlyParsingException extends RuntimeException {
 
-    public RuntimeExtensionException() {
+    private String offendingInput;
+
+    public SightlyParsingException() {
     }
 
-    public RuntimeExtensionException(String message) {
+    public SightlyParsingException(String message) {
         super(message);
     }
 
-    public RuntimeExtensionException(String message, Throwable cause) {
+    public SightlyParsingException(String message, String offendingInput) {
+        super(message);
+        this.offendingInput = offendingInput;
+    }
+
+    public SightlyParsingException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public RuntimeExtensionException(Throwable cause) {
+    public SightlyParsingException(String message, String offendingInput, Throwable cause) {
+        super(message, cause);
+        this.offendingInput = offendingInput;
+    }
+
+    public SightlyParsingException(Throwable cause) {
         super(cause);
+    }
+
+    public String getOffendingInput() {
+        return offendingInput;
     }
 }

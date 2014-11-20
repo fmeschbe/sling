@@ -17,25 +17,31 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.impl.engine;
+package org.apache.sling.scripting.sightly;
 
-import javax.script.Bindings;
+import java.util.Set;
 
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
+import aQute.bnd.annotation.ProviderType;
 
 /**
- * Create rendering units from resources
+ * A key-value immutable object understood by the Sightly runtime
+ * @param <T> the type of values for this record
  */
-public interface UnitLoader {
+@ProviderType
+public interface Record<T> {
 
     /**
-     * Create a render unit from the given resource
-     *
-     * @param resource      the resource
-     * @param bindings      the bindings
-     * @return the render unit
+     * Get the value of the specified property
+     * @param name the name of the property
+     * @return the value of the property or null if this record does not
+     * have the specified property
      */
-    RenderUnit createUnit(Resource resource, Bindings bindings);
+    T get(String name);
+
+    /**
+     * Get the set of properties for this record
+     * @return this record's properties
+     */
+    Set<String> properties();
 
 }

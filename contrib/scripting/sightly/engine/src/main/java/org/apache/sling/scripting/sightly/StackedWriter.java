@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly;
 
 import java.io.IOException;
 import java.io.PrintWriter;

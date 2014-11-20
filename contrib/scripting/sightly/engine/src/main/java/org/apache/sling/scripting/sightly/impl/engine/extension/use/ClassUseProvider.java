@@ -33,13 +33,10 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoaderManager;
-
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.UseProvider;
-import org.apache.sling.scripting.sightly.api.UseProviderComponent;
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.UseProvider;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.use.ProviderOutcome;
+import org.apache.sling.scripting.sightly.use.UseProvider;
+import org.apache.sling.scripting.sightly.use.UseProviderComponent;
 
 /**
  * Interprets the identifier as a class name and tries to load that class

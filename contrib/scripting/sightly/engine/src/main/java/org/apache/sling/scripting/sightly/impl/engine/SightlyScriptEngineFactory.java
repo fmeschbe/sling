@@ -30,7 +30,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.classloader.DynamicClassLoaderManager;
 import org.apache.sling.scripting.api.AbstractScriptEngineFactory;
 import org.osgi.service.component.ComponentContext;
-import org.apache.sling.scripting.sightly.api.ObjectModel;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 
 /**

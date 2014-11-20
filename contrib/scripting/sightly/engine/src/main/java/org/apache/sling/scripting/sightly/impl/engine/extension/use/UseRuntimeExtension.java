@@ -34,15 +34,15 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionComponent;
-import org.apache.sling.scripting.sightly.api.ExtensionInstance;
-import org.apache.sling.scripting.sightly.api.ProviderOutcome;
-import org.apache.sling.scripting.sightly.api.RenderContext;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
-import org.apache.sling.scripting.sightly.api.RuntimeExtensionException;
-import org.apache.sling.scripting.sightly.api.SightlyUseException;
-import org.apache.sling.scripting.sightly.api.UseProvider;
+import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.plugin.UsePlugin;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.use.ProviderOutcome;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
+import org.apache.sling.scripting.sightly.use.UseProvider;
 
 /**
  * Runtime extension for the USE plugin

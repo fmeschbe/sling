@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.api.ObjectModel;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;

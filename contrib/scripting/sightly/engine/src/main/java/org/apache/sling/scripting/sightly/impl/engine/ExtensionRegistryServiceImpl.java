@@ -28,7 +28,7 @@ import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.osgi.PropertiesUtil;
-import org.apache.sling.scripting.sightly.api.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.osgi.framework.Constants;
 
 /**

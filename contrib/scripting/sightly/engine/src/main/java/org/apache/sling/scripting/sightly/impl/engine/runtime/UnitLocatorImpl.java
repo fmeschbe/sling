@@ -25,10 +25,10 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.scripting.SlingBindings;
-import org.apache.sling.scripting.sightly.api.RenderUnit;
-import org.apache.sling.scripting.sightly.api.ResourceResolution;
-import org.apache.sling.scripting.sightly.api.UnitLocator;
+import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.apache.sling.scripting.sightly.impl.engine.UnitLoader;
+import org.apache.sling.scripting.sightly.render.RenderUnit;
+import org.apache.sling.scripting.sightly.render.UnitLocator;
 
 /**
  * Implementation for unit locator

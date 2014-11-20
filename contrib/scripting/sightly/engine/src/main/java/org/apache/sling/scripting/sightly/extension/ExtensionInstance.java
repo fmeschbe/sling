@@ -16,25 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.extension;
 
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * Runtime interface provided to Sightly scripts
+ * An instance of an {@link RuntimeExtension}
  */
 @ProviderType
-public interface SightlyRuntime {
+public interface ExtensionInstance {
 
     /**
-     * Call the specified function name with the given arguments
-     * @param functionName - the name of the called function
-     * @param arguments - 0 or more arguments passed to the function
-     * @return - the object returned by the function
-     * @throws SightlyRenderException - if the function was
-     * not defined
+     * Call this specific extension
+     * @param arguments - the arguments for the call
+     * @return - the result from the call
      */
-    Object call(String functionName, Object ... arguments);
+    Object call(Object ... arguments);
 
 }

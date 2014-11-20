@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.api;
+package org.apache.sling.scripting.sightly.render;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +25,10 @@ import java.util.Set;
 
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
+
+import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.StackedWriter;
 
 import aQute.bnd.annotation.ProviderType;
 
