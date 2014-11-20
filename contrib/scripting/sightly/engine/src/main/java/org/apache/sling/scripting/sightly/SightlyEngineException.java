@@ -18,10 +18,12 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly;
 
+import org.apache.sling.api.SlingException;
+
 /**
  * Exceptions caused by the Sightly engine
  */
-public class SightlyEngineException extends RuntimeException {
+public class SightlyEngineException extends SlingException {
 
     public SightlyEngineException() {
     }
