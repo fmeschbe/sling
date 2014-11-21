@@ -22,6 +22,7 @@ package org.apache.sling.scripting.sightly.impl.engine.extension.use;
 import javax.script.Bindings;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -35,17 +36,31 @@ import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.Use;
 import org.apache.sling.scripting.sightly.use.UseProvider;
-import org.apache.sling.scripting.sightly.use.UseProviderComponent;
+import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Provider which instantiates POJOs.
  */
-@Component
+@Component(
+        metatype = true,
+        label = "Apache Sling Scripting Sightly POJO Use Provider",
+        description = "The POJO Use Provider is responsible for instantiating Use-API objects that optionally can implement the org" +
+                ".apache.sling.scripting.sightly.use.Use interface."
+)
 @Service(UseProvider.class)
-@Property(name = UseProviderComponent.PRIORITY, intValue = 10)
-public class PojoUseProvider extends UseProviderComponent {
+@Properties({
+        @Property(
+                name = Constants.SERVICE_RANKING,
+                label = "Service Ranking",
+                description = "The Service Ranking value acts as the priority with which this Use Provider is queried to return an " +
+                        "Use-object. A higher value represents a higher priority.",
+                intValue = 90,
+                propertyPrivate = false
+        )
+})
+public class PojoUseProvider implements UseProvider {
 
     private final Logger LOG = LoggerFactory.getLogger(PojoUseProvider.class);
 
@@ -55,8 +70,8 @@ public class PojoUseProvider extends UseProviderComponent {
     @Override
     public ProviderOutcome provide(String identifier, RenderContext renderContext, Bindings arguments) {
         Bindings globalBindings = renderContext.getBindings();
-        Bindings bindings = merge(globalBindings, arguments);
-        SlingScriptHelper sling = ScriptEvalUtils.getHelper(bindings);
+        Bindings bindings = UseProviderUtils.merge(globalBindings, arguments);
+        SlingScriptHelper sling = UseProviderUtils.getHelper(bindings);
         ResourceResolverFactory rrf = sling.getService(ResourceResolverFactory.class);
         ResourceResolver adminResolver = null;
         try {

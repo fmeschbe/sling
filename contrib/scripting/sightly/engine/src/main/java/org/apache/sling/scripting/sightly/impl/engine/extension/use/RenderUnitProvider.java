@@ -22,6 +22,8 @@ package org.apache.sling.scripting.sightly.impl.engine.extension.use;
 import javax.script.Bindings;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
 import org.apache.sling.scripting.sightly.render.RenderContext;
@@ -29,14 +31,28 @@ import org.apache.sling.scripting.sightly.render.RenderUnit;
 import org.apache.sling.scripting.sightly.render.UnitLocator;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.UseProvider;
-import org.apache.sling.scripting.sightly.use.UseProviderComponent;
+import org.osgi.framework.Constants;
 
 /**
  * Interprets identifiers as paths to other Sightly templates
  */
-@Component
+@Component(
+        metatype = true,
+        label = "Apache Sling Scripting Sightly Render Unit Use Provider",
+        description = "The Render Unit Use Provider is responsible for instantiating Sightly templates through the Use-API."
+)
 @Service(UseProvider.class)
-public class RenderUnitProvider extends UseProviderComponent {
+@Properties({
+        @Property(
+                name = Constants.SERVICE_RANKING,
+                label = "Service Ranking",
+                description = "The Service Ranking value acts as the priority with which this Use Provider is queried to return an " +
+                        "Use-object. A higher value represents a higher priority.",
+                intValue = 100,
+                propertyPrivate = false
+        )
+})
+public class RenderUnitProvider implements UseProvider {
 
     @Override
     public ProviderOutcome provide(String identifier, RenderContext renderContext, Bindings arguments) {

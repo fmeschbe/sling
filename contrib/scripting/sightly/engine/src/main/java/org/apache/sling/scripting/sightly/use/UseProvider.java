@@ -30,9 +30,7 @@ import aQute.bnd.annotation.ConsumerType;
  * of their priority until one is found which can provide a non-null instance
  */
 @ConsumerType
-public interface UseProvider extends Comparable<UseProvider> {
-
-    int DEFAULT_PRIORITY = 0;
+public interface UseProvider {
 
     /**
      * Provide an instance based on the given identifier
@@ -43,11 +41,4 @@ public interface UseProvider extends Comparable<UseProvider> {
      * handled by this provider, a failed outcome is returned
      */
     ProviderOutcome provide(String identifier, RenderContext renderContext, Bindings arguments);
-
-    /**
-     * The priority with which this use provider should be selected. Use 0 if you don't care
-     * @return the (possibly negative) priority of this provider
-     */
-    int priority();
-
 }

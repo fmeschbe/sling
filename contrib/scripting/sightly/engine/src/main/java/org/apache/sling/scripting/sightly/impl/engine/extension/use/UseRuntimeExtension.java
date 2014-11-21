@@ -19,9 +19,12 @@
 package org.apache.sling.scripting.sightly.impl.engine.extension.use;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
@@ -42,6 +45,9 @@ import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.SightlyUseException;
 import org.apache.sling.scripting.sightly.use.UseProvider;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.ComponentContext;
 
 /**
  * Runtime extension for the USE plugin
@@ -59,7 +65,7 @@ import org.apache.sling.scripting.sightly.use.UseProvider;
 )
 public class UseRuntimeExtension implements RuntimeExtension {
 
-    private volatile List<UseProvider> providers = Collections.emptyList();
+    private final Map<ServiceReference, UseProvider> providersMap = new ConcurrentSkipListMap<ServiceReference, UseProvider>();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -77,7 +83,10 @@ public class UseRuntimeExtension implements RuntimeExtension {
                 }
                 Map<String, Object> useArgumentsMap = renderContext.getObjectModel().coerceToMap(arguments[1]);
                 Bindings useArguments = new SimpleBindings(Collections.unmodifiableMap(useArgumentsMap));
-                for (UseProvider provider : providers) {
+                ArrayList<UseProvider> providers = new ArrayList<UseProvider>(providersMap.values());
+                ListIterator<UseProvider> iterator = providers.listIterator(providers.size());
+                while (iterator.hasPrevious()) {
+                    UseProvider provider = iterator.previous();
                     ProviderOutcome outcome = provider.provide(identifier, renderContext, useArguments);
                     if (outcome.isSuccess()) {
                         return outcome.getResult();
@@ -88,19 +97,16 @@ public class UseRuntimeExtension implements RuntimeExtension {
         };
     }
 
+    // OSGi ################################################################################################################################
+
     @SuppressWarnings("UnusedDeclaration")
-    private void bindUseProvider(UseProvider provider) {
-        ArrayList<UseProvider> newProviders = new ArrayList<UseProvider>(providers);
-        newProviders.add(provider);
-        Collections.sort(newProviders);
-        providers = newProviders;
+    private void bindUseProvider(ServiceReference serviceReference) {
+        BundleContext bundleContext = serviceReference.getBundle().getBundleContext();
+        providersMap.put(serviceReference, (UseProvider) bundleContext.getService(serviceReference));
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    private void unbindUseProvider(UseProvider provider) {
-        ArrayList<UseProvider> newProviders = new ArrayList<UseProvider>(providers);
-        newProviders.remove(provider);
-        Collections.sort(newProviders);
-        providers = newProviders;
+    private void unbindUseProvider(ServiceReference serviceReference) {
+        providersMap.remove(serviceReference);
     }
 }

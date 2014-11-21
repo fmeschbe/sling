@@ -23,6 +23,7 @@ import javax.script.Bindings;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -33,13 +34,14 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScript;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.SightlyUseException;
 import org.apache.sling.scripting.sightly.use.UseProvider;
-import org.apache.sling.scripting.sightly.use.UseProviderComponent;
+import org.osgi.framework.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use provider that interprets the identifier as a script path, and runs the respective script using a script engine that matches the
@@ -48,10 +50,24 @@ import org.apache.sling.scripting.sightly.use.UseProviderComponent;
  * This provider returns a non-failure outcome only if the evaluated script actually returns something. For more details check the
  * implementation of the {@link SlingScript#eval(SlingBindings)} method for the available script engines from your platform.
  */
-@Component
+@Component(
+        metatype = true,
+        label = "Apache Sling Scripting Sightly Script Use Provider",
+        description = "The Script Use Provider is responsible for instantiating objects from scripts evaluated by other Sling Scripting " +
+                "Engines."
+)
 @Service(UseProvider.class)
-@Property(name = UseProviderComponent.PRIORITY, intValue = 15)
-public class ScriptUseProvider extends UseProviderComponent {
+@Properties({
+        @Property(
+                name = Constants.SERVICE_RANKING,
+                label = "Service Ranking",
+                description = "The Service Ranking value acts as the priority with which this Use Provider is queried to return an " +
+                        "Use-object. A higher value represents a higher priority.",
+                intValue = 0,
+                propertyPrivate = false
+        )
+})
+public class ScriptUseProvider implements UseProvider {
 
     private static final Logger log = LoggerFactory.getLogger(ScriptUseProvider.class);
 
@@ -61,9 +77,9 @@ public class ScriptUseProvider extends UseProviderComponent {
     @Override
     public ProviderOutcome provide(String scriptName, RenderContext renderContext, Bindings arguments) {
         Bindings globalBindings = renderContext.getBindings();
-        Bindings bindings = merge(globalBindings, arguments);
+        Bindings bindings = UseProviderUtils.merge(globalBindings, arguments);
         String extension = scriptExtension(scriptName);
-        if (extension == null) {
+        if (extension == null || extension.equals(SightlyScriptEngineFactory.EXTENSION)) {
             return ProviderOutcome.failure();
         }
         SlingScriptHelper sling = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
@@ -74,7 +90,7 @@ public class ScriptUseProvider extends UseProviderComponent {
                 log.warn("Cannot obtain administrative resource resolver for " + scriptName);
                 return ProviderOutcome.failure();
             }
-            Resource scriptResource = ScriptEvalUtils.locateScriptResource(adminResolver, sling, scriptName);
+            Resource scriptResource = UseProviderUtils.locateScriptResource(adminResolver, sling, scriptName);
             if (scriptResource == null) {
                 log.debug("Path does not match an existing resource: {}", scriptName);
                 return ProviderOutcome.failure();

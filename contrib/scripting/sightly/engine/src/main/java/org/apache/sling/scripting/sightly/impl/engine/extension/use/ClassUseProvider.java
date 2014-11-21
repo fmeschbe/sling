@@ -26,6 +26,7 @@ import javax.script.Bindings;
 import javax.servlet.ServletRequest;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -36,21 +37,35 @@ import org.apache.sling.commons.classloader.DynamicClassLoaderManager;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.UseProvider;
-import org.apache.sling.scripting.sightly.use.UseProviderComponent;
+import org.osgi.framework.Constants;
 
 /**
  * Interprets the identifier as a class name and tries to load that class
  * using a dynamic class loader
  */
-@Component
+@Component(
+        metatype = true,
+        label = "Apache Sling Scripting Sightly Class Use Provider",
+        description = "The Class Use Provider is responsible for instantiating Use-API objects that are adaptable from Resource or " +
+                "SlingHttpServletRequest."
+)
 @Service(UseProvider.class)
-@Property(name = UseProviderComponent.PRIORITY, intValue = 0)
-public class ClassUseProvider extends UseProviderComponent {
+@Properties({
+        @Property(
+                name = Constants.SERVICE_RANKING,
+                label = "Service Ranking",
+                description = "The Service Ranking value acts as the priority with which this Use Provider is queried to return an " +
+                        "Use-object. A higher value represents a higher priority.",
+                intValue = 80,
+                propertyPrivate = false
+        )
+})
+public class ClassUseProvider implements UseProvider {
 
     @Override
     public ProviderOutcome provide(String identifier, RenderContext renderContext, Bindings arguments) {
         Bindings globalBindings = renderContext.getBindings();
-        Bindings bindings = merge(globalBindings, arguments);
+        Bindings bindings = UseProviderUtils.merge(globalBindings, arguments);
         SlingScriptHelper sling = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
         Resource resource = (Resource) bindings.get(SlingBindings.RESOURCE);
         final SlingHttpServletRequest request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);

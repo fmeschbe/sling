@@ -23,6 +23,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -39,15 +40,28 @@ import org.apache.sling.scripting.sightly.js.impl.rhino.JsValueAdapter;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
 import org.apache.sling.scripting.sightly.use.UseProvider;
-import org.apache.sling.scripting.sightly.use.UseProviderComponent;
+import org.osgi.framework.Constants;
 
 /**
  * Use provider for JS scripts. Ensures proper integration between Sightly & JS code-behind.
  */
-@Component
+@Component(
+        metatype = true,
+        label = "Apache Sling Scripting Sightly JavaScript Use Provider",
+        description = "The JavaScript Use Provider is responsible for instantiating JavaScript Use-API objects."
+)
 @Service(UseProvider.class)
-@Property(name = UseProviderComponent.PRIORITY, intValue = -1)
-public class JsUseProvider extends UseProviderComponent {
+@Properties({
+        @Property(
+                name = Constants.SERVICE_RANKING,
+                label = "Service Ranking",
+                description = "The Service Ranking value acts as the priority with which this Use Provider is queried to return an " +
+                        "Use-object. A higher value represents a higher priority.",
+                intValue = 90,
+                propertyPrivate = false
+        )
+})
+public class JsUseProvider implements UseProvider {
 
     private static final String JS_ENGINE_NAME = "javascript";
 
