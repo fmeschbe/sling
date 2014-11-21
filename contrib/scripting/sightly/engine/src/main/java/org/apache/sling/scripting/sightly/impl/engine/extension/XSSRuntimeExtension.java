@@ -30,18 +30,17 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.xss.XSSAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
-import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.compiler.api.CompilerException;
 import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.MarkupContext;
 import org.apache.sling.scripting.sightly.impl.filter.XSSFilter;
 import org.apache.sling.scripting.sightly.impl.html.MarkupUtils;
 import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.xss.XSSAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Runtime support for XSS filtering
@@ -49,9 +48,9 @@ import org.apache.sling.scripting.sightly.render.RenderContext;
 @Component
 @Service(RuntimeExtension.class)
 @Properties(
-        @Property(name = RuntimeExtensionComponent.SCR_PROP_NAME, value = XSSFilter.FUNCTION_NAME)
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = XSSFilter.FUNCTION_NAME)
 )
-public class XSSRuntimeExtension extends RuntimeExtensionComponent {
+public class XSSRuntimeExtension implements RuntimeExtension {
 
     private static final Set<String> elementNameWhiteList = new HashSet<String>();
     private static final Logger log = LoggerFactory.getLogger(XSSRuntimeExtension.class);
@@ -68,7 +67,8 @@ public class XSSRuntimeExtension extends RuntimeExtensionComponent {
             @Override
             public Object call(Object... arguments) {
                 if (arguments.length < 2) {
-                    throw new RuntimeExtensionException(String.format("Extension %s requires at least %d arguments", name(), 2));
+                    throw new RuntimeExtensionException(
+                            String.format("Extension %s requires at least %d arguments", XSSFilter.FUNCTION_NAME, 2));
                 }
                 Object original = arguments[0];
                 Object option = arguments[1];

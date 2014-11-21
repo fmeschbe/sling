@@ -19,7 +19,6 @@
 package org.apache.sling.scripting.sightly.impl.engine.extension;
 
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -33,12 +32,10 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.i18n.RequestLocaleResolver;
 import org.apache.sling.i18n.ResourceBundleProvider;
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
-import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
 import org.apache.sling.scripting.sightly.impl.filter.I18nFilter;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.slf4j.Logger;
@@ -47,9 +44,9 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service(RuntimeExtension.class)
 @Properties({
-        @Property(name = RuntimeExtensionComponent.SCR_PROP_NAME, value = I18nFilter.FUNCTION)
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = I18nFilter.FUNCTION)
 })
-public class I18nRuntimeExtension extends RuntimeExtensionComponent {
+public class I18nRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18nRuntimeExtension.class);
 
@@ -61,7 +58,7 @@ public class I18nRuntimeExtension extends RuntimeExtensionComponent {
         return new ExtensionInstance() {
             @Override
             public Object call(Object... arguments) {
-                checkArgumentCount(arguments, 3);
+                ExtensionUtils.checkArgumentCount(I18nFilter.FUNCTION, arguments, 3);
                 String text = model.coerceToString(arguments[0]);
                 String locale = model.coerceToString(arguments[1]);
                 String hint = model.coerceToString(arguments[2]);

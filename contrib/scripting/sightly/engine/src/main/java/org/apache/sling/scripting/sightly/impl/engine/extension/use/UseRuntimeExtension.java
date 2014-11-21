@@ -36,7 +36,6 @@ import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
-import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.plugin.UsePlugin;
 import org.apache.sling.scripting.sightly.render.RenderContext;
@@ -50,7 +49,7 @@ import org.apache.sling.scripting.sightly.use.UseProvider;
 @Component
 @Service(RuntimeExtension.class)
 @Properties(
-        @Property(name = RuntimeExtensionComponent.SCR_PROP_NAME, value = UsePlugin.FUNCTION_NAME)
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = UsePlugin.FUNCTION_NAME)
 )
 @Reference(
         policy = ReferencePolicy.DYNAMIC,
@@ -58,7 +57,7 @@ import org.apache.sling.scripting.sightly.use.UseProvider;
         name = "useProvider",
         cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE
 )
-public class UseRuntimeExtension extends RuntimeExtensionComponent {
+public class UseRuntimeExtension implements RuntimeExtension {
 
     private volatile List<UseProvider> providers = Collections.emptyList();
 

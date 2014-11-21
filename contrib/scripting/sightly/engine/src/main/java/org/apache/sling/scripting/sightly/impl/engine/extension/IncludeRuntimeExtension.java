@@ -38,7 +38,6 @@ import org.apache.sling.api.servlets.ServletResolver;
 import org.apache.sling.scripting.sightly.SightlyRenderException;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
-import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
 import org.apache.sling.scripting.sightly.impl.plugin.IncludePlugin;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.slf4j.Logger;
@@ -47,14 +46,14 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service(RuntimeExtension.class)
 @Properties({
-        @Property(name = RuntimeExtensionComponent.SCR_PROP_NAME, value = IncludePlugin.FUNCTION)
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = IncludePlugin.FUNCTION)
 })
 @SuppressWarnings("unused")
 /**
  * Runtime support for including resources in a Sightly script through {@code data-sly-include}. For more details check the implementation
  * of the {@link org.apache.sling.scripting.sightly.impl.plugin.IncludePlugin}.
  */
-public class IncludeRuntimeExtension extends RuntimeExtensionComponent {
+public class IncludeRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(IncludeRuntimeExtension.class);
 
@@ -72,7 +71,7 @@ public class IncludeRuntimeExtension extends RuntimeExtensionComponent {
 
             @Override
             public Object call(Object... arguments) {
-                checkArgumentCount(arguments, 2);
+                ExtensionUtils.checkArgumentCount(IncludePlugin.FUNCTION, arguments, 2);
                 String originalPath = renderContext.getObjectModel().coerceToString(arguments[0]);
                 Map options = (Map) arguments[1];
                 String path = buildPath(originalPath, options);

@@ -56,14 +56,15 @@ public class ExtensionRegistryServiceImpl implements ExtensionRegistryService {
     @SuppressWarnings("UnusedDeclaration")
     protected synchronized void bindExtensionService(RuntimeExtension extension, Map<String, Object> properties) {
         Integer newPriority = PropertiesUtil.toInteger(properties.get(Constants.SERVICE_RANKING), 0);
-        Integer priority = PropertiesUtil.toInteger(mappingPriorities.get(extension.name()), 0);
+        String extensionName = PropertiesUtil.toString(properties.get(RuntimeExtension.SCR_PROP_NAME), "");
+        Integer priority = PropertiesUtil.toInteger(mappingPriorities.get(extensionName), 0);
         if (newPriority > priority) {
-                mapping = Collections.unmodifiableMap(add(mapping, extension));
-                mappingPriorities.put(extension.name(), newPriority);
+                mapping = Collections.unmodifiableMap(add(mapping, extension, extensionName));
+                mappingPriorities.put(extensionName, newPriority);
         } else {
-            if (!mapping.containsKey(extension.name())) {
-                mapping = Collections.unmodifiableMap(add(mapping, extension));
-                mappingPriorities.put(extension.name(), newPriority);
+            if (!mapping.containsKey(extensionName)) {
+                mapping = Collections.unmodifiableMap(add(mapping, extension, extensionName));
+                mappingPriorities.put(extensionName, newPriority);
             }
         }
 
@@ -71,19 +72,20 @@ public class ExtensionRegistryServiceImpl implements ExtensionRegistryService {
 
     @SuppressWarnings("UnusedDeclaration")
     protected synchronized void unbindExtensionService(RuntimeExtension extension, Map<String, Object> properties) {
-        mappingPriorities.remove(extension.name());
-        mapping = Collections.unmodifiableMap(remove(mapping, extension));
+        String extensionName = PropertiesUtil.toString(properties.get(RuntimeExtension.SCR_PROP_NAME), "");
+        mappingPriorities.remove(extensionName);
+        mapping = Collections.unmodifiableMap(remove(mapping, extension, extensionName));
     }
 
-    private Map<String, RuntimeExtension> add(Map<String, RuntimeExtension> oldMap, RuntimeExtension extension) {
+    private Map<String, RuntimeExtension> add(Map<String, RuntimeExtension> oldMap, RuntimeExtension extension, String extensionName) {
         HashMap<String, RuntimeExtension> newMap = new HashMap<String, RuntimeExtension>(oldMap);
-        newMap.put(extension.name(), extension);
+        newMap.put(extensionName, extension);
         return newMap;
     }
 
-    private Map<String, RuntimeExtension> remove(Map<String, RuntimeExtension> oldMap, RuntimeExtension extension) {
+    private Map<String, RuntimeExtension> remove(Map<String, RuntimeExtension> oldMap, RuntimeExtension extension, String extensionName) {
         HashMap<String, RuntimeExtension> newMap = new HashMap<String, RuntimeExtension>(oldMap);
-        newMap.remove(extension.name());
+        newMap.remove(extensionName);
         return newMap;
     }
 }

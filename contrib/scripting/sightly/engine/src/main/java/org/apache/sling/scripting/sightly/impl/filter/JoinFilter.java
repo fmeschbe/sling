@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
@@ -39,6 +41,9 @@ import org.apache.sling.scripting.sightly.render.RenderContext;
  */
 @Component
 @Service({Filter.class, RuntimeExtension.class})
+@Properties({
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = JoinFilter.JOIN_FUNCTION)
+})
 public class JoinFilter extends FilterComponent implements RuntimeExtension {
 
     public static final String JOIN_OPTION = "join";
@@ -52,11 +57,6 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
         ExpressionNode argumentNode = expression.getOption(JOIN_OPTION);
         ExpressionNode joinResult = new RuntimeCall(JOIN_FUNCTION, expression.getRoot(), argumentNode);
         return expression.withNode(joinResult).removeOptions(JOIN_OPTION);
-    }
-
-    @Override
-    public String name() {
-        return JOIN_FUNCTION;
     }
 
     @Override

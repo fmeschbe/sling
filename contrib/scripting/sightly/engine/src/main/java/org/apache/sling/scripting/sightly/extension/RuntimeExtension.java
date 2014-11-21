@@ -28,16 +28,12 @@ import aQute.bnd.annotation.ConsumerType;
 @ConsumerType
 public interface RuntimeExtension {
 
+    String SCR_PROP_NAME = "org.apache.sling.scripting.sightly.extension.name";
+
     /**
      * Provide an instance of this extension
      * @param renderContext - the runtime context
      * @return an extension instance
      */
     ExtensionInstance provide(RenderContext renderContext);
-
-    /**
-     * The name of this extension
-     * @return - the name of the extension
-     */
-    String name();
 }

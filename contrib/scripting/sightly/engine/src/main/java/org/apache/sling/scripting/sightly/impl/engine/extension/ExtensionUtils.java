@@ -16,38 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.extension;
+package org.apache.sling.scripting.sightly.impl.engine.extension;
 
-import java.util.Dictionary;
-
-import org.osgi.service.component.ComponentContext;
-
-import aQute.bnd.annotation.ProviderType;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 
 /**
- * Component-based implementation for extensions
+ * Helper class for {@link RuntimeExtension} implementations.
  */
-@ProviderType
-public abstract class RuntimeExtensionComponent implements RuntimeExtension {
+public class ExtensionUtils {
 
-    public static final String SCR_PROP_NAME = "org.apache.sling.scripting.sightly.rtextension.name";
-
-    private String name;
-
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @SuppressWarnings("UnusedDeclaration")
-    protected void activate(ComponentContext componentContext) {
-        Dictionary properties = componentContext.getProperties();
-        name = (String) properties.get(SCR_PROP_NAME);
-    }
-
-    protected void checkArgumentCount(Object[] arguments, int count) {
+    /**
+     * Helper method for checking if the number of arguments passed to a {@link RuntimeExtension} are equal to what the extension requires.
+     *
+     * @param extensionName the name of the extension
+     * @param arguments     the arguments array
+     * @param count         the expected number or arguments
+     * @throws RuntimeExtensionException if the number of supplied arguments differs from what's expected
+     */
+    public static void checkArgumentCount(String extensionName, Object[] arguments, int count) {
         if (arguments.length != count) {
-            throw new RuntimeExtensionException(String.format("Extension %s requires %d arguments", name(), count));
+            throw new RuntimeExtensionException(String.format("Extension %s requires %d arguments", extensionName, count));
         }
     }
+
 }

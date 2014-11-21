@@ -23,6 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
@@ -39,6 +41,9 @@ import org.apache.sling.scripting.sightly.render.RenderContext;
  */
 @Component
 @Service({Filter.class, RuntimeExtension.class})
+@Properties({
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = FormatFilter.FORMAT_FUNCTION)
+})
 public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
     public static final String FORMAT_OPTION = "format";
@@ -56,11 +61,6 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
         ExpressionNode argNode = expression.getOption(FORMAT_OPTION);
         ExpressionNode formattedNode = new RuntimeCall(FORMAT_FUNCTION, expression.getRoot(), argNode);
         return expression.withNode(formattedNode).removeOptions(FORMAT_OPTION);
-    }
-
-    @Override
-    public String name() {
-        return FORMAT_FUNCTION;
     }
 
     @Override

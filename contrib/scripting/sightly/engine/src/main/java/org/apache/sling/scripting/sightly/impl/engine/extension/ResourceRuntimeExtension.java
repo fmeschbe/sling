@@ -41,7 +41,6 @@ import org.apache.sling.api.resource.SyntheticResource;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
-import org.apache.sling.scripting.sightly.extension.RuntimeExtensionComponent;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.plugin.ResourcePlugin;
 import org.apache.sling.scripting.sightly.render.RenderContext;
@@ -55,10 +54,10 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service(RuntimeExtension.class)
 @Properties(
-        @Property(name = RuntimeExtensionComponent.SCR_PROP_NAME, value = ResourcePlugin.FUNCTION)
+        @Property(name = RuntimeExtension.SCR_PROP_NAME, value = ResourcePlugin.FUNCTION)
 )
 @SuppressWarnings("unused")
-public class ResourceRuntimeExtension extends RuntimeExtensionComponent {
+public class ResourceRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourceRuntimeExtension.class);
     private static final String OPTION_RESOURCE_TYPE = "resourceType";
