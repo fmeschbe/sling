@@ -19,6 +19,8 @@
 
 package org.apache.sling.scripting.sightly;
 
+import org.apache.sling.scripting.sightly.render.SightlyRenderException;
+
 import aQute.bnd.annotation.ProviderType;
 
 /**

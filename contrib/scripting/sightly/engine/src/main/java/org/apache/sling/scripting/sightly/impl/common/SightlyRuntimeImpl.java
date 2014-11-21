@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly.impl.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.SightlyRenderException;
+import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;

@@ -52,7 +52,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.SightlyParsingException;
-import org.apache.sling.scripting.sightly.SightlyRenderException;
+import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 import org.apache.sling.scripting.sightly.impl.compiled.CompilationOutput;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaClassBackend;
 import org.apache.sling.scripting.sightly.impl.compiler.SightlyCompileService;
