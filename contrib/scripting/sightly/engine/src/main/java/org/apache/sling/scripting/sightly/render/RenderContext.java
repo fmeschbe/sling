@@ -28,14 +28,11 @@ import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.StackedWriter;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Rendering context for Sightly rendering units.
  * @see RenderUnit
  */
-@ProviderType
-public class RenderContext {
+public final class RenderContext {
 
     private final StackedWriter writer;
     private final Bindings bindings;

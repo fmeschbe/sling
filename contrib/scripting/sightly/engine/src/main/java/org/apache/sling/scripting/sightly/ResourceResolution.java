@@ -25,13 +25,10 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Utility class which used by the Sightly engine & extensions
  * to resolve resources
  */
-@ProviderType
 public final class ResourceResolution {
 
     /**
