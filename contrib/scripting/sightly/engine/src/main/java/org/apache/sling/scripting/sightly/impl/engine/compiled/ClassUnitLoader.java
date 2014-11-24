@@ -288,8 +288,11 @@ public class ClassUnitLoader implements UnitLoader, EventHandler {
                 offendingInput = StringEscapeUtils.unescapeHtml(offendingInput.trim());
                 int errorLine = getLineWhereErrorOccurred(scriptSource, offendingInput);
                 throw new SightlyParsingException("Parsing error in template " + identifier.getResource().getPath() + " at line " +
-                        errorLine + ":\n" + offendingInput + "\n", e);
+                        errorLine + ":\n" + offendingInput + "\n");
+            } else {
+                throw e;
             }
+
         } catch (IOException e) {
             throw new SightlyRenderException(e);
         }

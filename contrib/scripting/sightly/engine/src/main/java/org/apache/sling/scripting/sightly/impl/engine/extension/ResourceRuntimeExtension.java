@@ -78,9 +78,7 @@ public class ResourceRuntimeExtension implements RuntimeExtension {
             @Override
             @SuppressWarnings("unchecked")
             public Object call(Object... arguments) {
-                if (arguments.length != 2) {
-                    throw new RuntimeExtensionException("Invalid number of arguments for resource extension");
-                }
+                ExtensionUtils.checkArgumentCount(ResourcePlugin.FUNCTION, arguments, 2);
                 return provideResource(arguments[0], (Map<String, Object>) arguments[1]);
             }
 
