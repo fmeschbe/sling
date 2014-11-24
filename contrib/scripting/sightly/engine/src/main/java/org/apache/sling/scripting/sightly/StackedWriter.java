@@ -18,53 +18,36 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Stack;
 
 /**
  * Text writing utility which allows stacking of temporary buffers
  */
-public final class StackedWriter extends Writer {
+public final class StackedWriter extends PrintWriter {
 
     private final PrintWriter baseWriter;
     private final Stack<StringWriter> writerStack = new Stack<StringWriter>();
-    private PrintWriter current;
 
     public StackedWriter(PrintWriter baseWriter) {
+        super(baseWriter);
         this.baseWriter = baseWriter;
-        this.current = baseWriter;
+        this.out = baseWriter;
     }
 
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException {
-        current.write(cbuf, off, len);
-    }
-
-    @Override
-    public void write(String text) {
-        current.write(text);
-    }
-
-    @Override
-    public void flush() throws IOException {
-        current.flush();
-    }
-
-    @Override
-    public void close() throws IOException {
+    public void close() {
         if (writerStack.size() != 1) {
-            throw new UnsupportedOperationException("Stack is not empty");
+            throw new IllegalStateException("Stack is not empty");
         }
-        current.close();
+        super.close();
     }
 
     public void push() {
         StringWriter writer = new StringWriter();
         writerStack.push(writer);
-        current = new PrintWriter(writer);
+        super.out = writer;
     }
 
     public String pop() {
@@ -74,9 +57,9 @@ public final class StackedWriter extends Writer {
             output = writer.toString();
         }
         if (writerStack.isEmpty()) {
-            current = baseWriter;
+            super.out = baseWriter;
         } else {
-            current = new PrintWriter(writerStack.peek());
+            super.out = writerStack.peek();
         }
         return output;
     }
