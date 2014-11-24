@@ -18,12 +18,12 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.extension;
 
-import aQute.bnd.annotation.ProviderType;
+import aQute.bnd.annotation.ConsumerType;
 
 /**
  * An instance of an {@link RuntimeExtension}
  */
-@ProviderType
+@ConsumerType
 public interface ExtensionInstance {
 
     /**
