@@ -18,7 +18,6 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.api.ris;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
@@ -48,10 +47,6 @@ public interface CommandVisitor {
     void visit(Loop.Start loopStart);
 
     void visit(Loop.End loopEnd);
-
-    void visit(BufferControl.Push bufferPush);
-
-    void visit(BufferControl.Pop bufferPop);
 
     void visit(Procedure.Start startProcedure);
 

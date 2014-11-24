@@ -21,7 +21,7 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization;
 
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NullLiteral;
@@ -47,12 +47,12 @@ import org.apache.sling.scripting.sightly.impl.compiler.visitor.TrackingVisitor;
 public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements EmitterVisitor {
     // this could be merged with constant folding for better accuracy
 
-    public static StreamTransformer transformer(final Dynamic dynamic) {
+    public static StreamTransformer transformer(final ObjectModel objectModel) {
         return new StreamTransformer() {
             @Override
             public CommandStream transform(CommandStream inStream) {
                 StatefulVisitor visitor = new StatefulVisitor();
-                DeadCodeRemoval dcr = new DeadCodeRemoval(visitor.getControl(), dynamic);
+                DeadCodeRemoval dcr = new DeadCodeRemoval(visitor.getControl(), objectModel);
                 visitor.initializeWith(dcr);
                 Streams.connect(inStream, dcr.getOutputStream(), visitor);
                 return dcr.getOutputStream();
@@ -62,12 +62,12 @@ public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements Emitter
 
     private final PushStream outStream = new PushStream();
     private final StateControl stateControl;
-    private final Dynamic dynamic;
+    private final ObjectModel objectModel;
     private final Stack<Boolean> keepConditionalEndStack = new Stack<Boolean>();
 
-    public DeadCodeRemoval(StateControl stateControl, Dynamic dynamic) {
+    public DeadCodeRemoval(StateControl stateControl, ObjectModel objectModel) {
         this.stateControl = stateControl;
-        this.dynamic = dynamic;
+        this.objectModel = objectModel;
     }
 
     @Override
@@ -121,16 +121,16 @@ public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements Emitter
 
     private Boolean decodeConstantBool(ExpressionNode node) {
         if (node instanceof StringConstant) {
-            return dynamic.coerceToBoolean(((StringConstant) node).getText());
+            return objectModel.coerceToBoolean(((StringConstant) node).getText());
         }
         if (node instanceof BooleanConstant) {
             return ((BooleanConstant) node).getValue();
         }
         if (node instanceof NumericConstant) {
-            return dynamic.coerceToBoolean(((NumericConstant) node).getValue());
+            return objectModel.coerceToBoolean(((NumericConstant) node).getValue());
         }
         if (node instanceof NullLiteral) {
-            return dynamic.coerceToBoolean(null);
+            return objectModel.coerceToBoolean(null);
         }
         return null;
     }

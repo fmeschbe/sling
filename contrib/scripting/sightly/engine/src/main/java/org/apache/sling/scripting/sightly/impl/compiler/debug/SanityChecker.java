@@ -110,20 +110,6 @@ public final class SanityChecker implements CommandVisitor, CommandHandler {
     }
 
     @Override
-    public void visit(BufferControl.Push bufferPush) {
-        bufferPushCount++;
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
-        if (bufferPushCount == 0) {
-            throw new IllegalStateException("There are more buffer pop commands than push");
-        }
-        bufferPushCount--;
-        stack.push(NestedType.VARIABLE_BIND);
-    }
-
-    @Override
     public void visit(Procedure.Start startProcedure) {
         if (inProcedure) {
             throw new IllegalStateException("Cannot have nested procedures: " + startProcedure.getName());

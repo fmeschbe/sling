@@ -26,7 +26,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
@@ -90,14 +89,6 @@ public class GlobalShadowChecker implements CommandVisitor {
 
     @Override
     public void visit(Loop.End loopEnd) {
-    }
-
-    @Override
-    public void visit(BufferControl.Push bufferPush) {
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
     }
 
     @Override

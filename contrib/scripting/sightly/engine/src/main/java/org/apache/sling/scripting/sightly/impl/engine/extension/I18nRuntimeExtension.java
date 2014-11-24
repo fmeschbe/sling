@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.scripting.SlingBindings;
@@ -50,10 +51,11 @@ public class I18nRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18nRuntimeExtension.class);
 
+    @Reference
+    private ObjectModel model = null;
+
     @Override
-    public ExtensionInstance provide(RenderContext renderContext) {
-        final ObjectModel model = renderContext.getObjectModel();
-        final Bindings bindings = renderContext.getBindings();
+    public ExtensionInstance provide(final RenderContext renderContext) {
 
         return new ExtensionInstance() {
             @Override
@@ -66,6 +68,7 @@ public class I18nRuntimeExtension implements RuntimeExtension {
             }
 
             private String get(String text, String locale, String hint) {
+                final Bindings bindings = renderContext.getBindings();
                 final SlingScriptHelper slingScriptHelper = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
                 final SlingHttpServletRequest request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);
                 final ResourceBundleProvider resourceBundleProvider = slingScriptHelper.getService(ResourceBundleProvider.class);

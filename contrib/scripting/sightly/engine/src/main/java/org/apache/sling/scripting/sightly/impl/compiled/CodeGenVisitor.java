@@ -24,7 +24,6 @@ import java.util.Stack;
 
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
@@ -216,24 +215,6 @@ class CodeGenVisitor implements CommandVisitor {
         source.endFor();
         analyzer.endVariable();
         analyzer.endVariable();
-    }
-
-    @Override
-    public void visit(BufferControl.Push bufferPush) {
-        source.startStatement()
-                .startMethodCall(SourceGenConstants.OUT_BUFFER, SourceGenConstants.PUSH_BUFFER_METHOD)
-                .endCall()
-                .endStatement();
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
-        source.startBlock();
-        String outputVar = declare(bufferPop.getVariableName(), Type.STRING);
-        source.beginAssignment(outputVar, Type.STRING.getNativeClass())
-                .startMethodCall(SourceGenConstants.OUT_BUFFER, SourceGenConstants.POP_BUFFER_METHOD)
-                .endCall()
-                .endStatement();
     }
 
     @Override

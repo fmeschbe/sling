@@ -22,7 +22,6 @@ import java.util.Stack;
 
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
@@ -97,16 +96,6 @@ public class StatefulVisitor implements CommandVisitor {
     @Override
     public void visit(Loop.End loopEnd) {
         visitor.visit(loopEnd);
-    }
-
-    @Override
-    public void visit(BufferControl.Push bufferPush) {
-        visitor.visit(bufferPush);
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
-        visitor.visit(bufferPop);
     }
 
     @Override

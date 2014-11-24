@@ -114,6 +114,7 @@ public class ObjectModelImpl implements ObjectModel {
         throw new UnsupportedOperationException("Invalid types in comparison. Equality is supported for String, Number & Boolean types");
     }
 
+    @Override
     public boolean lt(Object left, Object right) {
         if (left instanceof Number && right instanceof Number) {
             return ((Number) left).doubleValue() < ((Number) right).doubleValue();
@@ -121,12 +122,124 @@ public class ObjectModelImpl implements ObjectModel {
         throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
     }
 
-
+    @Override
     public boolean leq(Object left, Object right) {
         if (left instanceof Number && right instanceof Number) {
             return ((Number) left).doubleValue() <= ((Number) right).doubleValue();
         }
         throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
+    }
+
+    @Override
+    public Object and(Object left, Object right) {
+        if (coerceToBoolean(left)) {
+            return right;
+        }
+        return left;
+    }
+
+
+    @Override
+    public Object or(Object left, Object right) {
+        if (coerceToBoolean(left)) {
+            return left;
+        }
+        return right;
+    }
+
+
+    @Override
+    public Object not(Object obj) {
+        return !coerceToBoolean(obj);
+    }
+
+
+    @Override
+    public Object concatenate(Object left, Object right) {
+        return coerceToString(left) + coerceToString(right);
+    }
+
+
+    @Override
+    public Object isWhiteSpace(Object object) {
+        return StringUtils.isWhitespace(coerceToString(object));
+    }
+
+
+    @Override
+    public int length(Object object) {
+        return coerceToCollection(object).size();
+    }
+
+    @Override
+    public Number add(Object left, Object right) {
+        return adjust(coerceDouble(left) + coerceDouble(right));
+    }
+
+
+    @Override
+    public Number sub(Object left, Object right) {
+        return adjust(coerceDouble(left) - coerceDouble(right));
+    }
+
+
+    @Override
+    public Number mult(Object left, Object right) {
+        return adjust(coerceDouble(left) * coerceDouble(right));
+    }
+
+
+    @Override
+    public int iDiv(Object left, Object right) {
+        return coerceInt(left) / coerceInt(right);
+    }
+
+
+    @Override
+    public int rem(Object left, Object right) {
+        return coerceInt(left) % coerceInt(right);
+    }
+
+
+    @Override
+    public Number div(Object left, Object right) {
+        return adjust(coerceDouble(left) / coerceDouble(right));
+    }
+
+    @Override
+    public boolean eq(Object left, Object right) {
+        if (left == null) {
+            return right == null;
+        }
+        return left.equals(right);
+    }
+
+    @Override
+    public boolean neq(Object left, Object right) {
+        return !eq(left, right);
+    }
+
+    @Override
+    public boolean strictNeq(Object left, Object right) {
+        return !strictEq(left, right);
+    }
+
+    @Override
+    public boolean gt(Object left, Object right) {
+        return !leq(left, right);
+    }
+
+
+    @Override
+    public boolean geq(Object left, Object right) {
+        return !lt(left, right);
+    }
+
+    @Override
+    public boolean isCollection(Object obj) {
+        return (obj instanceof Collection) || (obj instanceof Object[])
+                || (obj instanceof Iterable)
+                || (obj instanceof Iterator);
     }
 
     @SuppressWarnings("unchecked")
@@ -401,5 +514,23 @@ public class ObjectModelImpl implements ObjectModel {
         }
         return null;
     }
+    private double coerceDouble(Object object) {
+        if (object instanceof Number) {
+            return ((Number) object).doubleValue();
+        }
+        return 0;
+    }
+
+    private int coerceInt(Object object) {
+        return coerceNumeric(object).intValue();
+    }
+
+    private Number adjust(double x) {
+        if (Math.floor(x) == x) {
+            return (int)x;
+        }
+        return x;
+    }
+
 
 }

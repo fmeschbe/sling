@@ -25,11 +25,12 @@ import java.util.regex.Pattern;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
@@ -51,6 +52,9 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
     private static final Pattern PLACEHOLDER_REGEX = Pattern.compile("\\{\\d}");
 
+    @Reference
+    private ObjectModel objectModel = null;
+
     @Override
     public Expression apply(Expression expression) {
         //todo: if the expression is a string constant, we can produce the transformation at
@@ -65,7 +69,6 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
     @Override
     public ExtensionInstance provide(RenderContext renderContext) {
-        final Dynamic dynamic = new Dynamic(renderContext.getObjectModel());
 
         return new ExtensionInstance() {
             @Override
@@ -73,14 +76,14 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Format function must be called with two arguments");
                 }
-                String source = dynamic.coerceToString(arguments[0]);
+                String source = objectModel.coerceToString(arguments[0]);
                 Object[] params = decodeParams(arguments[1]);
                 return replace(source, params);
             }
 
             private Object[] decodeParams(Object paramObj) {
-                if (dynamic.isCollection(paramObj)) {
-                    return dynamic.coerceToCollection(paramObj).toArray();
+                if (objectModel.isCollection(paramObj)) {
+                    return objectModel.coerceToCollection(paramObj).toArray();
                 }
                 return new Object[] {paramObj};
             }
@@ -107,7 +110,7 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
             private String param(Object[] params, int index) {
                 if (index >= 0 && index < params.length) {
-                    return dynamic.coerceToString(params[index]);
+                    return objectModel.coerceToString(params[index]);
                 }
                 return "";
             }

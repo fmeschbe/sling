@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.CompilerException;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.NodeVisitor;
@@ -49,16 +49,16 @@ import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
  */
 public class ExpressionReducer implements NodeVisitor<EvalResult> {
 
-    private final Dynamic dynamic;
+    private final ObjectModel objectModel;
     private final VariableTracker<EvalResult> tracker;
 
-    public static EvalResult reduce(ExpressionNode node, VariableTracker<EvalResult> tracker, Dynamic dynamic) {
-        ExpressionReducer reducer = new ExpressionReducer(dynamic, tracker);
+    public static EvalResult reduce(ExpressionNode node, VariableTracker<EvalResult> tracker, ObjectModel objectModel) {
+        ExpressionReducer reducer = new ExpressionReducer(objectModel, tracker);
         return reducer.eval(node);
     }
 
-    public ExpressionReducer(Dynamic dynamic, VariableTracker<EvalResult> tracker) {
-        this.dynamic = dynamic;
+    public ExpressionReducer(ObjectModel objectModel, VariableTracker<EvalResult> tracker) {
+        this.objectModel = objectModel;
         this.tracker = tracker;
     }
 
@@ -84,7 +84,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     property.getNode()));
         }
 
-        return EvalResult.constant(dynamic.resolveProperty(
+        return EvalResult.constant(objectModel.resolveProperty(
                 target.getValue(), property.getValue()));
     }
 
@@ -145,7 +145,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     ternaryOperator.getThenBranch(),
                     ternaryOperator.getElseBranch()));
         }
-        return (dynamic.coerceToBoolean(condition.getValue()))
+        return (objectModel.coerceToBoolean(condition.getValue()))
                 ? eval(ternaryOperator.getThenBranch())
                 : eval(ternaryOperator.getElseBranch());
     }
@@ -215,32 +215,32 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
 
     private Object evalBinary(BinaryOperator operator, Object left, Object right) {
         switch (operator) {
-            case AND: return dynamic.and(left, right);
-            case OR: return dynamic.or(left, right);
-            case CONCATENATE: return dynamic.concatenate(left, right);
-            case LT: return dynamic.lt(left, right);
-            case LEQ: return dynamic.leq(left, right);
-            case GT: return dynamic.gt(left, right);
-            case GEQ: return dynamic.geq(left, right);
-            case EQ: return dynamic.eq(left, right);
-            case NEQ: return dynamic.neq(left, right);
-            case STRICT_EQ: return dynamic.strictEq(left, right);
-            case STRICT_NEQ: return dynamic.strictNeq(left, right);
-            case ADD: return dynamic.add(left, right);
-            case SUB: return dynamic.sub(left, right);
-            case MUL: return dynamic.mult(left, right);
-            case I_DIV: return dynamic.iDiv(left, right);
-            case REM: return dynamic.rem(left, right);
-            case DIV: return dynamic.div(left, right);
+            case AND: return objectModel.and(left, right);
+            case OR: return objectModel.or(left, right);
+            case CONCATENATE: return objectModel.concatenate(left, right);
+            case LT: return objectModel.lt(left, right);
+            case LEQ: return objectModel.leq(left, right);
+            case GT: return objectModel.gt(left, right);
+            case GEQ: return objectModel.geq(left, right);
+            case EQ: return objectModel.eq(left, right);
+            case NEQ: return objectModel.neq(left, right);
+            case STRICT_EQ: return objectModel.strictEq(left, right);
+            case STRICT_NEQ: return objectModel.strictNeq(left, right);
+            case ADD: return objectModel.add(left, right);
+            case SUB: return objectModel.sub(left, right);
+            case MUL: return objectModel.mult(left, right);
+            case I_DIV: return objectModel.iDiv(left, right);
+            case REM: return objectModel.rem(left, right);
+            case DIV: return objectModel.div(left, right);
         }
         throw new CompilerException(new UnsupportedOperationException("Cannot reduce operator " + operator));
     }
 
     private Object evalUnary(UnaryOperator operator, Object operand) {
         switch (operator) {
-            case IS_WHITESPACE: return dynamic.isWhiteSpace(operand);
-            case LENGTH: return dynamic.length(operand);
-            case NOT: return dynamic.not(operand);
+            case IS_WHITESPACE: return objectModel.isWhiteSpace(operand);
+            case LENGTH: return objectModel.length(operand);
+            case NOT: return objectModel.not(operand);
         }
         throw new CompilerException(new UnsupportedOperationException("Cannot reduce unary operator " + operator));
     }

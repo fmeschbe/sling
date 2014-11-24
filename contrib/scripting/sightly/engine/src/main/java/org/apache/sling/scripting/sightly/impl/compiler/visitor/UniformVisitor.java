@@ -20,7 +20,6 @@ package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
@@ -78,16 +77,6 @@ public abstract class UniformVisitor implements CommandVisitor {
     @Override
     public void visit(Loop.End loopEnd) {
         onCommand(loopEnd);
-    }
-
-    @Override
-    public void visit(BufferControl.Push bufferPush) {
-        onCommand(bufferPush);
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
-        onCommand(bufferPop);
     }
 
     @Override

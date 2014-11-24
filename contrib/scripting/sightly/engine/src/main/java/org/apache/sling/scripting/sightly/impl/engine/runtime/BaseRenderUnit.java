@@ -16,8 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.render;
+package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
+import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +27,12 @@ import java.util.Set;
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
 
+import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
-import org.apache.sling.scripting.sightly.StackedWriter;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.render.RenderUnit;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -44,10 +48,13 @@ public abstract class BaseRenderUnit implements RenderUnit {
 
     @Override
     public final void render(RenderContext renderContext, Bindings arguments) {
+        Bindings globalBindings = renderContext.getBindings();
+        SlingScriptHelper ssh = (SlingScriptHelper) globalBindings.get(SlingBindings.SLING);
+        ObjectModel objectModel = ssh.getService(ObjectModel.class);
         render(renderContext.getWriter(),
-                buildGlobalScope(renderContext.getBindings()),
+                buildGlobalScope(globalBindings),
                 new CaseInsensitiveBindings(arguments),
-                renderContext.getObjectModel(),
+                objectModel,
                 renderContext.getRuntime(),
                 renderContext);
     }
@@ -62,10 +69,10 @@ public abstract class BaseRenderUnit implements RenderUnit {
         return subTemplates.keySet();
     }
 
-    protected abstract void render(StackedWriter writer,
+    protected abstract void render(PrintWriter writer,
                                    Bindings bindings,
                                    Bindings arguments,
-                                   ObjectModel dynamic,
+                                   ObjectModel objectModel,
                                    SightlyRuntime runtime,
                                    RenderContext renderContext);
 
@@ -75,8 +82,9 @@ public abstract class BaseRenderUnit implements RenderUnit {
             return;
         }
         RenderUnit unit = (RenderUnit) templateObj;
-        ObjectModel dynamic = renderContext.getObjectModel();
-        Map<String, Object> argumentsMap = dynamic.coerceToMap(argsObj);
+        SlingScriptHelper ssh = (SlingScriptHelper) renderContext.getBindings().get(SlingBindings.SLING);
+        ObjectModel objectModel = ssh.getService(ObjectModel.class);
+        Map<String, Object> argumentsMap = objectModel.coerceToMap(argsObj);
         Bindings arguments = new SimpleBindings(Collections.unmodifiableMap(argumentsMap));
         unit.render(renderContext, arguments);
     }

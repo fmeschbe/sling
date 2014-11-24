@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization.reduce;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
@@ -38,18 +38,18 @@ import org.apache.sling.scripting.sightly.impl.compiler.visitor.TrackingVisitor;
  */
 public final class ConstantFolding extends TrackingVisitor<EvalResult> implements EmitterVisitor {
 
-    private final Dynamic dynamic;
+    private final ObjectModel objectModel;
     private final PushStream outStream = new PushStream();
 
-    private ConstantFolding(Dynamic dynamic) {
-        this.dynamic = dynamic;
+    private ConstantFolding(ObjectModel objectModel) {
+        this.objectModel = objectModel;
     }
 
-    public static StreamTransformer transformer(final Dynamic dynamic) {
+    public static StreamTransformer transformer(final ObjectModel objectModel) {
         return new StreamTransformer() {
             @Override
             public CommandStream transform(CommandStream inStream) {
-                return Streams.map(inStream, new ConstantFolding(dynamic));
+                return Streams.map(inStream, new ConstantFolding(objectModel));
             }
         };
     }
@@ -58,7 +58,7 @@ public final class ConstantFolding extends TrackingVisitor<EvalResult> implement
     public void visit(VariableBinding.Start variableBindingStart) {
         String variable = variableBindingStart.getVariableName();
         ExpressionNode node = variableBindingStart.getExpression();
-        EvalResult result = ExpressionReducer.reduce(node, tracker, dynamic);
+        EvalResult result = ExpressionReducer.reduce(node, tracker, objectModel);
         result = avoidFoldingDataStructures(result);
         tracker.pushVariable(variable, result);
         outStream.emit(new VariableBinding.Start(variable, result.getNode()));

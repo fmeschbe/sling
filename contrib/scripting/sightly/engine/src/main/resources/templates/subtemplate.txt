@@ -19,7 +19,7 @@
 addSubTemplate("##Name##", new BaseRenderUnit() {
 
     @Override
-    protected final void render(StackedWriter out,
+    protected final void render(PrintWriter out,
                                 Bindings bindings,
                                 Bindings arguments,
                                 ObjectModel objectModel,

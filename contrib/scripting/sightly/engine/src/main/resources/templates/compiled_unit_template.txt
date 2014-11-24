@@ -18,19 +18,19 @@
  ******************************************************************************/
 package ##PackageName##;
 
+import java.io.PrintWriter;
 import java.util.Collection;
 import javax.script.Bindings;
 
 import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.StackedWriter;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
-import org.apache.sling.scripting.sightly.render.BaseRenderUnit;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.BaseRenderUnit;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
 public final class ##ClassName## extends BaseRenderUnit {
 
     @Override
-    protected final void render(StackedWriter out,
+    protected final void render(PrintWriter out,
                                 Bindings bindings,
                                 Bindings arguments,
                                 ObjectModel objectModel,

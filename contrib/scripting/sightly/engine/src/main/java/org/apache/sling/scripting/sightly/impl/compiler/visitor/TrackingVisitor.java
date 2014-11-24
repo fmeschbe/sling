@@ -20,7 +20,6 @@
 package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.BufferControl;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
@@ -56,12 +55,6 @@ public abstract class TrackingVisitor<T> extends UniformVisitor {
         super.visit(loopEnd);
         tracker.popVariable();
         tracker.popVariable();
-    }
-
-    @Override
-    public void visit(BufferControl.Pop bufferPop) {
-        super.visit(bufferPop);
-        tracker.pushVariable(bufferPop.getVariableName(), assignDefault(bufferPop));
     }
 
     protected abstract T assignDefault(Command command);

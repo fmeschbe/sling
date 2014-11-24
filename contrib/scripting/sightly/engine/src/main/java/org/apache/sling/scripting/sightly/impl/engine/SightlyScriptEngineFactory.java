@@ -29,9 +29,6 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.classloader.DynamicClassLoaderManager;
 import org.apache.sling.scripting.api.AbstractScriptEngineFactory;
-import org.osgi.service.component.ComponentContext;
-import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 
 /**
  * Sightly template engine factory
@@ -50,15 +47,10 @@ public class SightlyScriptEngineFactory extends AbstractScriptEngineFactory {
     @Reference
     private ExtensionRegistryService extensionRegistryService = null;
 
-    @Reference
-    private ObjectModel objectModel = null;
-
     @Reference()
     private DynamicClassLoaderManager dynamicClassLoaderManager;
 
     private ClassLoader dynamicClassLoader;
-
-    protected Dynamic dynamic;
 
     public final static String SHORT_NAME = "sightly";
 
@@ -85,11 +77,7 @@ public class SightlyScriptEngineFactory extends AbstractScriptEngineFactory {
 
     @Override
     public ScriptEngine getScriptEngine() {
-        return new SightlyScriptEngine(this, unitLoader, dynamic, extensionRegistryService);
-    }
-
-    protected void activate(ComponentContext componentContext) {
-        dynamic = new Dynamic(objectModel);
+        return new SightlyScriptEngine(this, unitLoader, extensionRegistryService);
     }
 
     protected void bindDynamicClassLoaderManager(final DynamicClassLoaderManager dclm) {

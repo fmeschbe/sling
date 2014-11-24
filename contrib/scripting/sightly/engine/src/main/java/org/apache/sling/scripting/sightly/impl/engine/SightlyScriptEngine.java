@@ -39,8 +39,6 @@ import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoader;
 import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
 import org.apache.sling.scripting.sightly.SightlyException;
-import org.apache.sling.scripting.sightly.StackedWriter;
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.common.SightlyRuntimeImpl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.UnitLocatorImpl;
 import org.apache.sling.scripting.sightly.render.RenderContext;
@@ -59,16 +57,13 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
     private static final int MAX_CLASSLOADER_RETRIES = 5;
 
     private final UnitLoader unitLoader;
-    private final Dynamic dynamic;
     private final ExtensionRegistryService extensionRegistryService;
 
     public SightlyScriptEngine(ScriptEngineFactory scriptEngineFactory,
                                UnitLoader unitLoader,
-                               Dynamic dynamic,
                                ExtensionRegistryService extensionRegistryService) {
         super(scriptEngineFactory);
         this.unitLoader = unitLoader;
-        this.dynamic = dynamic;
         this.extensionRegistryService = extensionRegistryService;
     }
 
@@ -149,10 +144,9 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
 
     private RenderContext provideContext(Resource scriptResource, Bindings bindings, ResourceResolver resourceResolver) {
         PrintWriter printWriter = (PrintWriter) bindings.get(SlingBindings.OUT);
-        StackedWriter writer = new StackedWriter(printWriter);
         UnitLocator unitLocator = new UnitLocatorImpl(unitLoader, resourceResolver, bindings, scriptResource);
         SightlyRuntimeImpl runtime = new SightlyRuntimeImpl(extensionRegistryService.extensions());
-        RenderContext renderContext = new RenderContext(writer, bindings, dynamic, runtime, unitLocator);
+        RenderContext renderContext = new RenderContext(printWriter, bindings, runtime, unitLocator);
         runtime.setRenderContext(renderContext);
         return renderContext;
     }

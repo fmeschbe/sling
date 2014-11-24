@@ -19,9 +19,7 @@
 package org.apache.sling.scripting.sightly.impl.engine.extension.use;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -37,6 +35,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
@@ -47,7 +46,6 @@ import org.apache.sling.scripting.sightly.use.SightlyUseException;
 import org.apache.sling.scripting.sightly.use.UseProvider;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
-import org.osgi.service.component.ComponentContext;
 
 /**
  * Runtime extension for the USE plugin
@@ -67,6 +65,9 @@ public class UseRuntimeExtension implements RuntimeExtension {
 
     private final Map<ServiceReference, UseProvider> providersMap = new ConcurrentSkipListMap<ServiceReference, UseProvider>();
 
+    @Reference
+    private ObjectModel objectModel = null;
+
     @Override
     @SuppressWarnings("unchecked")
     public ExtensionInstance provide(final RenderContext renderContext) {
@@ -77,11 +78,11 @@ public class UseRuntimeExtension implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Use extension requires two arguments");
                 }
-                String identifier = renderContext.getObjectModel().coerceToString(arguments[0]);
+                String identifier = objectModel.coerceToString(arguments[0]);
                 if (StringUtils.isEmpty(identifier)) {
                     return null;
                 }
-                Map<String, Object> useArgumentsMap = renderContext.getObjectModel().coerceToMap(arguments[1]);
+                Map<String, Object> useArgumentsMap = objectModel.coerceToMap(arguments[1]);
                 Bindings useArguments = new SimpleBindings(Collections.unmodifiableMap(useArgumentsMap));
                 ArrayList<UseProvider> providers = new ArrayList<UseProvider>(providersMap.values());
                 ListIterator<UseProvider> iterator = providers.listIterator(providers.size());

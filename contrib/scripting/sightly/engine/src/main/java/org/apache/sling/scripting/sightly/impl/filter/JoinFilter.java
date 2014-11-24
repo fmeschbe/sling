@@ -25,11 +25,12 @@ import java.util.Iterator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
@@ -49,6 +50,9 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
     public static final String JOIN_OPTION = "join";
     public static final String JOIN_FUNCTION = "join";
 
+    @Reference
+    private ObjectModel objectModel = null;
+
     @Override
     public Expression apply(Expression expression) {
         if (!expression.containsOption(JOIN_OPTION)) {
@@ -61,7 +65,6 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
 
     @Override
     public ExtensionInstance provide(RenderContext renderContext) {
-        final Dynamic dynamic = new Dynamic(renderContext.getObjectModel());
 
         return new ExtensionInstance() {
             @Override
@@ -69,8 +72,8 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Join function must be called with two arguments.");
                 }
-                Collection<?> collection = dynamic.coerceToCollection(arguments[0]);
-                String joinString = dynamic.coerceToString(arguments[1]);
+                Collection<?> collection = objectModel.coerceToCollection(arguments[0]);
+                String joinString = objectModel.coerceToString(arguments[1]);
                 return join(collection, joinString);
             }
 
@@ -78,7 +81,7 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
                 StringBuilder sb = new StringBuilder();
                 Iterator<?> iterator = collection.iterator();
                 while (iterator.hasNext()) {
-                    String element = dynamic.coerceToString(iterator.next());
+                    String element = objectModel.coerceToString(iterator.next());
                     sb.append(element);
                     if (iterator.hasNext()) {
                         sb.append(joinString);

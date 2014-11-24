@@ -19,14 +19,11 @@
 
 package org.apache.sling.scripting.sightly.render;
 
-import java.util.Map;
+import java.io.PrintWriter;
 
 import javax.script.Bindings;
-import javax.script.SimpleBindings;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
-import org.apache.sling.scripting.sightly.StackedWriter;
 
 /**
  * Rendering context for Sightly rendering units.
@@ -34,16 +31,14 @@ import org.apache.sling.scripting.sightly.StackedWriter;
  */
 public final class RenderContext {
 
-    private final StackedWriter writer;
+    private final PrintWriter writer;
     private final Bindings bindings;
-    private final ObjectModel objectModel;
     private final SightlyRuntime runtime;
     private final UnitLocator unitLocator;
 
-    public RenderContext(StackedWriter writer, Bindings bindings, ObjectModel objectModel, SightlyRuntime runtime, UnitLocator unitLocator) {
+    public RenderContext(PrintWriter writer, Bindings bindings, SightlyRuntime runtime, UnitLocator unitLocator) {
         this.writer = writer;
         this.bindings = bindings;
-        this.objectModel = objectModel;
         this.runtime = runtime;
         this.unitLocator = unitLocator;
     }
@@ -52,7 +47,7 @@ public final class RenderContext {
      * Get the writer where the content should be written
      * @return - a stacked writer
      */
-    public StackedWriter getWriter() {
+    public PrintWriter getWriter() {
         return writer;
     }
 
@@ -62,14 +57,6 @@ public final class RenderContext {
      */
     public Bindings getBindings() {
         return bindings;
-    }
-
-    /**
-     * Get an instance of the objectModel object model
-     * @return - a objectModel object model instance
-     */
-    public ObjectModel getObjectModel() {
-        return objectModel;
     }
 
     /**
@@ -86,27 +73,5 @@ public final class RenderContext {
      */
     public UnitLocator getUnitLocator() {
         return unitLocator;
-    }
-
-    /**
-     * Create a new render context with different bindings
-     * @param newBindings - the new set of bindings
-     * @return - the new render context
-     */
-    public RenderContext withBindings(Bindings newBindings) {
-        return new RenderContext(this.writer, newBindings, this.objectModel, this.runtime, this.unitLocator);
-    }
-
-    /**
-     * Create a new render context with additional bindings
-     * @param additionalBindings - a dictionary of variables
-     * @return - the new render context
-     */
-    public RenderContext withAddedBindings(Map additionalBindings) {
-        Bindings newBindings = new SimpleBindings();
-        newBindings.putAll(this.bindings);
-        //noinspection unchecked
-        newBindings.putAll(additionalBindings);
-        return withBindings(newBindings);
     }
 }

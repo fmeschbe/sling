@@ -20,22 +20,17 @@
 package org.apache.sling.scripting.sightly.impl.compiler;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.References;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.impl.common.Dynamic;
 import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
 import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupParser;
 import org.apache.sling.scripting.sightly.impl.compiler.api.SightlyCompiler;
@@ -53,8 +48,7 @@ import org.osgi.service.component.ComponentContext;
 /**
  * Implementation for the Sightly compiler
  */
-@Component(metatype = true, label = "Apache Sling Scripting Sightly Java Compiler", description = "The Apache Sling Sightly Java Compiler" +
-        " is responsible for translating Sightly scripts into Java source code.")
+@Component
 @Service(SightlyCompiler.class)
 @References({
         @Reference(
@@ -70,46 +64,7 @@ import org.osgi.service.component.ComponentContext;
                 cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE
         )
 })
-@Properties({
-        @Property(
-                name = SightlyCompilerImpl.CONSTANT_FOLDING_OPT,
-                boolValue = true,
-                label = "Constant Folding",
-                description = "Optimises expressions by evaluating static parts in advance."
-        ),
-        @Property(
-                name = SightlyCompilerImpl.DEAD_CODE_OPT,
-                boolValue = true,
-                label = "Dead Code Removal",
-                description = "Optimises expressions evaluations by removing code that's under the false branch of an if."
-        ),
-        @Property(
-                name = SightlyCompilerImpl.SYNTHETIC_MAP_OPT,
-                boolValue = true,
-                label = "Synthetic Map Removal",
-                description = "Optimises expressions by replacing calls to map.get with the actual object from the map if the only usages" +
-                        " of that map are value retrievals."
-        ),
-        @Property(
-                name = SightlyCompilerImpl.UNUSED_VAR_OPT,
-                boolValue = true,
-                label = "Unused Variables Removal",
-                description = "Optimises expression evaluations by removing unused variables from the generated Java source code."
-        ),
-        @Property(
-                name = SightlyCompilerImpl.COALESCING_WRITES_OPT,
-                boolValue = true,
-                label = "Coalescing Writes",
-                description = "Optimises expression evaluations by merging together consecutive writes to the Java source code files."
-        )
-})
 public class SightlyCompilerImpl extends BaseCompiler {
-
-    public static final String CONSTANT_FOLDING_OPT = "org.apache.sling.scripting.sightly.impl.compiler.constantFolding";
-    public static final String DEAD_CODE_OPT = "org.apache.sling.scripting.sightly.impl.compiler.deadCodeRemoval";
-    public static final String SYNTHETIC_MAP_OPT = "org.apache.sling.scripting.sightly.impl.compiler.syntheticMapRemoval";
-    public static final String UNUSED_VAR_OPT = "org.apache.sling.scripting.sightly.impl.compiler.unusedVarRemoval";
-    public static final String COALESCING_WRITES_OPT = "org.apache.sling.scripting.sightly.impl.compiler.coalescingWrites";
 
     private List<Filter> filters = new ArrayList<Filter>();
     private List<Plugin> plugins = new ArrayList<Plugin>();
@@ -135,8 +90,7 @@ public class SightlyCompilerImpl extends BaseCompiler {
 
     @Activate
     protected void activate(ComponentContext context) {
-        Dictionary properties = context.getProperties();
-        reloadOptimizations(properties);
+        reloadOptimizations();
         reloadFrontend();
     }
 
@@ -172,23 +126,14 @@ public class SightlyCompilerImpl extends BaseCompiler {
         }
     }
 
-    private void reloadOptimizations(Dictionary properties) {
+    private void reloadOptimizations() {
         ArrayList<StreamTransformer> transformers = new ArrayList<StreamTransformer>();
-        Dynamic dynamic = new Dynamic(objectModel);
-        activateOptimization(CONSTANT_FOLDING_OPT, transformers, properties, ConstantFolding.transformer(dynamic));
-        activateOptimization(DEAD_CODE_OPT, transformers, properties, DeadCodeRemoval.transformer(dynamic));
-        activateOptimization(SYNTHETIC_MAP_OPT, transformers, properties, SyntheticMapRemoval.TRANSFORMER);
-        activateOptimization(UNUSED_VAR_OPT, transformers, properties, UnusedVariableRemoval.TRANSFORMER);
-        activateOptimization(COALESCING_WRITES_OPT, transformers, properties, CoalescingWrites.TRANSFORMER);
+        transformers.add(ConstantFolding.transformer(objectModel));
+        transformers.add(DeadCodeRemoval.transformer(objectModel));
+        transformers.add(SyntheticMapRemoval.TRANSFORMER);
+        transformers.add(UnusedVariableRemoval.TRANSFORMER);
+        transformers.add(CoalescingWrites.TRANSFORMER);
         optimizer = new SequenceStreamTransformer(transformers);
-    }
-
-    private void activateOptimization(String option, ArrayList<StreamTransformer> transformers,
-                                      Dictionary dictionary, StreamTransformer transformer) {
-        boolean activate = PropertiesUtil.toBoolean(dictionary.get(option), true);
-        if (activate) {
-            transformers.add(transformer);
-        }
     }
 
     private void reloadFrontend() {

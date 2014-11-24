@@ -108,4 +108,40 @@ public interface ObjectModel {
      * @return true if left < right
      */
     boolean leq(Object left, Object right);
+
+    boolean eq(Object left, Object right);
+
+    Object and(Object left, Object right);
+
+    Object or(Object left, Object right);
+
+    Object not(Object obj);
+
+    Object concatenate(Object left, Object right);
+
+    Object isWhiteSpace(Object object);
+
+    int length(Object object);
+
+    Number add(Object left, Object right);
+
+    Number sub(Object left, Object right);
+
+    Number mult(Object left, Object right);
+
+    int iDiv(Object left, Object right);
+
+    int rem(Object left, Object right);
+
+    Number div(Object left, Object right);
+
+    boolean neq(Object left, Object right);
+
+    boolean strictNeq(Object left, Object right);
+
+    boolean gt(Object left, Object right);
+
+    boolean geq(Object left, Object right);
+
+    boolean isCollection(Object obj);
 }

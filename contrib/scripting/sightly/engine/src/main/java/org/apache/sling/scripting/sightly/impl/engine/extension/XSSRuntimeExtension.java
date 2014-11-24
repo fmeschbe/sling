@@ -28,8 +28,10 @@ import javax.script.Bindings;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
@@ -53,9 +55,11 @@ import org.slf4j.LoggerFactory;
 public class XSSRuntimeExtension implements RuntimeExtension {
 
     private static final Set<String> elementNameWhiteList = new HashSet<String>();
-    private static final Logger log = LoggerFactory.getLogger(XSSRuntimeExtension.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(XSSRuntimeExtension.class);
     private static final Pattern VALID_ATTRIBUTE = Pattern.compile("^[a-zA-Z_:][\\-a-zA-Z0-9_:\\.]*$");
+
+    @Reference
+    private ObjectModel objectModel = null;
 
 
     @Override
@@ -85,10 +89,10 @@ public class XSSRuntimeExtension implements RuntimeExtension {
                     return original;
                 }
                 if (markupContext == null) {
-                    log.warn("Expression context {} is invalid, expression will be replaced by the empty string", option);
+                    LOG.warn("Expression context {} is invalid, expression will be replaced by the empty string", option);
                     return "";
                 }
-                String text = runtimeContext.getObjectModel().coerceToString(original);
+                String text = objectModel.coerceToString(original);
                 return applyXSSFilter(text, hint, markupContext);
             }
 

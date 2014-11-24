@@ -33,10 +33,6 @@ public class SourceGenConstants {
 
     public static final String BINDINGS_GET_METHOD = "get";
 
-    public static final String PUSH_BUFFER_METHOD = "push";
-
-    public static final String POP_BUFFER_METHOD = "pop";
-
     public static final String START_MAP_METHOD = "obj";
 
     public static final String MAP_TYPE_ADD = "with";
