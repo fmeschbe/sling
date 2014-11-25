@@ -34,13 +34,11 @@ public final class RenderContext {
     private final PrintWriter writer;
     private final Bindings bindings;
     private final SightlyRuntime runtime;
-    private final UnitLocator unitLocator;
 
-    public RenderContext(PrintWriter writer, Bindings bindings, SightlyRuntime runtime, UnitLocator unitLocator) {
+    public RenderContext(PrintWriter writer, Bindings bindings, SightlyRuntime runtime) {
         this.writer = writer;
         this.bindings = bindings;
         this.runtime = runtime;
-        this.unitLocator = unitLocator;
     }
 
     /**
@@ -67,11 +65,4 @@ public final class RenderContext {
         return runtime;
     }
 
-    /**
-     * Get the unit locator
-     * @return - a unit locator
-     */
-    public UnitLocator getUnitLocator() {
-        return unitLocator;
-    }
 }

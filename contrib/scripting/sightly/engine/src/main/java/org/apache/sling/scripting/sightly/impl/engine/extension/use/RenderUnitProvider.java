@@ -24,12 +24,22 @@ import javax.script.Bindings;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.api.scripting.SlingScriptHelper;
+import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
+import org.apache.sling.scripting.sightly.impl.engine.UnitLoader;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.render.RenderUnit;
-import org.apache.sling.scripting.sightly.render.UnitLocator;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
+import org.apache.sling.scripting.sightly.use.SightlyUseException;
 import org.apache.sling.scripting.sightly.use.UseProvider;
 import org.osgi.framework.Constants;
 
@@ -54,13 +64,41 @@ import org.osgi.framework.Constants;
 })
 public class RenderUnitProvider implements UseProvider {
 
+    @Reference
+    private UnitLoader unitLoader = null;
+
+    @Reference
+    private ResourceResolverFactory rrf = null;
+
     @Override
     public ProviderOutcome provide(String identifier, RenderContext renderContext, Bindings arguments) {
         if (identifier.endsWith("." + SightlyScriptEngineFactory.EXTENSION)) {
-            UnitLocator unitLocator = renderContext.getUnitLocator();
-            RenderUnit renderUnit = unitLocator.locate(identifier);
+            Bindings globalBindings = renderContext.getBindings();
+            Resource renderUnitResource = locateResource(globalBindings, identifier);
+            RenderUnit renderUnit = unitLoader.createUnit(renderUnitResource, globalBindings);
             return ProviderOutcome.notNullOrFailure(renderUnit);
         }
         return ProviderOutcome.failure();
+    }
+
+    private Resource locateResource(Bindings bindings, String script) {
+        ResourceResolver adminResolver = null;
+        try {
+            adminResolver = rrf.getAdministrativeResourceResolver(null);
+            SlingHttpServletRequest request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);
+            SlingScriptHelper ssh = (SlingScriptHelper) bindings.get(SlingBindings.SLING);
+            Resource resource = ResourceResolution.resolveComponentForRequest(adminResolver, request);
+            if (resource != null) {
+                return ResourceResolution.resolveComponentRelative(adminResolver, resource, script);
+            } else {
+                return ResourceResolution.resolveComponentRelative(adminResolver, ssh.getScript().getScriptResource(), script);
+            }
+        } catch (LoginException e) {
+            throw new SightlyUseException(e);
+        } finally {
+            if (adminResolver != null) {
+                adminResolver.close();
+            }
+        }
     }
 }
