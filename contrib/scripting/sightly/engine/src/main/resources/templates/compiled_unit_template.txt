@@ -23,7 +23,6 @@ import java.util.Collection;
 import javax.script.Bindings;
 
 import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.BaseRenderUnit;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
@@ -34,7 +33,6 @@ public final class ##ClassName## extends BaseRenderUnit {
                                 Bindings bindings,
                                 Bindings arguments,
                                 ObjectModel objectModel,
-                                SightlyRuntime runtime,
                                 RenderContext renderContext) {
 // Main Template Body -----------------------------------------------------------------------------
 

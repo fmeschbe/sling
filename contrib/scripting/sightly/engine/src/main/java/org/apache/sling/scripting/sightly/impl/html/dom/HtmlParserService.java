@@ -18,19 +18,19 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.html.dom;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupParser;
-import org.apache.sling.scripting.sightly.impl.html.dom.template.Template;
-import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateParser;
+import java.io.IOException;
+import java.io.StringReader;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupParser;
+import org.apache.sling.scripting.sightly.impl.html.dom.template.Template;
+import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.StringReader;
 
 @Component
 @Properties({

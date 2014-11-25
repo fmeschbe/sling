@@ -24,7 +24,12 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.*;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
+import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
 
 /**
  * A visitor which checks a stream for correct closing of things

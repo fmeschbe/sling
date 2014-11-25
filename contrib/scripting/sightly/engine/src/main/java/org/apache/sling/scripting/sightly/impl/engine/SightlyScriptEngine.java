@@ -19,7 +19,6 @@
 
 package org.apache.sling.scripting.sightly.impl.engine;
 
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.Collections;
 
@@ -39,7 +38,8 @@ import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.commons.classloader.DynamicClassLoader;
 import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
 import org.apache.sling.scripting.sightly.SightlyException;
-import org.apache.sling.scripting.sightly.impl.common.SightlyRuntimeImpl;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRuntimeImpl;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.render.RenderUnit;
 import org.slf4j.Logger;
@@ -98,7 +98,7 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
         RenderContext context = null;
         try {
             resourceResolver = getAdminResourceResolver(bindings);
-            context = provideContext(scriptResource, bindings, resourceResolver);
+            context = provideContext(bindings);
             renderUnit.render(context, EMPTY_BINDINGS);
         } catch (NoClassDefFoundError defFoundError) {
             if (context != null) {
@@ -140,10 +140,9 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
         }
     }
 
-    private RenderContext provideContext(Resource scriptResource, Bindings bindings, ResourceResolver resourceResolver) {
-        PrintWriter printWriter = (PrintWriter) bindings.get(SlingBindings.OUT);
+    private RenderContext provideContext(Bindings bindings) {
         SightlyRuntimeImpl runtime = new SightlyRuntimeImpl(extensionRegistryService.extensions());
-        RenderContext renderContext = new RenderContext(printWriter, bindings, runtime);
+        RenderContext renderContext = new RenderContextImpl(bindings, runtime);
         runtime.setRenderContext(renderContext);
         return renderContext;
     }

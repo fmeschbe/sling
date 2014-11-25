@@ -30,7 +30,6 @@ import javax.script.SimpleBindings;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.render.RenderUnit;
 
@@ -51,11 +50,11 @@ public abstract class BaseRenderUnit implements RenderUnit {
         Bindings globalBindings = renderContext.getBindings();
         SlingScriptHelper ssh = (SlingScriptHelper) globalBindings.get(SlingBindings.SLING);
         ObjectModel objectModel = ssh.getService(ObjectModel.class);
-        render(renderContext.getWriter(),
+        PrintWriter writer = (PrintWriter) globalBindings.get(SlingBindings.OUT);
+        render(writer,
                 buildGlobalScope(globalBindings),
                 new CaseInsensitiveBindings(arguments),
                 objectModel,
-                renderContext.getRuntime(),
                 renderContext);
     }
 
@@ -73,7 +72,6 @@ public abstract class BaseRenderUnit implements RenderUnit {
                                    Bindings bindings,
                                    Bindings arguments,
                                    ObjectModel objectModel,
-                                   SightlyRuntime runtime,
                                    RenderContext renderContext);
 
     @SuppressWarnings({"unused", "unchecked"})

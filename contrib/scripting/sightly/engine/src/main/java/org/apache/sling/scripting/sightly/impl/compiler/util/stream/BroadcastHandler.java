@@ -18,10 +18,10 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.util.stream;
 
+import java.util.ArrayList;
+
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
-
-import java.util.ArrayList;
 
 /**
  * Broadcasts commands to other handlers

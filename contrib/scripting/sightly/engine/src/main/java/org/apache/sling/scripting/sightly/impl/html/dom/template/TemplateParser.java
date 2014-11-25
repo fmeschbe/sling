@@ -18,17 +18,17 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.html.dom.template;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.sling.scripting.sightly.impl.html.dom.AttributeList;
 import org.apache.sling.scripting.sightly.impl.html.dom.DocumentHandler;
 import org.apache.sling.scripting.sightly.impl.html.dom.HtmlParser;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Deque;
-import java.util.ArrayDeque;
 
 /**
  * The template parser parses an HTML document and returns a reusable tree

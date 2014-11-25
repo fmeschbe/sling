@@ -19,7 +19,18 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.api.expression;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.*;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.ArrayLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NullLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NumericConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.PropertyAccess;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.TernaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperation;
 
 /**
  * Visitor for all expression nodes

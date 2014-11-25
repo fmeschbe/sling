@@ -18,13 +18,13 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.frontend;
 
+import java.util.List;
+
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
 import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginInvoke;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
-
-import java.util.List;
 
 /**
  * Plugin invoke which aggregates the behavior of several plugin invokes

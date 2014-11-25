@@ -21,7 +21,7 @@ package org.apache.sling.scripting.sightly.impl.compiled;
 /**
  * Names related to Java source generation.
  */
-public class SourceGenConstants {
+public final class SourceGenConstants {
 
     public static final String OUT_BUFFER = "out";
 
@@ -41,9 +41,9 @@ public class SourceGenConstants {
 
     public static final String RENDER_CONTEXT_INSTANCE = "renderContext";
 
-    public static final String OBJ_MODEL_INSTANCE = "objectModel";
+    public static final String GET_RUNTIME_METHOD = "getRuntime";
 
-    public static final String RUNTIME_INSTANCE = "runtime";
+    public static final String OBJ_MODEL_INSTANCE = "objectModel";
 
     public static final String RUNTIME_CALL_METHOD = "call";
 

@@ -16,53 +16,32 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-
 package org.apache.sling.scripting.sightly.render;
-
-import java.io.PrintWriter;
 
 import javax.script.Bindings;
 
 import org.apache.sling.scripting.sightly.SightlyRuntime;
 
+import aQute.bnd.annotation.ProviderType;
+
 /**
- * Rendering context for Sightly rendering units.
- * @see RenderUnit
+ * The {@code RenderContext} defines the context for executing Sightly scripts (see {@link RenderUnit}).
  */
-public final class RenderContext {
-
-    private final PrintWriter writer;
-    private final Bindings bindings;
-    private final SightlyRuntime runtime;
-
-    public RenderContext(PrintWriter writer, Bindings bindings, SightlyRuntime runtime) {
-        this.writer = writer;
-        this.bindings = bindings;
-        this.runtime = runtime;
-    }
+@ProviderType
+public interface RenderContext {
 
     /**
-     * Get the writer where the content should be written
-     * @return - a stacked writer
+     * Returns the map of script bindings available to Sightly scripts.
+     *
+     * @return the global bindings for a script
      */
-    public PrintWriter getWriter() {
-        return writer;
-    }
+    Bindings getBindings();
 
     /**
-     * Provide the bindings for this script
-     * @return - the list of global bindings available to the script
+     * Provides a reference to the {@link SightlyRuntime} such that compiled scripts can access the runtime methods and objects during their
+     * execution.
+     *
+     * @return the Sightly runtime
      */
-    public Bindings getBindings() {
-        return bindings;
-    }
-
-    /**
-     * Get the available Sightly runtime
-     * @return - an instance of the Sightly runtime
-     */
-    public SightlyRuntime getRuntime() {
-        return runtime;
-    }
-
+    SightlyRuntime getRuntime();
 }

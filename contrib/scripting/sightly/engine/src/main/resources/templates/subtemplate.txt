@@ -23,7 +23,6 @@ addSubTemplate("##Name##", new BaseRenderUnit() {
                                 Bindings bindings,
                                 Bindings arguments,
                                 ObjectModel objectModel,
-                                SightlyRuntime runtime,
                                 RenderContext renderContext) {
 // Main Sub-Template Body -------------------------------------------------------------------------
 

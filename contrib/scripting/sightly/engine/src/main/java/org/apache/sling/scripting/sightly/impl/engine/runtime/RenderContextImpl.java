@@ -16,37 +16,45 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.impl.compiler.debug;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.apache.sling.scripting.sightly.impl.engine.runtime;
+
+import javax.script.Bindings;
+
+import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.render.RenderUnit;
 
 /**
- * Handler which logs all commands
+ * Rendering context for Sightly rendering units.
+ * @see RenderUnit
  */
-public final class LoggingHandler implements CommandHandler {
+public class RenderContextImpl implements RenderContext {
 
-    public static final LoggingHandler INSTANCE = new LoggingHandler();
+    private final Bindings bindings;
+    private final SightlyRuntime runtime;
 
-    private final Logger LOG = LoggerFactory.getLogger(LoggingHandler.class);
-
-    private LoggingHandler() {
+    public RenderContextImpl(Bindings bindings, SightlyRuntime runtime) {
+        this.bindings = bindings;
+        this.runtime = runtime;
     }
 
+    /**
+     * Provide the bindings for this script
+     * @return - the list of global bindings available to the script
+     */
     @Override
-    public void onEmit(Command command) {
-        LOG.info("Emitting {}", command);
+    public Bindings getBindings() {
+        return bindings;
     }
 
+    /**
+     * Get the available Sightly runtime
+     * @return - an instance of the Sightly runtime
+     */
     @Override
-    public void onError(String errorMessage) {
-        LOG.info("Error: {}", errorMessage);
+    public SightlyRuntime getRuntime() {
+        return runtime;
     }
 
-    @Override
-    public void onDone() {
-        LOG.info("Finished");
-    }
 }

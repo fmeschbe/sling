@@ -52,7 +52,6 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.SightlyParsingException;
-import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 import org.apache.sling.scripting.sightly.impl.compiled.CompilationOutput;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaClassBackend;
 import org.apache.sling.scripting.sightly.impl.compiler.SightlyCompileService;
@@ -62,6 +61,7 @@ import org.apache.sling.scripting.sightly.impl.engine.SightlyEngineConfiguration
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
 import org.apache.sling.scripting.sightly.impl.engine.UnitLoader;
 import org.apache.sling.scripting.sightly.render.RenderUnit;
+import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 import org.apache.sling.settings.SlingSettingsService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.event.Event;

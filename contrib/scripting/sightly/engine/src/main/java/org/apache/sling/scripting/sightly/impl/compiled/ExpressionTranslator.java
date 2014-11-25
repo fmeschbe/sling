@@ -25,7 +25,19 @@ import org.apache.sling.scripting.sightly.impl.compiled.operator.BinaryOpGen;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.Operators;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.UnaryOpGen;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.*;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.ArrayLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NullLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NumericConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.PropertyAccess;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.TernaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
 
 
@@ -128,8 +140,8 @@ public final class ExpressionTranslator extends SideEffectVisitor {
 
     @Override
     public void visit(RuntimeCall runtimeCall) {
-        source.startMethodCall(SourceGenConstants.RUNTIME_INSTANCE, SourceGenConstants.RUNTIME_CALL_METHOD)
-                .stringLiteral(runtimeCall.getFunctionName());
+        source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, SourceGenConstants.GET_RUNTIME_METHOD).endCall().startCall
+                (SourceGenConstants.RUNTIME_CALL_METHOD, true).stringLiteral(runtimeCall.getFunctionName());
         for (ExpressionNode arg : runtimeCall.getArguments()) {
             source.separateArgument();
             visit(arg);

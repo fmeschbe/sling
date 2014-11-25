@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
@@ -32,6 +30,8 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Checks whether variable declarations shadow global bindings

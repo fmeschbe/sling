@@ -17,16 +17,16 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.impl.common;
+package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.render.RenderContext;
+import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 
 /**
  * Implementation for apache runtime

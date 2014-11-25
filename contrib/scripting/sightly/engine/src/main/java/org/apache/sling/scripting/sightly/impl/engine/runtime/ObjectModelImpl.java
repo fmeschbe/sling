@@ -17,7 +17,7 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.impl.common;
+package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

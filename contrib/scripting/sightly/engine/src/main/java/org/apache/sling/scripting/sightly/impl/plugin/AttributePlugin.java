@@ -27,8 +27,6 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.sling.scripting.sightly.impl.compiler.Syntax;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
@@ -54,6 +52,8 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Variable
 import org.apache.sling.scripting.sightly.impl.compiler.common.DefaultPluginInvoke;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 import org.apache.sling.scripting.sightly.impl.html.MarkupUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation for the attribute plugin

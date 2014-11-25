@@ -21,9 +21,9 @@ package org.apache.sling.scripting.sightly.impl.plugin;
 import java.util.Dictionary;
 
 import org.apache.sling.commons.osgi.PropertiesUtil;
+import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.ComponentException;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin;
 
 /**
  * Component plugin implementation
