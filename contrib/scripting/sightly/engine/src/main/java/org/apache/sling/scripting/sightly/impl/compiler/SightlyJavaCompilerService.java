@@ -44,11 +44,17 @@ import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component
-@Service
-public class SightlyCompileServiceImpl implements SightlyCompileService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SightlyCompileServiceImpl.class);
+/**
+ * The {@code SightlyJavaCompiler} allows for simple instantiation of arbitrary classes that are either stored in the repository
+ * or in regular OSGi bundles. It also compiles Java sources on-the-fly and can discover class' source files based on
+ * {@link Resource}s (typically Sling components). It supports Sling Resource type inheritance.
+ */
+@Component
+@Service(SightlyJavaCompilerService.class)
+public class SightlyJavaCompilerService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SightlyJavaCompilerService.class);
 
     @Reference
     private ClassLoaderWriter classLoaderWriter = null;
@@ -65,8 +71,17 @@ public class SightlyCompileServiceImpl implements SightlyCompileService {
     private Lock readLock = lock.readLock();
     private Lock writeLock = lock.writeLock();
 
-    @Override
-    public Object getInstance(Resource resource, String className, boolean forceLoad) {
+    /**
+     * This method returns an Object instance based on a class that is either found through regular classloading mechanisms or on-the-fly
+     * compilation. In case the requested class does not denote a fully qualified classname, this service will try to find the class through
+     * Sling's servlet resolution mechanism and compile the class on-the-fly if required.
+     *
+     * @param resource  the lookup will be performed based on this resource
+     * @param className name of class to use for object instantiation
+     * @return object instance of the requested class
+     * @throws CompilerException in case of any runtime exception
+     */
+    public Object getInstance(Resource resource, String className) {
 
         LOG.debug("Attempting to obtain bean instance of resource '{}' and class '{}'", resource.getPath(), className);
 
@@ -86,7 +101,8 @@ public class SightlyCompileServiceImpl implements SightlyCompileService {
         // try to find Java source in JCR
         // use the servlet resolver to do all the magic lookup (resource type hierarchy and search path) for us
 
-        Resource scriptResource = ResourceResolution.resolveComponentRelative(resource.getResourceResolver(), resource, className + ".java");
+        Resource scriptResource = ResourceResolution
+                .resolveComponentRelative(resource.getResourceResolver(), resource, className + ".java");
         if (scriptResource != null) {
             LOG.debug("found Java bean script resource: " + scriptResource.getPath());
             try {
@@ -113,11 +129,18 @@ public class SightlyCompileServiceImpl implements SightlyCompileService {
         }
     }
 
-    @Override
-    public Object compileSource(Resource javaResource, String fullQualifiedClassName) {
+    /**
+     * Compiles a class using the passed fully qualified classname and based on the resource that represents the class' source.
+     *
+     * @param javaResource resource that constitutes the class' source
+     * @param fqcn         fully qualified name of the class to compile
+     * @return object instance of the class to compile
+     * @throws CompilerException in case of any runtime exception
+     */
+    public Object compileSource(Resource javaResource, String fqcn) {
         LOG.debug("Compiling Sightly based Java class from resource: " + javaResource.getPath());
         try {
-            CompilationUnit compilationUnit = new SightlyCompilationUnit(javaResource, fullQualifiedClassName);
+            CompilationUnit compilationUnit = new SightlyCompilationUnit(javaResource, fqcn);
             return compileJavaResource(compilationUnit, javaResource.getPath());
         } catch (Exception e) {
             throw new CompilerException(e);
@@ -199,6 +222,7 @@ public class SightlyCompileServiceImpl implements SightlyCompileService {
     }
 
     //---------------------------------- private -----------------------------------
+
     /**
      * Checks is a POJO class name is represented by a resource from the repository.
      *

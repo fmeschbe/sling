@@ -23,10 +23,10 @@ import java.util.Collection;
 import javax.script.Bindings;
 
 import org.apache.sling.scripting.sightly.ObjectModel;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.BaseRenderUnit;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 
-public final class ##ClassName## extends BaseRenderUnit {
+public final class ##ClassName## extends RenderUnit {
 
     @Override
     protected final void render(PrintWriter out,

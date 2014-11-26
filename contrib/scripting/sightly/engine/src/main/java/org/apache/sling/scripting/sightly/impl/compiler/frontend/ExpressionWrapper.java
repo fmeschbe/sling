@@ -38,11 +38,11 @@ import org.apache.sling.scripting.sightly.impl.plugin.MarkupContext;
  * This object wraps expressions in filter applications depending
  * on options
  */
-class ExpressionWrapper {
+public class ExpressionWrapper {
 
     private final List<Filter> filters;
 
-    ExpressionWrapper(Collection<Filter> filters) {
+    public ExpressionWrapper(Collection<Filter> filters) {
         this.filters = new ArrayList<Filter>();
         this.filters.addAll(filters);
         Collections.sort(this.filters);

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-addSubTemplate("##Name##", new BaseRenderUnit() {
+addSubTemplate("##Name##", new RenderUnit() {
 
     @Override
     protected final void render(PrintWriter out,

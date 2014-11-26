@@ -21,6 +21,7 @@ package org.apache.sling.scripting.sightly.impl.compiled;
 import org.apache.sling.scripting.sightly.impl.compiler.CompilerBackend;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.VisitorHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.visitor.CodeGenVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.StatefulVisitor;
 
 /**

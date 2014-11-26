@@ -18,19 +18,72 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.engine;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
+import org.osgi.framework.Constants;
 
 /**
  * Aggregator for all runtime extensions.
  */
-public interface ExtensionRegistryService {
+@Component
+@Service(ExtensionRegistryService.class)
+@Reference(
+        policy = ReferencePolicy.DYNAMIC,
+        referenceInterface = RuntimeExtension.class,
+        name = "extensionService",
+        cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE
+)
+public class ExtensionRegistryService {
 
-    /**
-     * A map from extension names to extensions
-     * @return a name-extension map
-     */
-    Map<String, RuntimeExtension> extensions();
+    private volatile Map<String, RuntimeExtension> mapping = new HashMap<String, RuntimeExtension>();
+    private Map<String, Integer> mappingPriorities = new HashMap<String, Integer>(10, 0.9f);
 
+    public Map<String, RuntimeExtension> extensions() {
+        return mapping;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    protected synchronized void bindExtensionService(RuntimeExtension extension, Map<String, Object> properties) {
+        Integer newPriority = PropertiesUtil.toInteger(properties.get(Constants.SERVICE_RANKING), 0);
+        String extensionName = PropertiesUtil.toString(properties.get(RuntimeExtension.SCR_PROP_NAME), "");
+        Integer priority = PropertiesUtil.toInteger(mappingPriorities.get(extensionName), 0);
+        if (newPriority > priority) {
+                mapping = Collections.unmodifiableMap(add(mapping, extension, extensionName));
+                mappingPriorities.put(extensionName, newPriority);
+        } else {
+            if (!mapping.containsKey(extensionName)) {
+                mapping = Collections.unmodifiableMap(add(mapping, extension, extensionName));
+                mappingPriorities.put(extensionName, newPriority);
+            }
+        }
+
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    protected synchronized void unbindExtensionService(RuntimeExtension extension, Map<String, Object> properties) {
+        String extensionName = PropertiesUtil.toString(properties.get(RuntimeExtension.SCR_PROP_NAME), "");
+        mappingPriorities.remove(extensionName);
+        mapping = Collections.unmodifiableMap(remove(mapping, extensionName));
+    }
+
+    private Map<String, RuntimeExtension> add(Map<String, RuntimeExtension> oldMap, RuntimeExtension extension, String extensionName) {
+        HashMap<String, RuntimeExtension> newMap = new HashMap<String, RuntimeExtension>(oldMap);
+        newMap.put(extensionName, extension);
+        return newMap;
+    }
+
+    private Map<String, RuntimeExtension> remove(Map<String, RuntimeExtension> oldMap, String extensionName) {
+        HashMap<String, RuntimeExtension> newMap = new HashMap<String, RuntimeExtension>(oldMap);
+        newMap.remove(extensionName);
+        return newMap;
+    }
 }

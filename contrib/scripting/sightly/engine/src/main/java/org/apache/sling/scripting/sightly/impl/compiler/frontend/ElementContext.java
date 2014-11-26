@@ -30,9 +30,9 @@ import org.apache.sling.scripting.sightly.impl.plugin.PluginCallInfo;
 import org.apache.sling.scripting.sightly.impl.plugin.PluginInvoke;
 
 /**
- * Data structure used by {@link MarkupHandlerImpl}
+ * Data structure used by {@link MarkupHandler}.
  */
-class ElementContext {
+public class ElementContext {
     private final String tagName;
     private final String openTagStartMarkup;
 

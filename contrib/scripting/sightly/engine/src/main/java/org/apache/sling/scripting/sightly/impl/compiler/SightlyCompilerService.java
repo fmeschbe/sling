@@ -31,7 +31,11 @@ import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.References;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.impl.compiler.debug.SanityChecker;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 import org.apache.sling.scripting.sightly.impl.filter.Filter;
+import org.apache.sling.scripting.sightly.impl.html.dom.HtmlParserService;
 import org.apache.sling.scripting.sightly.impl.plugin.Plugin;
 import org.apache.sling.scripting.sightly.impl.compiler.frontend.SimpleFrontend;
 import org.apache.sling.scripting.sightly.impl.compiler.optimization.CoalescingWrites;
@@ -47,7 +51,7 @@ import org.osgi.service.component.ComponentContext;
  * Implementation for the Sightly compiler
  */
 @Component
-@Service(SightlyCompiler.class)
+@Service(SightlyCompilerService.class)
 @References({
         @Reference(
                 policy = ReferencePolicy.DYNAMIC,
@@ -62,7 +66,7 @@ import org.osgi.service.component.ComponentContext;
                 cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE
         )
 })
-public class SightlyCompilerImpl extends BaseCompiler {
+public class SightlyCompilerService {
 
     private List<Filter> filters = new ArrayList<Filter>();
     private List<Plugin> plugins = new ArrayList<Plugin>();
@@ -71,19 +75,23 @@ public class SightlyCompilerImpl extends BaseCompiler {
     private volatile CompilerFrontend frontend;
 
     @Reference
-    protected MarkupParser markupParser;
+    protected HtmlParserService htmlParserService;
 
     @Reference
     protected ObjectModel objectModel;
 
-    @Override
-    protected StreamTransformer getOptimizer() {
-        return optimizer;
-    }
-
-    @Override
-    protected CompilerFrontend getFrontend() {
-        return frontend;
+    /**
+     * Compile the given markup source and feed it to the given backend
+     * @param source the HTML source code
+     * @param backend the backend that will process the command stream from the source
+     */
+    public void compile(String source, CompilerBackend backend) {
+        PushStream stream = new PushStream();
+        SanityChecker.attachChecker(stream);
+        CommandStream optimizedStream = optimizer.transform(stream);
+        //optimizedStream.addHandler(LoggingHandler.INSTANCE);
+        backend.handle(optimizedStream);
+        frontend.compile(stream, source);
     }
 
     @Activate
@@ -135,7 +143,7 @@ public class SightlyCompilerImpl extends BaseCompiler {
     }
 
     private void reloadFrontend() {
-        frontend = new SimpleFrontend(markupParser, plugins, filters);
+        frontend = new SimpleFrontend(htmlParserService, plugins, filters);
     }
 
     private static <T> List<T> add(List<T> list, T item) {

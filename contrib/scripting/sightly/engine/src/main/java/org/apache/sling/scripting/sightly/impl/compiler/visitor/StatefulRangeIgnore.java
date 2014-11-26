@@ -22,14 +22,14 @@ package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
 
 /**
- * Variant of {@link IgnoreRange} to be used
- * in stateful visitors.
+ * Variant of {@link IgnoreRange} to be used in stateful visitors.
  */
 public class StatefulRangeIgnore extends IgnoreRange {
 
-    private final StateControl stateControl;
+    private final StatefulVisitor.StateControl stateControl;
 
-    public StatefulRangeIgnore(StateControl stateControl, Class<? extends Command> rangeStart, Class<? extends Command> rangeEnd) {
+    public StatefulRangeIgnore(StatefulVisitor.StateControl stateControl, Class<? extends Command> rangeStart,
+                               Class<? extends Command> rangeEnd) {
         super(rangeStart, rangeEnd);
         this.stateControl = stateControl;
     }

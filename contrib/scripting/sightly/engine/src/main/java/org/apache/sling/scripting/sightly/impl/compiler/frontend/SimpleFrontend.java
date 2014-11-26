@@ -26,7 +26,8 @@ import java.util.Map;
 
 import org.apache.sling.scripting.sightly.impl.compiler.CompilerFrontend;
 import org.apache.sling.scripting.sightly.impl.filter.Filter;
-import org.apache.sling.scripting.sightly.impl.compiler.MarkupParser;
+import org.apache.sling.scripting.sightly.impl.html.dom.HtmlParserService;
+import org.apache.sling.scripting.sightly.impl.html.dom.MarkupHandler;
 import org.apache.sling.scripting.sightly.impl.plugin.Plugin;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 
@@ -35,22 +36,22 @@ import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
  */
 public class SimpleFrontend implements CompilerFrontend {
 
-    private final MarkupParser parser;
+    private final HtmlParserService htmlParserService;
     private final Map<String, Plugin> plugins;
     private final List<Filter> filters;
 
-    public SimpleFrontend(MarkupParser markupParser, Collection<Plugin> plugins, Collection<Filter> filters) {
+    public SimpleFrontend(HtmlParserService htmlParserService, Collection<Plugin> plugins, Collection<Filter> filters) {
         this.plugins = new HashMap<String, Plugin>();
         for (Plugin plugin : plugins) {
             this.plugins.put(plugin.name(), plugin);
         }
         this.filters = new ArrayList<Filter>(filters);
-        this.parser = markupParser;
+        this.htmlParserService = htmlParserService;
     }
 
     @Override
     public void compile(PushStream stream, String source) {
         MarkupHandler markupHandler = new MarkupHandler(stream, plugins, filters);
-        parser.parse(source, markupHandler);
+        htmlParserService.parse(source, markupHandler);
     }
 }

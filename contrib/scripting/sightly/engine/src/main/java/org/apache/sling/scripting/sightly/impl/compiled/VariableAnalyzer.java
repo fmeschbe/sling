@@ -32,7 +32,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
  * Data structure used in the analysis of variables
  * during the compilation process
  */
-class VariableAnalyzer {
+public class VariableAnalyzer {
 
     private static final HashSet<String> javaKeywords = new HashSet<String>();
     private final VariableTracker<VariableDescriptor> tracker = new VariableTracker<VariableDescriptor>();

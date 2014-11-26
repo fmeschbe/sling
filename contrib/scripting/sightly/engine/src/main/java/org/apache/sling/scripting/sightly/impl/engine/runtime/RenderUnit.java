@@ -18,22 +18,138 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
-import javax.script.Bindings;
+import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
+
+import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.api.scripting.SlingScriptHelper;
+import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.Record;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
- * Basic unit of rendering. This also extends the record interface.
- * The properties for a unit are the sub-units
+ * Basic unit of rendering. This also extends the record interface. The properties for a unit are the sub-units.
  */
-public interface RenderUnit extends Record<RenderUnit> {
+public abstract class RenderUnit implements Record<RenderUnit> {
+
+    private final Map<String, RenderUnit> subTemplates = new HashMap<String, RenderUnit>();
+
+    private Map<String, RenderUnit> siblings;
 
     /**
      * Render the main script template
      * @param renderContext - the rendering context
      * @param arguments - the arguments for this unit
      */
-    void render(RenderContext renderContext, Bindings arguments);
+    public final void render(RenderContext renderContext, Bindings arguments) {
+        Bindings globalBindings = renderContext.getBindings();
+        SlingScriptHelper ssh = (SlingScriptHelper) globalBindings.get(SlingBindings.SLING);
+        ObjectModel objectModel = ssh.getService(ObjectModel.class);
+        PrintWriter writer = (PrintWriter) globalBindings.get(SlingBindings.OUT);
+        render(writer,
+                buildGlobalScope(globalBindings),
+                new CaseInsensitiveBindings(arguments),
+                objectModel,
+                (RenderContextImpl) renderContext);
+    }
+
+    @Override
+    public RenderUnit get(String name) {
+        return subTemplates.get(name.toLowerCase());
+    }
+
+    @Override
+    public Set<String> properties() {
+        return subTemplates.keySet();
+    }
+
+    protected abstract void render(PrintWriter writer,
+                                   Bindings bindings,
+                                   Bindings arguments,
+                                   ObjectModel objectModel,
+                                   RenderContextImpl renderContext);
+
+    @SuppressWarnings({"unused", "unchecked"})
+    protected void callUnit(RenderContext renderContext, Object templateObj, Object argsObj) {
+        if (!(templateObj instanceof RenderUnit)) {
+            return;
+        }
+        RenderUnit unit = (RenderUnit) templateObj;
+        SlingScriptHelper ssh = (SlingScriptHelper) renderContext.getBindings().get(SlingBindings.SLING);
+        ObjectModel objectModel = ssh.getService(ObjectModel.class);
+        Map<String, Object> argumentsMap = objectModel.toMap(argsObj);
+        Bindings arguments = new SimpleBindings(Collections.unmodifiableMap(argumentsMap));
+        unit.render(renderContext, arguments);
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    protected FluentMap obj() {
+        return new FluentMap();
+    }
+
+    protected final void addSubTemplate(String name, RenderUnit renderUnit) {
+        renderUnit.setSiblings(subTemplates);
+        subTemplates.put(name.toLowerCase(), renderUnit);
+    }
+
+    private void setSiblings(Map<String, RenderUnit> siblings) {
+        this.siblings = siblings;
+    }
+
+    private Bindings buildGlobalScope(Bindings bindings) {
+        SimpleBindings simpleBindings = new SimpleBindings(bindings);
+        simpleBindings.putAll(bindings);
+        if (siblings != null) {
+            simpleBindings.putAll(siblings);
+        }
+        simpleBindings.putAll(subTemplates);
+        return new CaseInsensitiveBindings(simpleBindings);
+    }
+
+    protected static class FluentMap extends HashMap<String, Object> {
+
+        /**
+         * Fluent variant of put
+         * @param name - the name of the property
+         * @param value - the value of the property
+         * @return - this instance
+         */
+        public FluentMap with(String name, Object value) {
+            put(name, value);
+            return this;
+        }
+
+    }
+
+    private static final class CaseInsensitiveBindings extends SimpleBindings {
+
+        private CaseInsensitiveBindings(Map<String, Object> m) {
+            for (Map.Entry<String, Object> entry : m.entrySet()) {
+                put(entry.getKey().toLowerCase(), entry.getValue());
+            }
+        }
+
+        @Override
+        public Object get(Object key) {
+            if (!(key instanceof String)) {
+                throw new ClassCastException("key should be a String");
+            }
+            return super.get(((String) key).toLowerCase());
+        }
+
+        @Override
+        public boolean containsKey(Object key) {
+            if (!(key instanceof String)) {
+                throw new ClassCastException("key should be a String");
+            }
+            return super.containsKey(((String) key).toLowerCase());
+        }
+    }
 
 }

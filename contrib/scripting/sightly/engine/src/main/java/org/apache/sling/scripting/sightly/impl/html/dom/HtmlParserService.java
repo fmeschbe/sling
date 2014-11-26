@@ -25,8 +25,6 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.impl.compiler.MarkupParser;
-import org.apache.sling.scripting.sightly.impl.compiler.frontend.MarkupHandler;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.Template;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateParser;
 import org.slf4j.Logger;
@@ -34,17 +32,24 @@ import org.slf4j.LoggerFactory;
 
 @Component
 @Properties({
-    @Property(name="service.description", value="Sightly Simple HTML parser"),
-    @Property(name="service.ranking", intValue=1000)
+        @Property(name = "service.description", value = "Sightly Simple HTML parser"),
+        @Property(name = "service.ranking", intValue = 1000)
 })
-@Service
-public class HtmlParserService implements MarkupParser {
+@Service(HtmlParserService.class)
+public class HtmlParserService {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlParserService.class);
 
-    public void parse(String script, MarkupHandler handler) {
+    /**
+     * Parse the given document and use the handler to process
+     * the markup events
+     *
+     * @param document - the parsed document
+     * @param handler  - a markup handler
+     */
+    public void parse(String document, MarkupHandler handler) {
         try {
-            final StringReader sr = new StringReader(script);
+            final StringReader sr = new StringReader(document);
             final TemplateParser parser = new TemplateParser();
             final Template template = parser.parse(sr);
             // walk through the tree and send events

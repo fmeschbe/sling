@@ -36,7 +36,7 @@ public class StatefulVisitor implements CommandVisitor {
 
     private final Stack<CommandVisitor> stack = new Stack<CommandVisitor>();
     private CommandVisitor visitor;
-    private Control control = new Control();
+    private StateControl control = new StateControl();
 
     public StatefulVisitor() {
         this.visitor = InvalidState.INSTANCE;
@@ -124,19 +124,16 @@ public class StatefulVisitor implements CommandVisitor {
         return top;
     }
 
-    private final class Control implements StateControl {
+    public final class StateControl {
 
-        @Override
         public void push(CommandVisitor visitor) {
             pushVisitor(visitor);
         }
 
-        @Override
         public CommandVisitor pop() {
             return popVisitor();
         }
 
-        @Override
         public CommandVisitor replace(CommandVisitor visitor) {
             CommandVisitor current = pop();
             push(visitor);

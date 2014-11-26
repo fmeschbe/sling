@@ -17,7 +17,7 @@
  * under the License.
  ******************************************************************************/
 
-package org.apache.sling.scripting.sightly.impl.compiler.frontend;
+package org.apache.sling.scripting.sightly.impl.html.dom;
 
 import java.util.Collection;
 import java.util.Map;
@@ -25,6 +25,12 @@ import java.util.Stack;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.scripting.sightly.impl.compiler.Syntax;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.CompilerContext;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.ElementContext;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.ExpressionParser;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.ExpressionWrapper;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.Fragment;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.Interpolation;
 import org.apache.sling.scripting.sightly.impl.filter.Filter;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
@@ -56,7 +62,7 @@ public class MarkupHandler {
 
     private final PushStream stream;
     private final SymbolGenerator symbolGenerator = new SymbolGenerator();
-    private final ExpressionParser expressionParser = new ExpressionParserImpl();
+    private final ExpressionParser expressionParser = new ExpressionParser();
     private final Map<String, Plugin> pluginRegistry;
     private final CompilerContext compilerContext;
     private final ExpressionWrapper expressionWrapper;

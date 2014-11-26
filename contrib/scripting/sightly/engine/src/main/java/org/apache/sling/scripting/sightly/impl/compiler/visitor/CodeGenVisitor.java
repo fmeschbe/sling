@@ -16,12 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
-package org.apache.sling.scripting.sightly.impl.compiled;
+package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.sling.scripting.sightly.impl.compiled.ExpressionTranslator;
+import org.apache.sling.scripting.sightly.impl.compiled.JavaSource;
+import org.apache.sling.scripting.sightly.impl.compiled.SourceGenConstants;
+import org.apache.sling.scripting.sightly.impl.compiled.Type;
+import org.apache.sling.scripting.sightly.impl.compiled.TypeInference;
+import org.apache.sling.scripting.sightly.impl.compiled.TypeInfo;
+import org.apache.sling.scripting.sightly.impl.compiled.UnitBuilder;
+import org.apache.sling.scripting.sightly.impl.compiled.VariableAnalyzer;
+import org.apache.sling.scripting.sightly.impl.compiled.VariableDescriptor;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
@@ -29,22 +38,21 @@ import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Procedure;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
-import org.apache.sling.scripting.sightly.impl.compiler.visitor.StateControl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Java code generator
  */
-class CodeGenVisitor implements CommandVisitor {
+public class CodeGenVisitor implements CommandVisitor {
 
     private final JavaSource source;
     private final UnitBuilder unitBuilder;
     private final Stack<String> loopStatusStack = new Stack<String>();
     private final VariableAnalyzer analyzer = new VariableAnalyzer();
-    private final StateControl control;
+    private final StatefulVisitor.StateControl control;
     private final Set<String> unitParameters;
 
-    public CodeGenVisitor(UnitBuilder unitBuilder, StateControl control) {
+    public CodeGenVisitor(UnitBuilder unitBuilder, StatefulVisitor.StateControl control) {
         this.unitBuilder = unitBuilder;
         this.source = unitBuilder.getSource();
         this.control = control;

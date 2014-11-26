@@ -33,7 +33,7 @@ public class CompilerContext {
     private SymbolGenerator symbolGenerator;
     private ExpressionWrapper expressionWrapper;
 
-    CompilerContext(SymbolGenerator symbolGenerator, ExpressionWrapper wrapper) {
+    public CompilerContext(SymbolGenerator symbolGenerator, ExpressionWrapper wrapper) {
         this.symbolGenerator = symbolGenerator;
         this.expressionWrapper = wrapper;
     }
