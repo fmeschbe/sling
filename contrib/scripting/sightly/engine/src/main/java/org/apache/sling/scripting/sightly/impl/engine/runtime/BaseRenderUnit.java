@@ -32,12 +32,9 @@ import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Compiled version of render units
  */
-@ProviderType
 public abstract class BaseRenderUnit implements RenderUnit {
 
     private final Map<String, RenderUnit> subTemplates = new HashMap<String, RenderUnit>();
