@@ -19,7 +19,7 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
 
 /**
  * Interface to control stateful visitors

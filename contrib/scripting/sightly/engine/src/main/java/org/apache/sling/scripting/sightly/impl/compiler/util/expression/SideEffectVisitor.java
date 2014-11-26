@@ -18,19 +18,19 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.util.expression;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.NodeVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.ArrayLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NullLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NumericConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.PropertyAccess;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.TernaryOperator;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.NodeVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.ArrayLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.Identifier;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.MapLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.NullLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.NumericConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.PropertyAccess;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.TernaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.UnaryOperation;
 
 /**
  * Expression visitor which does not return anything for a node. Instead

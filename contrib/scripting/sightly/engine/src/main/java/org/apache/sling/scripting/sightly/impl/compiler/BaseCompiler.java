@@ -18,8 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.SightlyCompiler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 import org.apache.sling.scripting.sightly.impl.compiler.debug.SanityChecker;
 import org.apache.sling.scripting.sightly.impl.compiler.optimization.StreamTransformer;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;

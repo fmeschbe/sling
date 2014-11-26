@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 
 /**
  * Applies a list of transformations in sequence

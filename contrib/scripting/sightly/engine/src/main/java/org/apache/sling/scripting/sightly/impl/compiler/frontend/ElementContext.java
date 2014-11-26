@@ -25,9 +25,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginInvoke;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.plugin.PluginCallInfo;
+import org.apache.sling.scripting.sightly.impl.plugin.PluginInvoke;
 
 /**
  * Data structure used by {@link MarkupHandlerImpl}

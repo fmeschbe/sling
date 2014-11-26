@@ -55,7 +55,7 @@ import org.apache.sling.scripting.sightly.impl.compiled.CompilationOutput;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaClassBackend;
 import org.apache.sling.scripting.sightly.impl.compiler.SightlyCompileService;
 import org.apache.sling.scripting.sightly.impl.compiler.SightlyParsingException;
-import org.apache.sling.scripting.sightly.impl.compiler.api.SightlyCompiler;
+import org.apache.sling.scripting.sightly.impl.compiler.SightlyCompiler;
 import org.apache.sling.scripting.sightly.impl.compiler.util.GlobalShadowCheckBackend;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyEngineConfiguration;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;

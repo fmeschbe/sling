@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 
 /**
  * A compiler backend

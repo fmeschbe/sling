@@ -19,7 +19,7 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
 
 /**
  * Variant of {@link IgnoreRange} to be used

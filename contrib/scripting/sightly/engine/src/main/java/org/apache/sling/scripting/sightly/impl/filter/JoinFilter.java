@@ -31,10 +31,9 @@ import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
-import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.RuntimeCall;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**

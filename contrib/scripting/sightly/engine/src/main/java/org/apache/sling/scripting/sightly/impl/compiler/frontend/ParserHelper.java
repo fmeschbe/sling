@@ -20,7 +20,7 @@
 package org.apache.sling.scripting.sightly.impl.compiler.frontend;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
 
 /**
  * Helper utilities for the ANTLR parser

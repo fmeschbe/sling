@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.EmitterVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.Streams;

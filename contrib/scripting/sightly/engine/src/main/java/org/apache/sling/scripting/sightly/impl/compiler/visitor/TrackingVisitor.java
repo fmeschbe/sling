@@ -19,9 +19,9 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
 
 /**

@@ -23,13 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Procedure;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

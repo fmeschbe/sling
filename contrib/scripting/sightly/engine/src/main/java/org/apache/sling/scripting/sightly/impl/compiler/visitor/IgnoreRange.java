@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.visitor;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
 
 /**
  * Ignore a nested range of commands

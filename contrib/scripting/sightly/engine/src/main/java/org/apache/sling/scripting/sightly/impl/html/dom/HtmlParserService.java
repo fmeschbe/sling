@@ -25,8 +25,8 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupParser;
+import org.apache.sling.scripting.sightly.impl.compiler.MarkupParser;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.MarkupHandler;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.Template;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateParser;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
     @Property(name="service.description", value="Sightly Simple HTML parser"),
     @Property(name="service.ranking", intValue=1000)
 })
-@Service(MarkupParser.class)
+@Service
 public class HtmlParserService implements MarkupParser {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlParserService.class);

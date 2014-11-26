@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.frontend;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
 
 /**
  * A segment in an interpolation.

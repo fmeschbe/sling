@@ -22,8 +22,8 @@ package org.apache.sling.scripting.sightly.impl.compiled.operator;
 import java.util.EnumMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.UnaryOperator;
 
 /**
  * Provides mappings from operators to generators

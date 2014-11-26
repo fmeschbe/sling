@@ -26,13 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.sling.scripting.sightly.impl.compiler.Syntax;
-import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.MarkupContext;
+import org.apache.sling.scripting.sightly.impl.filter.Filter;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.plugin.MarkupContext;
 
 /**
  * This object wraps expressions in filter applications depending

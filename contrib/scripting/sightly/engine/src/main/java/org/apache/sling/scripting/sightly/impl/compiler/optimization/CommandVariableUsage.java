@@ -22,15 +22,15 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Procedure;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 
 /**
  * Extracts the variables used in a command

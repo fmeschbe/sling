@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly.impl.compiled.operator;
 import org.apache.sling.scripting.sightly.impl.compiled.ExpressionTranslator;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaSource;
 import org.apache.sling.scripting.sightly.impl.compiled.Type;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperator;
 
 /**
  * Generator for strict equality

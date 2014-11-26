@@ -19,7 +19,7 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.util.stream;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
 
 /**
  * Command visitor which writes to an output stream

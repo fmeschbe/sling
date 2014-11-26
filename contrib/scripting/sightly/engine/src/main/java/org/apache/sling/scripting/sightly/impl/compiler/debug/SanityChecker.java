@@ -20,16 +20,16 @@ package org.apache.sling.scripting.sightly.impl.compiler.debug;
 
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Procedure;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 
 /**
  * A visitor which checks a stream for correct closing of things

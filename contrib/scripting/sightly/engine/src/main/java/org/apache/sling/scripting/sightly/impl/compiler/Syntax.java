@@ -20,7 +20,7 @@ package org.apache.sling.scripting.sightly.impl.compiler;
 
 import java.util.Arrays;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
+import org.apache.sling.scripting.sightly.impl.plugin.PluginCallInfo;
 
 /**
  * Sightly Syntax specific elements

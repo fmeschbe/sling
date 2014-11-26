@@ -20,9 +20,9 @@ package org.apache.sling.scripting.sightly.impl.compiler.util.stream;
 
 import java.util.List;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 
 /**
  * A stream which replays the same commands for all handlers

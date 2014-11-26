@@ -22,18 +22,15 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.CompilerContext;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginInvoke;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.common.DefaultPluginInvoke;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.CompilerContext;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 
 /**
@@ -48,9 +45,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 public class UnwrapPlugin extends PluginComponent {
 
     @Override
-    public PluginInvoke invoke(final Expression expression,
-                               PluginCallInfo callInfo,
-                               final CompilerContext compilerContext) {
+    public PluginInvoke invoke(final Expression expression, PluginCallInfo callInfo, final CompilerContext compilerContext) {
         return new DefaultPluginInvoke() {
 
             private final String variable = compilerContext.generateVariable("unwrapCondition");

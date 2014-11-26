@@ -25,10 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.sling.scripting.sightly.impl.compiler.CompilerFrontend;
-import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupParser;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin;
+import org.apache.sling.scripting.sightly.impl.filter.Filter;
+import org.apache.sling.scripting.sightly.impl.compiler.MarkupParser;
+import org.apache.sling.scripting.sightly.impl.plugin.Plugin;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 
 /**
@@ -51,7 +50,7 @@ public class SimpleFrontend implements CompilerFrontend {
 
     @Override
     public void compile(PushStream stream, String source) {
-        MarkupHandler markupHandler = new MarkupHandlerImpl(stream, plugins, filters);
+        MarkupHandler markupHandler = new MarkupHandler(stream, plugins, filters);
         parser.parse(source, markupHandler);
     }
 }

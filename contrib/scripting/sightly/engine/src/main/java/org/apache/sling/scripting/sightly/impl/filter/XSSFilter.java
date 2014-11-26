@@ -24,10 +24,9 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.impl.compiler.Syntax;
-import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.RuntimeCall;
 
 /**
  * XSS filter implementation

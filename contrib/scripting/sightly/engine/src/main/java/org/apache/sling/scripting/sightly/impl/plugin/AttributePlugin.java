@@ -28,28 +28,24 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.scripting.sightly.impl.compiler.Syntax;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.PropertyAccess;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.RuntimeCall;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.CompilerContext;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.MarkupContext;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginInvoke;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Patterns;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperation;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BinaryOperator;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.Identifier;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.MapLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.PropertyAccess;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.RuntimeCall;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Patterns;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.common.DefaultPluginInvoke;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.CompilerContext;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 import org.apache.sling.scripting.sightly.impl.html.MarkupUtils;
 import org.slf4j.Logger;
@@ -109,7 +105,8 @@ public class AttributePlugin extends PluginComponent {
             this.shouldDisplayAttribute = compilerContext.generateVariable("shouldDisplayAttr_" + attributeName);
             this.node = expression.getRoot();
             if (!expression.containsOption(Syntax.CONTEXT_OPTION)) {
-                this.contentNode = escapeNodeWithHint(compilerContext, new Identifier(attrValue), MarkupContext.ATTRIBUTE, new StringConstant(attributeName));
+                this.contentNode = escapeNodeWithHint(compilerContext, new Identifier(attrValue), MarkupContext.ATTRIBUTE,
+                        new StringConstant(attributeName));
             } else {
                 this.contentNode = new Identifier(attrValue);
             }
@@ -272,10 +269,12 @@ public class AttributePlugin extends PluginComponent {
             String attrNameEscaped = compilerContext.generateVariable("attrNameEscaped");
             String attrIndex = compilerContext.generateVariable("attrIndex");
             stream.emit(new Loop.Start(attrMapVar, attrNameVar, attrIndex));
-            stream.emit(new VariableBinding.Start(attrNameEscaped, escapeNode(new Identifier(attrNameVar), MarkupContext.ATTRIBUTE_NAME, null)));
+            stream.emit(new VariableBinding.Start(attrNameEscaped,
+                    escapeNode(new Identifier(attrNameVar), MarkupContext.ATTRIBUTE_NAME, null)));
             stream.emit(new Conditional.Start(attrNameEscaped, true));
             String isIgnoredAttr = compilerContext.generateVariable("isIgnoredAttr");
-            stream.emit(new VariableBinding.Start(isIgnoredAttr, new PropertyAccess(new Identifier(ignoredVar), new Identifier(attrNameVar))));
+            stream.emit(
+                    new VariableBinding.Start(isIgnoredAttr, new PropertyAccess(new Identifier(ignoredVar), new Identifier(attrNameVar))));
             stream.emit(new Conditional.Start(isIgnoredAttr, false));
             String attrContent = compilerContext.generateVariable("attrContent");
             stream.emit(new VariableBinding.Start(attrContent, attributeValueNode(new Identifier(attrNameVar))));
@@ -293,7 +292,8 @@ public class AttributePlugin extends PluginComponent {
         private void writeAttribute(PushStream stream, String attrNameVar, String attrContentVar) {
             String escapedContent = compilerContext.generateVariable("attrContentEscaped");
             String shouldDisplayAttribute = compilerContext.generateVariable("shouldDisplayAttr");
-            stream.emit(new VariableBinding.Start(escapedContent, escapedExpression(new Identifier(attrContentVar), new Identifier(attrNameVar))));
+            stream.emit(new VariableBinding.Start(escapedContent,
+                    escapedExpression(new Identifier(attrContentVar), new Identifier(attrNameVar))));
             stream.emit(
                     new VariableBinding.Start(
                             shouldDisplayAttribute,
@@ -345,7 +345,8 @@ public class AttributePlugin extends PluginComponent {
         }
     }
 
-    private static ExpressionNode escapeNodeWithHint(CompilerContext compilerContext, ExpressionNode node, MarkupContext markupContext, ExpressionNode hint) {
+    private static ExpressionNode escapeNodeWithHint(CompilerContext compilerContext, ExpressionNode node, MarkupContext markupContext,
+                                                     ExpressionNode hint) {
         if (hint != null) {
             //todo: this is not the indicated way to escape via XSS. Correct after modifying the compiler context API
             return new RuntimeCall("xss", node, new StringConstant(markupContext.getName()), hint);

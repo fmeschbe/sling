@@ -18,16 +18,16 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.common;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginCallInfo;
-import org.apache.sling.scripting.sightly.impl.compiler.api.plugin.PluginInvoke;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.plugin.PluginCallInfo;
+import org.apache.sling.scripting.sightly.impl.plugin.PluginInvoke;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 
 /**
  * Empty implementation for plugin invocation. Use this to implement
  * methods selectively.
- * @see org.apache.sling.scripting.sightly.impl.compiler.api.plugin.Plugin
+ * @see org.apache.sling.scripting.sightly.impl.plugin.Plugin
  */
 public class DefaultPluginInvoke implements PluginInvoke {
 

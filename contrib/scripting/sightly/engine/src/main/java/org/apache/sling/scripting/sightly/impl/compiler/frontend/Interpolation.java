@@ -21,7 +21,7 @@ package org.apache.sling.scripting.sightly.impl.compiler.frontend;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expression;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.Expression;
 
 /**
  * A sequence with alternating string fragments and Sightly expressions.

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.html.dom;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.MarkupHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.frontend.MarkupHandler;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.Template;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateAttribute;
 import org.apache.sling.scripting.sightly.impl.html.dom.template.TemplateCommentNode;

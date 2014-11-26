@@ -18,8 +18,8 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.debug;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

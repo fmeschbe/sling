@@ -23,7 +23,6 @@ import java.util.Dictionary;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.sling.commons.osgi.PropertiesUtil;
-import org.apache.sling.scripting.sightly.impl.compiler.api.Filter;
 import org.osgi.service.component.ComponentContext;
 
 /**

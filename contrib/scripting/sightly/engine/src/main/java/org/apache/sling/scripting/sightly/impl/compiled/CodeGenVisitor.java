@@ -22,13 +22,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVariable;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Conditional;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Loop;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutVariable;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.Procedure;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.StateControl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 

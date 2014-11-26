@@ -18,9 +18,6 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.util;
 
-/**
- * Created by mdanila on 12/4/13.
- */
 public class SymbolGenerator {
 
     public static final String DEFAULT_VAR_PREFIX = "var_";

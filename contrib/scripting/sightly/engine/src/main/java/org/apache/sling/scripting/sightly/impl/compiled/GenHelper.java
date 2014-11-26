@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.sling.scripting.sightly.impl.compiled.operator.TypedNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.Identifier;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 

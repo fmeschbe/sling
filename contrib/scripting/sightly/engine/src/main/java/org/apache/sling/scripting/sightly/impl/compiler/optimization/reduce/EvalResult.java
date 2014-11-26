@@ -24,14 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.CompilerException;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.ArrayLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NullLiteral;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.NumericConstant;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.CompilerException;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.ArrayLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BooleanConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.MapLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.NullLiteral;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.NumericConstant;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringConstant;
 
 /**
  * Data structure used in expression reducing

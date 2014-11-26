@@ -19,8 +19,8 @@
 
 package org.apache.sling.scripting.sightly.impl.compiler.util.stream;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandVisitor;
 
 /**
  * Utility functions for streams

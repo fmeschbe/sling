@@ -18,10 +18,10 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.optimization;
 
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.Command;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandHandler;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandStream;
-import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutText;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandHandler;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
+import org.apache.sling.scripting.sightly.impl.compiler.ris.command.OutText;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 
 /**

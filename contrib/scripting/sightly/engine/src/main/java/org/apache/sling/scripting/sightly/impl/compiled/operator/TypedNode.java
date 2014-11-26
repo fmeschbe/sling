@@ -20,7 +20,7 @@
 package org.apache.sling.scripting.sightly.impl.compiled.operator;
 
 import org.apache.sling.scripting.sightly.impl.compiled.Type;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
 
 /**
  * Expression node with type information

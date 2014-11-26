@@ -24,8 +24,8 @@ options {
 }
 
 @header {
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.*;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.*;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.node.*;
+import org.apache.sling.scripting.sightly.impl.compiler.expression.*;
 import org.apache.sling.scripting.sightly.impl.compiler.frontend.*;
 import java.util.ArrayList;
 import java.util.List;
