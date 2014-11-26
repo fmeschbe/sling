@@ -52,14 +52,10 @@ public class ObjectModelImpl implements ObjectModel {
     private static final String TO_STRING_METHOD = "toString";
 
     public static String PROPERTY_ACCESS = "resolveProperty";
-    public static String COLLECTION_COERCE = "coerceToCollection";
-    public static String NUMERIC_COERCE = "coerceNumeric";
-    public static String STRING_COERCE = "coerceToString";
-    public static String BOOLEAN_COERCE = "coerceToBoolean";
-
-    public static String STRICT_EQ = "strictEq";
-    public static String LEQ = "leq";
-    public static String LT = "lt";
+    public static String COLLECTION_COERCE = "toCollection";
+    public static String NUMERIC_COERCE = "toNumber";
+    public static String STRING_COERCE = "toString";
+    public static String BOOLEAN_COERCE = "toBoolean";
 
     @Override
     public Object resolveProperty(Object target, Object property) {

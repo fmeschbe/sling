@@ -21,12 +21,10 @@ package org.apache.sling.scripting.sightly.impl.compiled.operator;
 
 import org.apache.sling.scripting.sightly.impl.compiled.ExpressionTranslator;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaSource;
-import org.apache.sling.scripting.sightly.impl.compiled.SourceGenConstants;
 import org.apache.sling.scripting.sightly.impl.compiled.Type;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Generator for logical operators
@@ -39,10 +37,10 @@ public class ComparisonOpGen implements BinaryOpGen {
 
     public ComparisonOpGen(BinaryOperator operator) {
         switch (operator) {
-            case LT: runtimeMethod = ObjectModelImpl.LT; inverted = false; javaOperator = "<"; break;
-            case GT: runtimeMethod = ObjectModelImpl.LEQ; inverted = true; javaOperator = ">"; break;
-            case LEQ: runtimeMethod = ObjectModelImpl.LEQ; inverted = false; javaOperator = "<="; break;
-            case GEQ: runtimeMethod = ObjectModelImpl.LT; inverted = true; javaOperator = ">="; break;
+            case LT: runtimeMethod = BinaryOperator.METHOD_LT; inverted = false; javaOperator = "<"; break;
+            case GT: runtimeMethod = BinaryOperator.METHOD_LEQ; inverted = true; javaOperator = ">"; break;
+            case LEQ: runtimeMethod = BinaryOperator.METHOD_LEQ; inverted = false; javaOperator = "<="; break;
+            case GEQ: runtimeMethod = BinaryOperator.METHOD_LT; inverted = true; javaOperator = ">="; break;
             default: throw new IllegalArgumentException("Operator is not a comparison operator: " + operator);
         }
     }
@@ -66,7 +64,7 @@ public class ComparisonOpGen implements BinaryOpGen {
         if (inverted) {
             source.negation().startExpression();
         }
-        source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, runtimeMethod);
+        source.startMethodCall(BinaryOperator.OBJECT_NAME, runtimeMethod);
         leftNode.accept(visitor);
         source.separateArgument();
         rightNode.accept(visitor);

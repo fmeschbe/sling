@@ -158,6 +158,11 @@ public enum BinaryOperator {
 
     };
 
+    public static String OBJECT_NAME = BinaryOperator.class.getName();
+    public static String METHOD_STRICT_EQ = "strictEq";
+    public static String METHOD_LEQ = "leq";
+    public static String METHOD_LT = "lt";
+
     private static boolean eq(Object left, Object right) {
         if (left == null) {
             return right == null;
@@ -165,14 +170,14 @@ public enum BinaryOperator {
         return left.equals(right);
     }
 
-    private static boolean lt(final Object left, final Object right) {
+    public static boolean lt(final Object left, final Object right) {
         if (left instanceof Number && right instanceof Number) {
             return ((Number) left).doubleValue() < ((Number) right).doubleValue();
         }
         throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
     }
 
-    private static boolean leq(final Object left, final Object right) {
+    public static boolean leq(final Object left, final Object right) {
         if (left instanceof Number && right instanceof Number) {
             return ((Number) left).doubleValue() <= ((Number) right).doubleValue();
         }
@@ -180,7 +185,7 @@ public enum BinaryOperator {
     }
 
 
-   private static boolean strictEq(Object left, Object right) {
+   public static boolean strictEq(Object left, Object right) {
        if (left instanceof Number && right instanceof Number) {
            return ((Number) left).doubleValue() == ((Number) right).doubleValue();
        }
