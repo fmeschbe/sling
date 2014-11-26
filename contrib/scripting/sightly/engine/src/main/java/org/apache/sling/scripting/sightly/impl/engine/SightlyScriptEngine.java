@@ -39,9 +39,9 @@ import org.apache.sling.commons.classloader.DynamicClassLoader;
 import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
 import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRuntimeImpl;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRuntime;
 import org.apache.sling.scripting.sightly.render.RenderContext;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,7 +141,7 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
     }
 
     private RenderContext provideContext(Bindings bindings) {
-        SightlyRuntimeImpl runtime = new SightlyRuntimeImpl(extensionRegistryService.extensions());
+        SightlyRuntime runtime = new SightlyRuntime(extensionRegistryService.extensions());
         RenderContext renderContext = new RenderContextImpl(bindings, runtime);
         runtime.setRenderContext(renderContext);
         return renderContext;

@@ -40,7 +40,6 @@ import org.apache.sling.api.adapter.Adaptable;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.Record;
-import org.apache.sling.scripting.sightly.render.SightlyRenderException;
 
 /**
  * Default implementation for the object model

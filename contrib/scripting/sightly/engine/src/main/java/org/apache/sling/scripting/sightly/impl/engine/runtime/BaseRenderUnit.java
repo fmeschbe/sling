@@ -31,7 +31,6 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.render.RenderContext;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -55,7 +54,7 @@ public abstract class BaseRenderUnit implements RenderUnit {
                 buildGlobalScope(globalBindings),
                 new CaseInsensitiveBindings(arguments),
                 objectModel,
-                renderContext);
+                (RenderContextImpl) renderContext);
     }
 
     @Override
@@ -72,7 +71,7 @@ public abstract class BaseRenderUnit implements RenderUnit {
                                    Bindings bindings,
                                    Bindings arguments,
                                    ObjectModel objectModel,
-                                   RenderContext renderContext);
+                                   RenderContextImpl renderContext);
 
     @SuppressWarnings({"unused", "unchecked"})
     protected void callUnit(RenderContext renderContext, Object templateObj, Object argsObj) {

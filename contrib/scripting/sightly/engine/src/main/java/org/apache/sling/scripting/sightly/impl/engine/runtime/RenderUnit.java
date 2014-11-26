@@ -16,27 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  ******************************************************************************/
+package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
-package org.apache.sling.scripting.sightly;
+import javax.script.Bindings;
 
-import org.apache.sling.scripting.sightly.render.SightlyRenderException;
+import org.apache.sling.scripting.sightly.Record;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * Runtime interface provided to Sightly scripts
+ * Basic unit of rendering. This also extends the record interface.
+ * The properties for a unit are the sub-units
  */
 @ProviderType
-public interface SightlyRuntime {
+public interface RenderUnit extends Record<RenderUnit> {
 
     /**
-     * Call the specified function name with the given arguments
-     * @param functionName - the name of the called function
-     * @param arguments - 0 or more arguments passed to the function
-     * @return - the object returned by the function
-     * @throws SightlyRenderException - if the function was
-     * not defined
+     * Render the main script template
+     * @param renderContext - the rendering context
+     * @param arguments - the arguments for this unit
      */
-    Object call(String functionName, Object ... arguments);
+    void render(RenderContext renderContext, Bindings arguments);
 
 }

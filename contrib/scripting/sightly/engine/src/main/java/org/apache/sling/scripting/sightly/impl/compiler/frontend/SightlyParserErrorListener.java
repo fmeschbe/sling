@@ -27,7 +27,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.apache.sling.scripting.sightly.SightlyParsingException;
+import org.apache.sling.scripting.sightly.impl.compiler.SightlyParsingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -21,9 +21,7 @@ package org.apache.sling.scripting.sightly.impl.engine.runtime;
 
 import javax.script.Bindings;
 
-import org.apache.sling.scripting.sightly.SightlyRuntime;
 import org.apache.sling.scripting.sightly.render.RenderContext;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
 
 /**
  * Rendering context for Sightly rendering units.
@@ -52,7 +50,6 @@ public class RenderContextImpl implements RenderContext {
      * Get the available Sightly runtime
      * @return - an instance of the Sightly runtime
      */
-    @Override
     public SightlyRuntime getRuntime() {
         return runtime;
     }

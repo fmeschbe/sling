@@ -23,7 +23,7 @@ addSubTemplate("##Name##", new BaseRenderUnit() {
                                 Bindings bindings,
                                 Bindings arguments,
                                 ObjectModel objectModel,
-                                RenderContext renderContext) {
+                                RenderContextImpl renderContext) {
 // Main Sub-Template Body -------------------------------------------------------------------------
 
 ##MainBody##

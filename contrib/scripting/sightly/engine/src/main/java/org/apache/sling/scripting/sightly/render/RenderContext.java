@@ -20,7 +20,7 @@ package org.apache.sling.scripting.sightly.render;
 
 import javax.script.Bindings;
 
-import org.apache.sling.scripting.sightly.SightlyRuntime;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -37,11 +37,4 @@ public interface RenderContext {
      */
     Bindings getBindings();
 
-    /**
-     * Provides a reference to the {@link SightlyRuntime} such that compiled scripts can access the runtime methods and objects during their
-     * execution.
-     *
-     * @return the Sightly runtime
-     */
-    SightlyRuntime getRuntime();
-}
+ }

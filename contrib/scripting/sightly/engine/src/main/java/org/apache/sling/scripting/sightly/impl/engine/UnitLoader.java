@@ -22,7 +22,7 @@ package org.apache.sling.scripting.sightly.impl.engine;
 import javax.script.Bindings;
 
 import org.apache.sling.api.resource.Resource;
-import org.apache.sling.scripting.sightly.render.RenderUnit;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 
 /**
  * Create rendering units from resources
