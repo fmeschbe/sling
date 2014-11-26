@@ -121,16 +121,16 @@ public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements Emitter
 
     private Boolean decodeConstantBool(ExpressionNode node) {
         if (node instanceof StringConstant) {
-            return objectModel.coerceToBoolean(((StringConstant) node).getText());
+            return objectModel.toBoolean(((StringConstant) node).getText());
         }
         if (node instanceof BooleanConstant) {
             return ((BooleanConstant) node).getValue();
         }
         if (node instanceof NumericConstant) {
-            return objectModel.coerceToBoolean(((NumericConstant) node).getValue());
+            return objectModel.toBoolean(((NumericConstant) node).getValue());
         }
         if (node instanceof NullLiteral) {
-            return objectModel.coerceToBoolean(null);
+            return objectModel.toBoolean(null);
         }
         return null;
     }

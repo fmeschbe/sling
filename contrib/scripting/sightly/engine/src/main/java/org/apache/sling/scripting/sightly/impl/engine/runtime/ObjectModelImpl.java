@@ -70,22 +70,22 @@ public class ObjectModelImpl implements ObjectModel {
     }
 
     @Override
-    public String coerceToString(Object target) {
+    public String toString(Object target) {
         return objectToString(target);
     }
 
     @Override
-    public boolean coerceToBoolean(Object object) {
-        return toBoolean(object);
+    public boolean toBoolean(Object object) {
+        return toBooleanInternal(object);
     }
 
     @Override
-    public Collection<Object> coerceToCollection(Object object) {
+    public Collection<Object> toCollection(Object object) {
         return obtainCollection(object);
     }
 
     @Override
-    public Map coerceToMap(Object object) {
+    public Map toMap(Object object) {
         if (object instanceof Map) {
             return (Map) object;
         }
@@ -94,7 +94,7 @@ public class ObjectModelImpl implements ObjectModel {
 
 
     @Override
-    public Number coerceNumeric(Object object) {
+    public Number toNumber(Object object) {
         if (object instanceof Number) {
             return (Number) object;
         }
@@ -142,7 +142,7 @@ public class ObjectModelImpl implements ObjectModel {
         return result;
     }
 
-    private boolean toBoolean(Object obj) {
+    private boolean toBooleanInternal(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -184,7 +184,7 @@ public class ObjectModelImpl implements ObjectModel {
     }
 
     private Object getProperty(Object target, Object propertyObj) {
-        String property = coerceToString(propertyObj);
+        String property = toString(propertyObj);
         if (StringUtils.isEmpty(property)) {
             throw new IllegalArgumentException("Invalid property name");
         }
@@ -214,7 +214,7 @@ public class ObjectModelImpl implements ObjectModel {
                 return map.get(index);
             }
         }
-        Collection collection = coerceToCollection(obj);
+        Collection collection = toCollection(obj);
         if (collection instanceof List) {
             return getIndexSafe((List) collection, index);
         }

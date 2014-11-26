@@ -76,14 +76,14 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Format function must be called with two arguments");
                 }
-                String source = objectModel.coerceToString(arguments[0]);
+                String source = objectModel.toString(arguments[0]);
                 Object[] params = decodeParams(arguments[1]);
                 return replace(source, params);
             }
 
             private Object[] decodeParams(Object paramObj) {
                 if (objectModel.isCollection(paramObj)) {
-                    return objectModel.coerceToCollection(paramObj).toArray();
+                    return objectModel.toCollection(paramObj).toArray();
                 }
                 return new Object[] {paramObj};
             }
@@ -110,7 +110,7 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
             private String param(Object[] params, int index) {
                 if (index >= 0 && index < params.length) {
-                    return objectModel.coerceToString(params[index]);
+                    return objectModel.toString(params[index]);
                 }
                 return "";
             }

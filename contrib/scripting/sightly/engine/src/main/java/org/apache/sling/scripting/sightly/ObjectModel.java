@@ -44,28 +44,30 @@ public interface ObjectModel {
      * @param target - the target object
      * @return - the string representation of the object
      */
-    String coerceToString(Object target);
+    String toString(Object target);
 
     /**
      * Convert the given object to a boolean value
      * @param object - the target object
      * @return - the boolean representation of that object
      */
-    boolean coerceToBoolean(Object object);
+    boolean toBoolean(Object object);
 
     /**
      * Coerce the object to a numeric value
      * @param object - the target object
      * @return - the numeric representation
      */
-    Number coerceNumeric(Object object);
+    Number toNumber(Object object);
+
+    boolean isCollection(Object obj);
 
     /**
      * Force the conversion of the object to a collection
      * @param object - the target object
      * @return the collection representation of the object
      */
-    Collection<Object> coerceToCollection(Object object);
+    Collection<Object> toCollection(Object object);
 
     /**
      * Force the conversion of the target object to a map
@@ -73,7 +75,6 @@ public interface ObjectModel {
      * @param object - the target object
      * @return - a map representation of the object. Default is an empty map
      */
-    Map coerceToMap(Object object);
+    Map toMap(Object object);
 
-    boolean isCollection(Object obj);
 }

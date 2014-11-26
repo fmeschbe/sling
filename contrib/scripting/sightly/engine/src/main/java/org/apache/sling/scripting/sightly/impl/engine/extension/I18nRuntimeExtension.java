@@ -61,9 +61,9 @@ public class I18nRuntimeExtension implements RuntimeExtension {
             @Override
             public Object call(Object... arguments) {
                 ExtensionUtils.checkArgumentCount(I18nFilter.FUNCTION, arguments, 3);
-                String text = model.coerceToString(arguments[0]);
-                String locale = model.coerceToString(arguments[1]);
-                String hint = model.coerceToString(arguments[2]);
+                String text = model.toString(arguments[0]);
+                String locale = model.toString(arguments[1]);
+                String hint = model.toString(arguments[2]);
                 return get(text, locale, hint);
             }
 

@@ -28,14 +28,14 @@ public enum BinaryOperator {
     AND {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return (objectModel.coerceToBoolean(left)) ? right : left;
+            return (objectModel.toBoolean(left)) ? right : left;
         }
     },
     // logical disjunction
     OR {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return (objectModel.coerceToBoolean(left)) ? left : right;
+            return (objectModel.toBoolean(left)) ? left : right;
         }
     },
     // string concatenation
@@ -43,7 +43,7 @@ public enum BinaryOperator {
     {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return objectModel.coerceToString(left).concat(objectModel.coerceToString(right));
+            return objectModel.toString(left).concat(objectModel.toString(right));
         }
     },
     // less-than
@@ -108,8 +108,8 @@ public enum BinaryOperator {
     ADD {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).doubleValue()
-                + objectModel.coerceNumeric(right).doubleValue());
+            return adjust(objectModel.toNumber(left).doubleValue()
+                + objectModel.toNumber(right).doubleValue());
         }
     },
 
@@ -117,24 +117,24 @@ public enum BinaryOperator {
     SUB {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).doubleValue()
-                - objectModel.coerceNumeric(right).doubleValue());
+            return adjust(objectModel.toNumber(left).doubleValue()
+                - objectModel.toNumber(right).doubleValue());
         }
     },
     // multiplication
     MUL {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).doubleValue()
-                * objectModel.coerceNumeric(right).doubleValue());
+            return adjust(objectModel.toNumber(left).doubleValue()
+                * objectModel.toNumber(right).doubleValue());
         }
     },
     // floating point division
     DIV {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).doubleValue()
-                / objectModel.coerceNumeric(right).doubleValue());
+            return adjust(objectModel.toNumber(left).doubleValue()
+                / objectModel.toNumber(right).doubleValue());
         }
     },
 
@@ -142,8 +142,8 @@ public enum BinaryOperator {
     I_DIV {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).intValue()
-                / objectModel.coerceNumeric(right).intValue());
+            return adjust(objectModel.toNumber(left).intValue()
+                / objectModel.toNumber(right).intValue());
         }
     },
 
@@ -152,8 +152,8 @@ public enum BinaryOperator {
     {
         @Override
         public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.coerceNumeric(left).intValue()
-                % objectModel.coerceNumeric(right).intValue());
+            return adjust(objectModel.toNumber(left).intValue()
+                % objectModel.toNumber(right).intValue());
         }
 
     };

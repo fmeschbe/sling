@@ -30,7 +30,7 @@ public enum UnaryOperator {
     NOT {
         @Override
         public Object eval(ObjectModel objectModel, Object operand) {
-            return !objectModel.coerceToBoolean(operand);
+            return !objectModel.toBoolean(operand);
         }
     },
 
@@ -38,7 +38,7 @@ public enum UnaryOperator {
     IS_WHITESPACE  {
         @Override
         public Object eval(ObjectModel objectModel, Object operand) {
-            return StringUtils.isWhitespace(objectModel.coerceToString(operand));
+            return StringUtils.isWhitespace(objectModel.toString(operand));
         }
     },
 
@@ -48,7 +48,7 @@ public enum UnaryOperator {
     LENGTH {
         @Override
         public Object eval(ObjectModel objectModel, Object operand) {
-            return objectModel.coerceToCollection(operand).size();
+            return objectModel.toCollection(operand).size();
         }
     };
 

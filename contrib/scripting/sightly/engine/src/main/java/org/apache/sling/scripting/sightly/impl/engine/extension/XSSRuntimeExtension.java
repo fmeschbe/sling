@@ -92,7 +92,7 @@ public class XSSRuntimeExtension implements RuntimeExtension {
                     LOG.warn("Expression context {} is invalid, expression will be replaced by the empty string", option);
                     return "";
                 }
-                String text = objectModel.coerceToString(original);
+                String text = objectModel.toString(original);
                 return applyXSSFilter(text, hint, markupContext);
             }
 

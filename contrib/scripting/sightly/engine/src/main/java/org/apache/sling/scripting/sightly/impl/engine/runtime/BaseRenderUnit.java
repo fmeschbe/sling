@@ -82,7 +82,7 @@ public abstract class BaseRenderUnit implements RenderUnit {
         RenderUnit unit = (RenderUnit) templateObj;
         SlingScriptHelper ssh = (SlingScriptHelper) renderContext.getBindings().get(SlingBindings.SLING);
         ObjectModel objectModel = ssh.getService(ObjectModel.class);
-        Map<String, Object> argumentsMap = objectModel.coerceToMap(argsObj);
+        Map<String, Object> argumentsMap = objectModel.toMap(argsObj);
         Bindings arguments = new SimpleBindings(Collections.unmodifiableMap(argumentsMap));
         unit.render(renderContext, arguments);
     }

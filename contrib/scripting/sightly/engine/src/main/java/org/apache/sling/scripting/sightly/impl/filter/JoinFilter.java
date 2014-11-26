@@ -72,8 +72,8 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Join function must be called with two arguments.");
                 }
-                Collection<?> collection = objectModel.coerceToCollection(arguments[0]);
-                String joinString = objectModel.coerceToString(arguments[1]);
+                Collection<?> collection = objectModel.toCollection(arguments[0]);
+                String joinString = objectModel.toString(arguments[1]);
                 return join(collection, joinString);
             }
 
@@ -81,7 +81,7 @@ public class JoinFilter extends FilterComponent implements RuntimeExtension {
                 StringBuilder sb = new StringBuilder();
                 Iterator<?> iterator = collection.iterator();
                 while (iterator.hasNext()) {
-                    String element = objectModel.coerceToString(iterator.next());
+                    String element = objectModel.toString(iterator.next());
                     sb.append(element);
                     if (iterator.hasNext()) {
                         sb.append(joinString);

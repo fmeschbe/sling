@@ -77,7 +77,7 @@ public class IncludeRuntimeExtension implements RuntimeExtension {
             @Override
             public Object call(Object... arguments) {
                 ExtensionUtils.checkArgumentCount(IncludePlugin.FUNCTION, arguments, 2);
-                String originalPath = objectModel.coerceToString(arguments[0]);
+                String originalPath = objectModel.toString(arguments[0]);
                 Map options = (Map) arguments[1];
                 String path = buildPath(originalPath, options);
                 if (path == null) {

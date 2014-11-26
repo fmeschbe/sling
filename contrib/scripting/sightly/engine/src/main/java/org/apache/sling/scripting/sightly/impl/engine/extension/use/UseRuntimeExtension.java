@@ -78,11 +78,11 @@ public class UseRuntimeExtension implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Use extension requires two arguments");
                 }
-                String identifier = objectModel.coerceToString(arguments[0]);
+                String identifier = objectModel.toString(arguments[0]);
                 if (StringUtils.isEmpty(identifier)) {
                     return null;
                 }
-                Map<String, Object> useArgumentsMap = objectModel.coerceToMap(arguments[1]);
+                Map<String, Object> useArgumentsMap = objectModel.toMap(arguments[1]);
                 Bindings useArguments = new SimpleBindings(Collections.unmodifiableMap(useArgumentsMap));
                 ArrayList<UseProvider> providers = new ArrayList<UseProvider>(providersMap.values());
                 ListIterator<UseProvider> iterator = providers.listIterator(providers.size());

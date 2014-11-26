@@ -142,7 +142,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     ternaryOperator.getThenBranch(),
                     ternaryOperator.getElseBranch()));
         }
-        return (objectModel.coerceToBoolean(condition.getValue()))
+        return (objectModel.toBoolean(condition.getValue()))
                 ? eval(ternaryOperator.getThenBranch())
                 : eval(ternaryOperator.getElseBranch());
     }
