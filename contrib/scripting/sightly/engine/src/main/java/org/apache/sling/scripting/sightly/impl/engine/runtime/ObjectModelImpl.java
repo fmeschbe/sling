@@ -51,6 +51,16 @@ public class ObjectModelImpl implements ObjectModel {
 
     private static final String TO_STRING_METHOD = "toString";
 
+    public static String PROPERTY_ACCESS = "resolveProperty";
+    public static String COLLECTION_COERCE = "coerceToCollection";
+    public static String NUMERIC_COERCE = "coerceNumeric";
+    public static String STRING_COERCE = "coerceToString";
+    public static String BOOLEAN_COERCE = "coerceToBoolean";
+
+    public static String STRICT_EQ = "strictEq";
+    public static String LEQ = "leq";
+    public static String LT = "lt";
+
     @Override
     public Object resolveProperty(Object target, Object property) {
         if (property instanceof Number) {
@@ -89,150 +99,6 @@ public class ObjectModelImpl implements ObjectModel {
             return (Number) object;
         }
         return 0;
-    }
-
-    @Override
-    public boolean strictEq(Object left, Object right) {
-        if (left instanceof Number && right instanceof Number) {
-            return ((Number) left).doubleValue() == ((Number) right).doubleValue();
-        }
-        if (left instanceof String && right instanceof String) {
-            return left.equals(right);
-        }
-        if (left instanceof Boolean && right instanceof Boolean) {
-            return left.equals(right);
-        }
-        if (left == null && right == null) {
-            return true;
-        }
-        if (left == null || right == null) {
-            Object notNull = (left != null) ? left : right;
-            if (notNull instanceof String || notNull instanceof Boolean || notNull instanceof Number) {
-                return false;
-            }
-        }
-        throw new UnsupportedOperationException("Invalid types in comparison. Equality is supported for String, Number & Boolean types");
-    }
-
-    @Override
-    public boolean lt(Object left, Object right) {
-        if (left instanceof Number && right instanceof Number) {
-            return ((Number) left).doubleValue() < ((Number) right).doubleValue();
-        }
-        throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
-    }
-
-    @Override
-    public boolean leq(Object left, Object right) {
-        if (left instanceof Number && right instanceof Number) {
-            return ((Number) left).doubleValue() <= ((Number) right).doubleValue();
-        }
-        throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
-    }
-
-    @Override
-    public Object and(Object left, Object right) {
-        if (coerceToBoolean(left)) {
-            return right;
-        }
-        return left;
-    }
-
-
-    @Override
-    public Object or(Object left, Object right) {
-        if (coerceToBoolean(left)) {
-            return left;
-        }
-        return right;
-    }
-
-
-    @Override
-    public Object not(Object obj) {
-        return !coerceToBoolean(obj);
-    }
-
-
-    @Override
-    public Object concatenate(Object left, Object right) {
-        return coerceToString(left) + coerceToString(right);
-    }
-
-
-    @Override
-    public Object isWhiteSpace(Object object) {
-        return StringUtils.isWhitespace(coerceToString(object));
-    }
-
-
-    @Override
-    public int length(Object object) {
-        return coerceToCollection(object).size();
-    }
-
-    @Override
-    public Number add(Object left, Object right) {
-        return adjust(coerceDouble(left) + coerceDouble(right));
-    }
-
-
-    @Override
-    public Number sub(Object left, Object right) {
-        return adjust(coerceDouble(left) - coerceDouble(right));
-    }
-
-
-    @Override
-    public Number mult(Object left, Object right) {
-        return adjust(coerceDouble(left) * coerceDouble(right));
-    }
-
-
-    @Override
-    public int iDiv(Object left, Object right) {
-        return coerceInt(left) / coerceInt(right);
-    }
-
-
-    @Override
-    public int rem(Object left, Object right) {
-        return coerceInt(left) % coerceInt(right);
-    }
-
-
-    @Override
-    public Number div(Object left, Object right) {
-        return adjust(coerceDouble(left) / coerceDouble(right));
-    }
-
-    @Override
-    public boolean eq(Object left, Object right) {
-        if (left == null) {
-            return right == null;
-        }
-        return left.equals(right);
-    }
-
-    @Override
-    public boolean neq(Object left, Object right) {
-        return !eq(left, right);
-    }
-
-    @Override
-    public boolean strictNeq(Object left, Object right) {
-        return !strictEq(left, right);
-    }
-
-    @Override
-    public boolean gt(Object left, Object right) {
-        return !leq(left, right);
-    }
-
-
-    @Override
-    public boolean geq(Object left, Object right) {
-        return !lt(left, right);
     }
 
     @Override
@@ -491,7 +357,7 @@ public class ObjectModelImpl implements ObjectModel {
         Method mp;
         for (Class<?> iface : inf) {
             try {
-                mp = iface.getMethod(m.getName(), (Class[]) m.getParameterTypes());
+                mp = iface.getMethod(m.getName(), m.getParameterTypes());
                 mp = extractMethodInheritanceChain(mp.getDeclaringClass(), mp);
                 if (mp != null) {
                     return mp;
@@ -503,7 +369,7 @@ public class ObjectModelImpl implements ObjectModel {
         Class<?> sup = type.getSuperclass();
         if (sup != null) {
             try {
-                mp = sup.getMethod(m.getName(), (Class[]) m.getParameterTypes());
+                mp = sup.getMethod(m.getName(), m.getParameterTypes());
                 mp = extractMethodInheritanceChain(mp.getDeclaringClass(), mp);
                 if (mp != null) {
                     return mp;
@@ -514,23 +380,4 @@ public class ObjectModelImpl implements ObjectModel {
         }
         return null;
     }
-    private double coerceDouble(Object object) {
-        if (object instanceof Number) {
-            return ((Number) object).doubleValue();
-        }
-        return 0;
-    }
-
-    private int coerceInt(Object object) {
-        return coerceNumeric(object).intValue();
-    }
-
-    private Number adjust(double x) {
-        if (Math.floor(x) == x) {
-            return (int)x;
-        }
-        return x;
-    }
-
-
 }

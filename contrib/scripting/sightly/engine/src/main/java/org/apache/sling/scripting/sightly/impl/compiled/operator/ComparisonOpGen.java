@@ -19,7 +19,6 @@
 
 package org.apache.sling.scripting.sightly.impl.compiled.operator;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiled.ExpressionTranslator;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaSource;
 import org.apache.sling.scripting.sightly.impl.compiled.SourceGenConstants;
@@ -27,6 +26,7 @@ import org.apache.sling.scripting.sightly.impl.compiled.Type;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Generator for logical operators
@@ -39,10 +39,10 @@ public class ComparisonOpGen implements BinaryOpGen {
 
     public ComparisonOpGen(BinaryOperator operator) {
         switch (operator) {
-            case LT: runtimeMethod = ObjectModel.LT; inverted = false; javaOperator = "<"; break;
-            case GT: runtimeMethod = ObjectModel.LEQ; inverted = true; javaOperator = ">"; break;
-            case LEQ: runtimeMethod = ObjectModel.LEQ; inverted = false; javaOperator = "<="; break;
-            case GEQ: runtimeMethod = ObjectModel.LT; inverted = true; javaOperator = ">="; break;
+            case LT: runtimeMethod = ObjectModelImpl.LT; inverted = false; javaOperator = "<"; break;
+            case GT: runtimeMethod = ObjectModelImpl.LEQ; inverted = true; javaOperator = ">"; break;
+            case LEQ: runtimeMethod = ObjectModelImpl.LEQ; inverted = false; javaOperator = "<="; break;
+            case GEQ: runtimeMethod = ObjectModelImpl.LT; inverted = true; javaOperator = ">="; break;
             default: throw new IllegalArgumentException("Operator is not a comparison operator: " + operator);
         }
     }

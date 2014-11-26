@@ -19,11 +19,11 @@
 
 package org.apache.sling.scripting.sightly.impl.compiled.operator;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiled.ExpressionTranslator;
 import org.apache.sling.scripting.sightly.impl.compiled.JavaSource;
 import org.apache.sling.scripting.sightly.impl.compiled.SourceGenConstants;
 import org.apache.sling.scripting.sightly.impl.compiled.Type;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Generator for strict equality
@@ -46,7 +46,7 @@ public class StrictEqGenOp implements BinaryOpGen {
         if (negated) {
             source.negation();
         }
-        source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.STRICT_EQ);
+        source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.STRICT_EQ);
         left.getNode().accept(visitor);
         source.separateArgument();
         right.getNode().accept(visitor);

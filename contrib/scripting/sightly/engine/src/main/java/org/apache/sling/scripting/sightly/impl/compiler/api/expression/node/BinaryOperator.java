@@ -18,29 +18,196 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.api.expression.node;
 
+import org.apache.sling.scripting.sightly.ObjectModel;
+
 /**
  * Binary operators used in expressions
  */
 public enum BinaryOperator {
-    AND, //logical conjunction
-    OR, //logical disjunction
-    CONCATENATE, //string concatenation
+    // logical conjunction
+    AND {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return (objectModel.coerceToBoolean(left)) ? right : left;
+        }
+    },
+    // logical disjunction
+    OR {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return (objectModel.coerceToBoolean(left)) ? left : right;
+        }
+    },
+    // string concatenation
+    CONCATENATE
+    {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return objectModel.coerceToString(left).concat(objectModel.coerceToString(right));
+        }
+    },
+    // less-than
+    LT {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return lt(left, right);
+        }
+    },
+    // less or equal
+    LEQ {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return leq(left, right);
+        }
+    },
+    // greater than
+    GT {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return !leq(left, right);
+        }
+    },
+    // greater or equal
+    GEQ {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return !lt(left, right);
+        }
+    },
+    // equal
+    EQ {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return eq(left, right);
+        }
+    },
+    // not equal
+    NEQ {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return !eq(left, right);
+        }
 
-    LT, //less-than
-    LEQ, //less or equal
-    GT, // greater than
-    GEQ, // greater or equal
-    EQ, //equal
-    NEQ, //not equal
-    STRICT_EQ, //strict version of equality, restricted to just some types
-    STRICT_NEQ, //strict version of the not-equal operator
+    },
+    // strict version of equality, restricted to just some types
+    STRICT_EQ {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return strictEq(left, right);
+        }
+    },
+    // strict version of the not-equal operator
+    STRICT_NEQ
+    {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return !strictEq(left, right);
+        }
+    },
+    // addition
+    ADD {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).doubleValue()
+                + objectModel.coerceNumeric(right).doubleValue());
+        }
+    },
 
-    ADD, //addition
-    SUB, //difference
-    MUL, //multiplication
-    I_DIV, //integer division
-    REM, //reminder
+    // difference
+    SUB {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).doubleValue()
+                - objectModel.coerceNumeric(right).doubleValue());
+        }
+    },
+    // multiplication
+    MUL {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).doubleValue()
+                * objectModel.coerceNumeric(right).doubleValue());
+        }
+    },
+    // floating point division
+    DIV {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).doubleValue()
+                / objectModel.coerceNumeric(right).doubleValue());
+        }
+    },
 
-    DIV //floating point division
+    // integer division
+    I_DIV {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).intValue()
+                / objectModel.coerceNumeric(right).intValue());
+        }
+    },
 
+    // reminder
+    REM
+    {
+        @Override
+        public Object eval(ObjectModel objectModel, Object left, Object right) {
+            return adjust(objectModel.coerceNumeric(left).intValue()
+                % objectModel.coerceNumeric(right).intValue());
+        }
+
+    };
+
+    private static boolean eq(Object left, Object right) {
+        if (left == null) {
+            return right == null;
+        }
+        return left.equals(right);
+    }
+
+    private static boolean lt(final Object left, final Object right) {
+        if (left instanceof Number && right instanceof Number) {
+            return ((Number) left).doubleValue() < ((Number) right).doubleValue();
+        }
+        throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
+    }
+
+    private static boolean leq(final Object left, final Object right) {
+        if (left instanceof Number && right instanceof Number) {
+            return ((Number) left).doubleValue() <= ((Number) right).doubleValue();
+        }
+        throw new UnsupportedOperationException("Invalid types in comparison. Comparison is supported for Number types only");
+    }
+
+
+   private static boolean strictEq(Object left, Object right) {
+       if (left instanceof Number && right instanceof Number) {
+           return ((Number) left).doubleValue() == ((Number) right).doubleValue();
+       }
+       if (left instanceof String && right instanceof String) {
+           return left.equals(right);
+       }
+       if (left instanceof Boolean && right instanceof Boolean) {
+           return left.equals(right);
+       }
+       if (left == null && right == null) {
+           return true;
+       }
+       if (left == null || right == null) {
+           Object notNull = (left != null) ? left : right;
+           if (notNull instanceof String || notNull instanceof Boolean || notNull instanceof Number) {
+               return false;
+           }
+       }
+       throw new UnsupportedOperationException("Invalid types in comparison. Equality is supported for String, Number & Boolean types");
+   }
+
+   private static Number adjust(double x) {
+       if (Math.floor(x) == x) {
+           return (int)x;
+       }
+       return x;
+   }
+
+     public abstract Object eval(ObjectModel objectModel, Object left, Object right);
 }

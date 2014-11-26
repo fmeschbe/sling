@@ -31,16 +31,6 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public interface ObjectModel {
 
-    String PROPERTY_ACCESS = "resolveProperty";
-    String COLLECTION_COERCE = "coerceToCollection";
-    String NUMERIC_COERCE = "coerceNumeric";
-    String STRING_COERCE = "coerceToString";
-    String BOOLEAN_COERCE = "coerceToBoolean";
-
-    String STRICT_EQ = "strictEq";
-    String LEQ = "leq";
-    String LT = "lt";
-
     /**
      * Retrieve the specified property from the given object
      * @param target - the target object
@@ -84,64 +74,6 @@ public interface ObjectModel {
      * @return - a map representation of the object. Default is an empty map
      */
     Map coerceToMap(Object object);
-
-    /**
-     * Check whether the left argument equals the right one
-     * @param left the left argument
-     * @param right the right argument
-     * @return true if arguments are equal
-     */
-    boolean strictEq(Object left, Object right);
-
-    /**
-     * Check if left < right
-     * @param left the left argument
-     * @param right the right argument
-     * @return true if left < right
-     */
-    boolean lt(Object left, Object right);
-
-    /**
-     * Check if left < right
-     * @param left the left argument
-     * @param right the right argument
-     * @return true if left < right
-     */
-    boolean leq(Object left, Object right);
-
-    boolean eq(Object left, Object right);
-
-    Object and(Object left, Object right);
-
-    Object or(Object left, Object right);
-
-    Object not(Object obj);
-
-    Object concatenate(Object left, Object right);
-
-    Object isWhiteSpace(Object object);
-
-    int length(Object object);
-
-    Number add(Object left, Object right);
-
-    Number sub(Object left, Object right);
-
-    Number mult(Object left, Object right);
-
-    int iDiv(Object left, Object right);
-
-    int rem(Object left, Object right);
-
-    Number div(Object left, Object right);
-
-    boolean neq(Object left, Object right);
-
-    boolean strictNeq(Object left, Object right);
-
-    boolean gt(Object left, Object right);
-
-    boolean geq(Object left, Object right);
 
     boolean isCollection(Object obj);
 }

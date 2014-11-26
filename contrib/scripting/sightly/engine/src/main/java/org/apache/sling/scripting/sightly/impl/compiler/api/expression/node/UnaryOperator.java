@@ -18,11 +18,40 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.api.expression.node;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.sling.scripting.sightly.ObjectModel;
+
 /**
  * Unary operators used in expressions
  */
 public enum UnaryOperator {
-    NOT, //logical negation
-    IS_WHITESPACE, //true if the operand is a string that contains only whitespace
-    LENGTH //the length of a collection
+
+    /** Evaluates to logical negation of the operand */
+    NOT {
+        @Override
+        public Object eval(ObjectModel objectModel, Object operand) {
+            return !objectModel.coerceToBoolean(operand);
+        }
+    },
+
+    /** Evaluates whether the operand is a string of only whitespace characters */
+    IS_WHITESPACE  {
+        @Override
+        public Object eval(ObjectModel objectModel, Object operand) {
+            return StringUtils.isWhitespace(objectModel.coerceToString(operand));
+        }
+    },
+
+    /**
+     * Evaluates the length of a collection
+     */
+    LENGTH {
+        @Override
+        public Object eval(ObjectModel objectModel, Object operand) {
+            return objectModel.coerceToCollection(operand).size();
+        }
+    };
+
+    public abstract Object eval(ObjectModel model, Object operand);
+
 }

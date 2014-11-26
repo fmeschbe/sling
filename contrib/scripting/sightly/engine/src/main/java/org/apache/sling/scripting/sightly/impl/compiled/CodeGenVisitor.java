@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.CommandVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Conditional;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Loop;
@@ -31,6 +30,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.OutVaria
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.Procedure;
 import org.apache.sling.scripting.sightly.impl.compiler.api.ris.command.VariableBinding;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.StateControl;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Java code generator
@@ -109,7 +109,7 @@ class CodeGenVisitor implements CommandVisitor {
         if (descriptor.getType() == Type.BOOLEAN) {
             source.append(descriptor.getAssignedName());
         } else {
-            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.BOOLEAN_COERCE)
+            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.BOOLEAN_COERCE)
                     .append(descriptor.getAssignedName())
                     .endCall();
         }
@@ -171,7 +171,7 @@ class CodeGenVisitor implements CommandVisitor {
         String variable = analyzer.assignedName(outVariable.getVariableName());
         source.startStatement()
                 .startMethodCall(SourceGenConstants.OUT_BUFFER, SourceGenConstants.WRITE_METHOD)
-                .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.STRING_COERCE)
+                .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.STRING_COERCE)
                 .append(variable)
                 .endCall()
                 .endCall()
@@ -196,7 +196,7 @@ class CodeGenVisitor implements CommandVisitor {
                 .startStatement()
                 .append(collectionVar)
                 .assign()
-                .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.COLLECTION_COERCE)
+                .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.COLLECTION_COERCE)
                 .append(listVariable)
                 .endCall()
                 .endStatement()

@@ -30,7 +30,6 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.expression.Expressio
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.NodeVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.ArrayLiteral;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperation;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BinaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.BooleanConstant;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.MapLiteral;
@@ -41,7 +40,6 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Runt
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.StringConstant;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.TernaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperation;
-import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
 
 /**
@@ -112,8 +110,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     left.getNode(),
                     right.getNode()));
         }
-        return EvalResult.constant(evalBinary(
-                binaryOperation.getOperator(), left.getValue(), right.getValue()));
+        return EvalResult.constant(binaryOperation.getOperator().eval(objectModel, left.getValue(), right.getValue()));
     }
 
     @Override
@@ -133,7 +130,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
             return EvalResult.nonConstant(new UnaryOperation(
                     unaryOperation.getOperator(), target.getNode()));
         }
-        return EvalResult.constant(evalUnary(unaryOperation.getOperator(), target.getValue()));
+        return EvalResult.constant(unaryOperation.getOperator().eval(objectModel, target.getValue()));
     }
 
     @Override
@@ -211,37 +208,5 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
     @Override
     public EvalResult evaluate(NullLiteral nullLiteral) {
         return EvalResult.constant(null);
-    }
-
-    private Object evalBinary(BinaryOperator operator, Object left, Object right) {
-        switch (operator) {
-            case AND: return objectModel.and(left, right);
-            case OR: return objectModel.or(left, right);
-            case CONCATENATE: return objectModel.concatenate(left, right);
-            case LT: return objectModel.lt(left, right);
-            case LEQ: return objectModel.leq(left, right);
-            case GT: return objectModel.gt(left, right);
-            case GEQ: return objectModel.geq(left, right);
-            case EQ: return objectModel.eq(left, right);
-            case NEQ: return objectModel.neq(left, right);
-            case STRICT_EQ: return objectModel.strictEq(left, right);
-            case STRICT_NEQ: return objectModel.strictNeq(left, right);
-            case ADD: return objectModel.add(left, right);
-            case SUB: return objectModel.sub(left, right);
-            case MUL: return objectModel.mult(left, right);
-            case I_DIV: return objectModel.iDiv(left, right);
-            case REM: return objectModel.rem(left, right);
-            case DIV: return objectModel.div(left, right);
-        }
-        throw new CompilerException(new UnsupportedOperationException("Cannot reduce operator " + operator));
-    }
-
-    private Object evalUnary(UnaryOperator operator, Object operand) {
-        switch (operator) {
-            case IS_WHITESPACE: return objectModel.isWhiteSpace(operand);
-            case LENGTH: return objectModel.length(operand);
-            case NOT: return objectModel.not(operand);
-        }
-        throw new CompilerException(new UnsupportedOperationException("Cannot reduce unary operator " + operator));
     }
 }

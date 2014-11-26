@@ -22,11 +22,11 @@ package org.apache.sling.scripting.sightly.impl.compiled;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.TypedNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Identifier;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 /**
  * Helper for code generation
@@ -72,7 +72,7 @@ public class GenHelper {
                     .startExpression()
                     .append(listCoercionVar)
                     .assign()
-                    .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.COLLECTION_COERCE);
+                    .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.COLLECTION_COERCE);
             node.accept(visitor);
             source
                     .endCall()
@@ -81,7 +81,7 @@ public class GenHelper {
                     .append(listCoercionVar)
                     .endExpression();
         } else {
-            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.COLLECTION_COERCE);
+            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.COLLECTION_COERCE);
             typedNode.getNode().accept(visitor);
             source.endCall();
         }
@@ -103,10 +103,10 @@ public class GenHelper {
     private static final Map<Type, String> dynamicCoercions = new HashMap<Type, String>();
 
     static {
-        dynamicCoercions.put(Type.STRING, ObjectModel.STRING_COERCE);
-        dynamicCoercions.put(Type.BOOLEAN, ObjectModel.BOOLEAN_COERCE);
-        dynamicCoercions.put(Type.LONG, ObjectModel.NUMERIC_COERCE);
-        dynamicCoercions.put(Type.DOUBLE, ObjectModel.NUMERIC_COERCE);
+        dynamicCoercions.put(Type.STRING, ObjectModelImpl.STRING_COERCE);
+        dynamicCoercions.put(Type.BOOLEAN, ObjectModelImpl.BOOLEAN_COERCE);
+        dynamicCoercions.put(Type.LONG, ObjectModelImpl.NUMERIC_COERCE);
+        dynamicCoercions.put(Type.DOUBLE, ObjectModelImpl.NUMERIC_COERCE);
     }
 
 }

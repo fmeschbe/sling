@@ -20,7 +20,6 @@ package org.apache.sling.scripting.sightly.impl.compiled;
 
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.BinaryOpGen;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.Operators;
 import org.apache.sling.scripting.sightly.impl.compiled.operator.UnaryOpGen;
@@ -39,6 +38,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.Tern
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperation;
 import org.apache.sling.scripting.sightly.impl.compiler.api.expression.node.UnaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
 
 
 /**
@@ -81,7 +81,7 @@ public final class ExpressionTranslator extends SideEffectVisitor {
             visit(propertyAccess.getProperty());
             source.endCall();
         } else {
-            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModel.PROPERTY_ACCESS);
+            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.PROPERTY_ACCESS);
             visit(propertyAccess.getTarget());
             source.separateArgument();
             visit(propertyAccess.getProperty());
