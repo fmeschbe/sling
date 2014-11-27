@@ -59,6 +59,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.SightlyCompilerService;
 import org.apache.sling.scripting.sightly.impl.compiler.util.GlobalShadowCheckBackend;
 import org.apache.sling.scripting.sightly.impl.engine.compiled.JavaClassTemplate;
 import org.apache.sling.scripting.sightly.impl.engine.compiled.SourceIdentifier;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRenderException;
 import org.apache.sling.settings.SlingSettingsService;
@@ -160,9 +161,10 @@ public class UnitLoader implements EventHandler {
      *
      * @param scriptResource the resource
      * @param bindings       the bindings
+     * @param renderContext  the rendering context
      * @return the render unit
      */
-    public RenderUnit createUnit(Resource scriptResource, Bindings bindings) {
+    public RenderUnit createUnit(Resource scriptResource, Bindings bindings, RenderContextImpl renderContext) {
         Lock lock = null;
         ResourceResolver adminResolver = null;
         try {
@@ -183,7 +185,7 @@ public class UnitLoader implements EventHandler {
                     }
                     lock.lock();
                 }
-                createClass(adminResolver, sourceIdentifier, bindings, encoding);
+                createClass(adminResolver, sourceIdentifier, bindings, encoding, renderContext);
                 Resource javaClassResource = adminResolver.getResource(sourceIdentifier.getSourceFullPath());
                 obj = sightlyJavaCompilerService.compileSource(javaClassResource, sourceIdentifier.getFullyQualifiedName());
             } else {
@@ -275,13 +277,14 @@ public class UnitLoader implements EventHandler {
         return new SourceIdentifier(resource, CLASS_NAME_PREFIX, basePath);
     }
 
-    private void createClass(ResourceResolver resolver, SourceIdentifier identifier, Bindings bindings, String encoding) {
+    private void createClass(ResourceResolver resolver, SourceIdentifier identifier, Bindings bindings, String encoding,
+                             RenderContextImpl renderContext) {
         String scriptSource = null;
         try {
             Resource scriptResource = resolver.getResource(identifier.getResource().getPath());
             if (scriptResource != null) {
                 scriptSource = IOUtils.toString(scriptResource.adaptTo(InputStream.class), encoding);
-                String javaSourceCode = obtainResultSource(scriptSource, identifier, bindings);
+                String javaSourceCode = obtainResultSource(scriptSource, identifier, bindings, renderContext);
                 writeSource(resolver, identifier.getSourceFullPath(), javaSourceCode);
             }
         } catch (SightlyParsingException e) {
@@ -300,18 +303,18 @@ public class UnitLoader implements EventHandler {
         }
     }
 
-    private String obtainResultSource(String scriptSource, SourceIdentifier identifier, Bindings bindings) {
+    private String obtainResultSource(String scriptSource, SourceIdentifier identifier, Bindings bindings, RenderContextImpl renderContext) {
         JavaClassTemplate classTemplate = newMainTemplate();
         classTemplate.setClassName(identifier.getClassName());
         classTemplate.setPackageName(identifier.getPackageName());
-        CompilationOutput compilationOutput = obtainOutput(scriptSource, bindings);
+        CompilationOutput compilationOutput = obtainOutput(scriptSource, bindings, renderContext);
         processCompilationResult(compilationOutput, classTemplate);
         return classTemplate.toString();
     }
 
-    private CompilationOutput obtainOutput(String source, Bindings bindings) {
+    private CompilationOutput obtainOutput(String source, Bindings bindings, RenderContextImpl renderContext) {
         JavaClassBackend backend = new JavaClassBackend();
-        sightlyCompilerService.compile(source, new GlobalShadowCheckBackend(backend, bindings.keySet()));
+        sightlyCompilerService.compile(source, new GlobalShadowCheckBackend(backend, bindings.keySet()), renderContext);
         return backend.build();
     }
 

@@ -22,7 +22,6 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import javax.script.Bindings;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 
@@ -32,7 +31,6 @@ public final class ##ClassName## extends RenderUnit {
     protected final void render(PrintWriter out,
                                 Bindings bindings,
                                 Bindings arguments,
-                                ObjectModel objectModel,
                                 RenderContextImpl renderContext) {
 // Main Template Body -----------------------------------------------------------------------------
 

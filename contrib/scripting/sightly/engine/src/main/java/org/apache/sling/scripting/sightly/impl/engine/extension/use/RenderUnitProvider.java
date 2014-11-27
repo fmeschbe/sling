@@ -36,6 +36,7 @@ import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.sightly.ResourceResolution;
 import org.apache.sling.scripting.sightly.impl.engine.SightlyScriptEngineFactory;
 import org.apache.sling.scripting.sightly.impl.engine.UnitLoader;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.scripting.sightly.use.ProviderOutcome;
@@ -75,7 +76,7 @@ public class RenderUnitProvider implements UseProvider {
         if (identifier.endsWith("." + SightlyScriptEngineFactory.EXTENSION)) {
             Bindings globalBindings = renderContext.getBindings();
             Resource renderUnitResource = locateResource(globalBindings, identifier);
-            RenderUnit renderUnit = unitLoader.createUnit(renderUnitResource, globalBindings);
+            RenderUnit renderUnit = unitLoader.createUnit(renderUnitResource, globalBindings, (RenderContextImpl) renderContext);
             return ProviderOutcome.notNullOrFailure(renderUnit);
         }
         return ProviderOutcome.failure();

@@ -22,34 +22,34 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization.reduce;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
+import org.apache.sling.scripting.sightly.impl.compiler.optimization.StreamTransformer;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.Command;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.command.VariableBinding;
-import org.apache.sling.scripting.sightly.impl.compiler.optimization.StreamTransformer;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.EmitterVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.Streams;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.TrackingVisitor;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Optimization which evaluates constant expressions during compilation-time
  */
 public final class ConstantFolding extends TrackingVisitor<EvalResult> implements EmitterVisitor {
 
-    private final ObjectModel objectModel;
+    private final RenderContext renderContext;
     private final PushStream outStream = new PushStream();
 
-    private ConstantFolding(ObjectModel objectModel) {
-        this.objectModel = objectModel;
+    private ConstantFolding(RenderContext renderContext) {
+        this.renderContext = renderContext;
     }
 
-    public static StreamTransformer transformer(final ObjectModel objectModel) {
+    public static StreamTransformer transformer(final RenderContext renderContext) {
         return new StreamTransformer() {
             @Override
             public CommandStream transform(CommandStream inStream) {
-                return Streams.map(inStream, new ConstantFolding(objectModel));
+                return Streams.map(inStream, new ConstantFolding(renderContext));
             }
         };
     }
@@ -58,7 +58,7 @@ public final class ConstantFolding extends TrackingVisitor<EvalResult> implement
     public void visit(VariableBinding.Start variableBindingStart) {
         String variable = variableBindingStart.getVariableName();
         ExpressionNode node = variableBindingStart.getExpression();
-        EvalResult result = ExpressionReducer.reduce(node, tracker, objectModel);
+        EvalResult result = ExpressionReducer.reduce(node, tracker, renderContext);
         result = avoidFoldingDataStructures(result);
         tracker.pushVariable(variable, result);
         outStream.emit(new VariableBinding.Start(variable, result.getNode()));

@@ -28,13 +28,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.i18n.ResourceBundleProvider;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.impl.filter.I18nFilter;
@@ -51,9 +49,6 @@ public class I18nRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(I18nRuntimeExtension.class);
 
-    @Reference
-    private ObjectModel model = null;
-
     @Override
     public ExtensionInstance provide(final RenderContext renderContext) {
 
@@ -61,9 +56,9 @@ public class I18nRuntimeExtension implements RuntimeExtension {
             @Override
             public Object call(Object... arguments) {
                 ExtensionUtils.checkArgumentCount(I18nFilter.FUNCTION, arguments, 3);
-                String text = model.toString(arguments[0]);
-                String locale = model.toString(arguments[1]);
-                String hint = model.toString(arguments[2]);
+                String text = renderContext.toString(arguments[0]);
+                String locale = renderContext.toString(arguments[1]);
+                String hint = renderContext.toString(arguments[2]);
                 return get(text, locale, hint);
             }
 

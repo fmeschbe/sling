@@ -19,7 +19,7 @@
 package org.apache.sling.scripting.sightly.impl.compiler.expression.node;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Unary operators used in expressions
@@ -29,16 +29,16 @@ public enum UnaryOperator {
     /** Evaluates to logical negation of the operand */
     NOT {
         @Override
-        public Object eval(ObjectModel objectModel, Object operand) {
-            return !objectModel.toBoolean(operand);
+        public Object eval(RenderContext renderContext, Object operand) {
+            return !renderContext.toBoolean(operand);
         }
     },
 
     /** Evaluates whether the operand is a string of only whitespace characters */
     IS_WHITESPACE  {
         @Override
-        public Object eval(ObjectModel objectModel, Object operand) {
-            return StringUtils.isWhitespace(objectModel.toString(operand));
+        public Object eval(RenderContext renderContext, Object operand) {
+            return StringUtils.isWhitespace(renderContext.toString(operand));
         }
     },
 
@@ -47,11 +47,11 @@ public enum UnaryOperator {
      */
     LENGTH {
         @Override
-        public Object eval(ObjectModel objectModel, Object operand) {
-            return objectModel.toCollection(operand).size();
+        public Object eval(RenderContext renderContext, Object operand) {
+            return renderContext.toCollection(operand).size();
         }
     };
 
-    public abstract Object eval(ObjectModel model, Object operand);
+    public abstract Object eval(RenderContext model, Object operand);
 
 }

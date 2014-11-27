@@ -28,17 +28,15 @@ import javax.script.Bindings;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
 import org.apache.sling.scripting.sightly.impl.compiler.CompilerException;
-import org.apache.sling.scripting.sightly.impl.plugin.MarkupContext;
 import org.apache.sling.scripting.sightly.impl.filter.XSSFilter;
 import org.apache.sling.scripting.sightly.impl.html.MarkupUtils;
+import org.apache.sling.scripting.sightly.impl.plugin.MarkupContext;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.apache.sling.xss.XSSAPI;
 import org.slf4j.Logger;
@@ -58,14 +56,10 @@ public class XSSRuntimeExtension implements RuntimeExtension {
     private static final Logger LOG = LoggerFactory.getLogger(XSSRuntimeExtension.class);
     private static final Pattern VALID_ATTRIBUTE = Pattern.compile("^[a-zA-Z_:][\\-a-zA-Z0-9_:\\.]*$");
 
-    @Reference
-    private ObjectModel objectModel = null;
-
-
     @Override
-    public ExtensionInstance provide(final RenderContext runtimeContext) {
+    public ExtensionInstance provide(final RenderContext renderContext) {
 
-        final XSSAPI xssapi = obtainAPI(runtimeContext.getBindings());
+        final XSSAPI xssapi = obtainAPI(renderContext.getBindings());
 
         return new ExtensionInstance() {
             @Override
@@ -92,7 +86,7 @@ public class XSSRuntimeExtension implements RuntimeExtension {
                     LOG.warn("Expression context {} is invalid, expression will be replaced by the empty string", option);
                     return "";
                 }
-                String text = objectModel.toString(original);
+                String text = renderContext.toString(original);
                 return applyXSSFilter(text, hint, markupContext);
             }
 

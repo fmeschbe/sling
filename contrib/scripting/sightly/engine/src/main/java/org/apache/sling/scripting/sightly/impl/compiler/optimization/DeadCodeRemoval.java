@@ -21,7 +21,6 @@ package org.apache.sling.scripting.sightly.impl.compiler.optimization;
 
 import java.util.Stack;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.BooleanConstant;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.NullLiteral;
@@ -37,6 +36,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.util.stream.Streams;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.StatefulRangeIgnore;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.StatefulVisitor;
 import org.apache.sling.scripting.sightly.impl.compiler.visitor.TrackingVisitor;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Removes code under conditionals which are proven to fail. It is probably
@@ -46,12 +46,12 @@ import org.apache.sling.scripting.sightly.impl.compiler.visitor.TrackingVisitor;
 public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements EmitterVisitor {
     // this could be merged with constant folding for better accuracy
 
-    public static StreamTransformer transformer(final ObjectModel objectModel) {
+    public static StreamTransformer transformer(final RenderContext renderContext) {
         return new StreamTransformer() {
             @Override
             public CommandStream transform(CommandStream inStream) {
                 StatefulVisitor visitor = new StatefulVisitor();
-                DeadCodeRemoval dcr = new DeadCodeRemoval(visitor.getControl(), objectModel);
+                DeadCodeRemoval dcr = new DeadCodeRemoval(visitor.getControl(), renderContext);
                 visitor.initializeWith(dcr);
                 Streams.connect(inStream, dcr.getOutputStream(), visitor);
                 return dcr.getOutputStream();
@@ -61,12 +61,12 @@ public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements Emitter
 
     private final PushStream outStream = new PushStream();
     private final StatefulVisitor.StateControl stateControl;
-    private final ObjectModel objectModel;
+    private final RenderContext renderContext;
     private final Stack<Boolean> keepConditionalEndStack = new Stack<Boolean>();
 
-    public DeadCodeRemoval(StatefulVisitor.StateControl stateControl, ObjectModel objectModel) {
+    public DeadCodeRemoval(StatefulVisitor.StateControl stateControl, RenderContext renderContext) {
         this.stateControl = stateControl;
-        this.objectModel = objectModel;
+        this.renderContext = renderContext;
     }
 
     @Override
@@ -120,16 +120,16 @@ public class DeadCodeRemoval extends TrackingVisitor<Boolean> implements Emitter
 
     private Boolean decodeConstantBool(ExpressionNode node) {
         if (node instanceof StringConstant) {
-            return objectModel.toBoolean(((StringConstant) node).getText());
+            return renderContext.toBoolean(((StringConstant) node).getText());
         }
         if (node instanceof BooleanConstant) {
             return ((BooleanConstant) node).getValue();
         }
         if (node instanceof NumericConstant) {
-            return objectModel.toBoolean(((NumericConstant) node).getValue());
+            return renderContext.toBoolean(((NumericConstant) node).getValue());
         }
         if (node instanceof NullLiteral) {
-            return objectModel.toBoolean(null);
+            return renderContext.toBoolean(null);
         }
         return null;
     }

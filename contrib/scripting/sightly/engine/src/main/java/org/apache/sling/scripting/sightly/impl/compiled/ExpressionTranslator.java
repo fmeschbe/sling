@@ -38,8 +38,7 @@ import org.apache.sling.scripting.sightly.impl.compiler.expression.node.TernaryO
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.UnaryOperation;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.UnaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
-
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 
 /**
  * Builds expressions within a sling source file.
@@ -81,7 +80,7 @@ public final class ExpressionTranslator extends SideEffectVisitor {
             visit(propertyAccess.getProperty());
             source.endCall();
         } else {
-            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.PROPERTY_ACCESS);
+            source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, RenderContextImpl.PROPERTY_ACCESS);
             visit(propertyAccess.getTarget());
             source.separateArgument();
             visit(propertyAccess.getProperty());
@@ -140,8 +139,8 @@ public final class ExpressionTranslator extends SideEffectVisitor {
 
     @Override
     public void visit(RuntimeCall runtimeCall) {
-        source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, SourceGenConstants.GET_RUNTIME_METHOD).endCall().startCall
-                (SourceGenConstants.RUNTIME_CALL_METHOD, true).stringLiteral(runtimeCall.getFunctionName());
+        source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, SourceGenConstants.RUNTIME_CALL_METHOD)
+                .stringLiteral(runtimeCall.getFunctionName());
         for (ExpressionNode arg : runtimeCall.getArguments()) {
             source.separateArgument();
             visit(arg);

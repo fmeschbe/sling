@@ -26,7 +26,7 @@ import org.apache.sling.scripting.sightly.impl.compiled.operator.TypedNode;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.Identifier;
 import org.apache.sling.scripting.sightly.impl.compiler.util.expression.SideEffectVisitor;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.ObjectModelImpl;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 
 /**
  * Helper for code generation
@@ -72,7 +72,7 @@ public class GenHelper {
                     .startExpression()
                     .append(listCoercionVar)
                     .assign()
-                    .startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.COLLECTION_COERCE);
+                    .startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, RenderContextImpl.COLLECTION_COERCE);
             node.accept(visitor);
             source
                     .endCall()
@@ -81,7 +81,7 @@ public class GenHelper {
                     .append(listCoercionVar)
                     .endExpression();
         } else {
-            source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, ObjectModelImpl.COLLECTION_COERCE);
+            source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, RenderContextImpl.COLLECTION_COERCE);
             typedNode.getNode().accept(visitor);
             source.endCall();
         }
@@ -95,7 +95,7 @@ public class GenHelper {
     }
 
     private static void callDynamicCoercion(JavaSource source, SideEffectVisitor visitor, ExpressionNode node, String methodName) {
-        source.startMethodCall(SourceGenConstants.OBJ_MODEL_INSTANCE, methodName);
+        source.startMethodCall(SourceGenConstants.RENDER_CONTEXT_INSTANCE, methodName);
         node.accept(visitor);
         source.endCall();
     }
@@ -103,10 +103,10 @@ public class GenHelper {
     private static final Map<Type, String> dynamicCoercions = new HashMap<Type, String>();
 
     static {
-        dynamicCoercions.put(Type.STRING, ObjectModelImpl.STRING_COERCE);
-        dynamicCoercions.put(Type.BOOLEAN, ObjectModelImpl.BOOLEAN_COERCE);
-        dynamicCoercions.put(Type.LONG, ObjectModelImpl.NUMERIC_COERCE);
-        dynamicCoercions.put(Type.DOUBLE, ObjectModelImpl.NUMERIC_COERCE);
+        dynamicCoercions.put(Type.STRING, RenderContextImpl.STRING_COERCE);
+        dynamicCoercions.put(Type.BOOLEAN, RenderContextImpl.BOOLEAN_COERCE);
+        dynamicCoercions.put(Type.LONG, RenderContextImpl.NUMERIC_COERCE);
+        dynamicCoercions.put(Type.DOUBLE, RenderContextImpl.NUMERIC_COERCE);
     }
 
 }

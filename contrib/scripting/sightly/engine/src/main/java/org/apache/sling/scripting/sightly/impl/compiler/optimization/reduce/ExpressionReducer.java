@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.CompilerException;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.ExpressionNode;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.NodeVisitor;
@@ -41,22 +40,23 @@ import org.apache.sling.scripting.sightly.impl.compiler.expression.node.StringCo
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.TernaryOperator;
 import org.apache.sling.scripting.sightly.impl.compiler.expression.node.UnaryOperation;
 import org.apache.sling.scripting.sightly.impl.compiler.util.VariableTracker;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Try to evaluate constant parts in expressions
  */
 public class ExpressionReducer implements NodeVisitor<EvalResult> {
 
-    private final ObjectModel objectModel;
+    private final RenderContext renderContext;
     private final VariableTracker<EvalResult> tracker;
 
-    public static EvalResult reduce(ExpressionNode node, VariableTracker<EvalResult> tracker, ObjectModel objectModel) {
-        ExpressionReducer reducer = new ExpressionReducer(objectModel, tracker);
+    public static EvalResult reduce(ExpressionNode node, VariableTracker<EvalResult> tracker, RenderContext renderContext) {
+        ExpressionReducer reducer = new ExpressionReducer(renderContext, tracker);
         return reducer.eval(node);
     }
 
-    public ExpressionReducer(ObjectModel objectModel, VariableTracker<EvalResult> tracker) {
-        this.objectModel = objectModel;
+    public ExpressionReducer(RenderContext renderContext, VariableTracker<EvalResult> tracker) {
+        this.renderContext = renderContext;
         this.tracker = tracker;
     }
 
@@ -82,7 +82,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     property.getNode()));
         }
 
-        return EvalResult.constant(objectModel.resolveProperty(
+        return EvalResult.constant(renderContext.resolveProperty(
                 target.getValue(), property.getValue()));
     }
 
@@ -110,7 +110,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     left.getNode(),
                     right.getNode()));
         }
-        return EvalResult.constant(binaryOperation.getOperator().eval(objectModel, left.getValue(), right.getValue()));
+        return EvalResult.constant(binaryOperation.getOperator().eval(renderContext, left.getValue(), right.getValue()));
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
             return EvalResult.nonConstant(new UnaryOperation(
                     unaryOperation.getOperator(), target.getNode()));
         }
-        return EvalResult.constant(unaryOperation.getOperator().eval(objectModel, target.getValue()));
+        return EvalResult.constant(unaryOperation.getOperator().eval(renderContext, target.getValue()));
     }
 
     @Override
@@ -142,7 +142,7 @@ public class ExpressionReducer implements NodeVisitor<EvalResult> {
                     ternaryOperator.getThenBranch(),
                     ternaryOperator.getElseBranch()));
         }
-        return (objectModel.toBoolean(condition.getValue()))
+        return (renderContext.toBoolean(condition.getValue()))
                 ? eval(ternaryOperator.getThenBranch())
                 : eval(ternaryOperator.getElseBranch());
     }

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.apache.sling.scripting.sightly.impl.compiler.expression.node;
 
-import org.apache.sling.scripting.sightly.ObjectModel;
+import org.apache.sling.scripting.sightly.render.RenderContext;
 
 /**
  * Binary operators used in expressions
@@ -27,64 +27,64 @@ public enum BinaryOperator {
     // logical conjunction
     AND {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return (objectModel.toBoolean(left)) ? right : left;
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return (renderContext.toBoolean(left)) ? right : left;
         }
     },
     // logical disjunction
     OR {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return (objectModel.toBoolean(left)) ? left : right;
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return (renderContext.toBoolean(left)) ? left : right;
         }
     },
     // string concatenation
     CONCATENATE
     {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return objectModel.toString(left).concat(objectModel.toString(right));
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return renderContext.toString(left).concat(renderContext.toString(right));
         }
     },
     // less-than
     LT {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return lt(left, right);
         }
     },
     // less or equal
     LEQ {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return leq(left, right);
         }
     },
     // greater than
     GT {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return !leq(left, right);
         }
     },
     // greater or equal
     GEQ {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return !lt(left, right);
         }
     },
     // equal
     EQ {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return eq(left, right);
         }
     },
     // not equal
     NEQ {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return !eq(left, right);
         }
 
@@ -92,7 +92,7 @@ public enum BinaryOperator {
     // strict version of equality, restricted to just some types
     STRICT_EQ {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return strictEq(left, right);
         }
     },
@@ -100,50 +100,50 @@ public enum BinaryOperator {
     STRICT_NEQ
     {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
+        public Object eval(RenderContext renderContext, Object left, Object right) {
             return !strictEq(left, right);
         }
     },
     // addition
     ADD {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).doubleValue()
-                + objectModel.toNumber(right).doubleValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).doubleValue()
+                + renderContext.toNumber(right).doubleValue());
         }
     },
 
     // difference
     SUB {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).doubleValue()
-                - objectModel.toNumber(right).doubleValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).doubleValue()
+                - renderContext.toNumber(right).doubleValue());
         }
     },
     // multiplication
     MUL {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).doubleValue()
-                * objectModel.toNumber(right).doubleValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).doubleValue()
+                * renderContext.toNumber(right).doubleValue());
         }
     },
     // floating point division
     DIV {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).doubleValue()
-                / objectModel.toNumber(right).doubleValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).doubleValue()
+                / renderContext.toNumber(right).doubleValue());
         }
     },
 
     // integer division
     I_DIV {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).intValue()
-                / objectModel.toNumber(right).intValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).intValue()
+                / renderContext.toNumber(right).intValue());
         }
     },
 
@@ -151,9 +151,9 @@ public enum BinaryOperator {
     REM
     {
         @Override
-        public Object eval(ObjectModel objectModel, Object left, Object right) {
-            return adjust(objectModel.toNumber(left).intValue()
-                % objectModel.toNumber(right).intValue());
+        public Object eval(RenderContext renderContext, Object left, Object right) {
+            return adjust(renderContext.toNumber(left).intValue()
+                % renderContext.toNumber(right).intValue());
         }
 
     };
@@ -214,5 +214,5 @@ public enum BinaryOperator {
        return x;
    }
 
-     public abstract Object eval(ObjectModel objectModel, Object left, Object right);
+     public abstract Object eval(RenderContext renderContext, Object left, Object right);
 }

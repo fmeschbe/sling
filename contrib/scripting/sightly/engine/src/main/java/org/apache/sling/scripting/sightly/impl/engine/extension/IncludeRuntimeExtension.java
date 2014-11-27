@@ -29,14 +29,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.api.servlets.ServletResolver;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRenderException;
@@ -58,10 +56,6 @@ import org.slf4j.LoggerFactory;
 public class IncludeRuntimeExtension implements RuntimeExtension {
 
     private static final Logger LOG = LoggerFactory.getLogger(IncludeRuntimeExtension.class);
-
-    @Reference
-    private ObjectModel objectModel = null;
-
     private static final String OPTION_FILE = "file";
     private static final String OPTION_PREPEND_PATH = "prependPath";
     private static final String OPTION_APPEND_PATH = "appendPath";
@@ -77,7 +71,7 @@ public class IncludeRuntimeExtension implements RuntimeExtension {
             @Override
             public Object call(Object... arguments) {
                 ExtensionUtils.checkArgumentCount(IncludePlugin.FUNCTION, arguments, 2);
-                String originalPath = objectModel.toString(arguments[0]);
+                String originalPath = renderContext.toString(arguments[0]);
                 Map options = (Map) arguments[1];
                 String path = buildPath(originalPath, options);
                 if (path == null) {

@@ -30,10 +30,10 @@ import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.References;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.impl.compiler.debug.SanityChecker;
 import org.apache.sling.scripting.sightly.impl.compiler.ris.CommandStream;
 import org.apache.sling.scripting.sightly.impl.compiler.util.stream.PushStream;
+import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 import org.apache.sling.scripting.sightly.impl.filter.Filter;
 import org.apache.sling.scripting.sightly.impl.html.dom.HtmlParserService;
 import org.apache.sling.scripting.sightly.impl.plugin.Plugin;
@@ -73,19 +73,18 @@ public class SightlyCompilerService {
 
     private volatile StreamTransformer optimizer;
     private volatile CompilerFrontend frontend;
+    private volatile boolean initialised = false;
 
     @Reference
     protected HtmlParserService htmlParserService;
-
-    @Reference
-    protected ObjectModel objectModel;
 
     /**
      * Compile the given markup source and feed it to the given backend
      * @param source the HTML source code
      * @param backend the backend that will process the command stream from the source
      */
-    public void compile(String source, CompilerBackend backend) {
+    public void compile(String source, CompilerBackend backend, RenderContextImpl renderContext) {
+        initIfNeeded(renderContext);
         PushStream stream = new PushStream();
         SanityChecker.attachChecker(stream);
         CommandStream optimizedStream = optimizer.transform(stream);
@@ -94,9 +93,26 @@ public class SightlyCompilerService {
         frontend.compile(stream, source);
     }
 
+    private void initIfNeeded(RenderContextImpl renderContext) {
+        if (!initialised) {
+            synchronized (this) {
+                if (!initialised) {
+                    ArrayList<StreamTransformer> transformers = new ArrayList<StreamTransformer>();
+                    transformers.add(ConstantFolding.transformer(renderContext));
+                    transformers.add(DeadCodeRemoval.transformer(renderContext));
+                    transformers.add(SyntheticMapRemoval.TRANSFORMER);
+                    transformers.add(UnusedVariableRemoval.TRANSFORMER);
+                    transformers.add(CoalescingWrites.TRANSFORMER);
+                    optimizer = new SequenceStreamTransformer(transformers);
+                    initialised = true;
+                }
+            }
+        }
+    }
+
     @Activate
     protected void activate(ComponentContext context) {
-        reloadOptimizations();
+        initialised = false;
         reloadFrontend();
     }
 
@@ -130,16 +146,6 @@ public class SightlyCompilerService {
             plugins = remove(plugins, plugin);
             reloadFrontend();
         }
-    }
-
-    private void reloadOptimizations() {
-        ArrayList<StreamTransformer> transformers = new ArrayList<StreamTransformer>();
-        transformers.add(ConstantFolding.transformer(objectModel));
-        transformers.add(DeadCodeRemoval.transformer(objectModel));
-        transformers.add(SyntheticMapRemoval.TRANSFORMER);
-        transformers.add(UnusedVariableRemoval.TRANSFORMER);
-        transformers.add(CoalescingWrites.TRANSFORMER);
-        optimizer = new SequenceStreamTransformer(transformers);
     }
 
     private void reloadFrontend() {

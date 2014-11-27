@@ -40,8 +40,6 @@ import org.apache.sling.scripting.api.AbstractSlingScriptEngine;
 import org.apache.sling.scripting.sightly.SightlyException;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderContextImpl;
 import org.apache.sling.scripting.sightly.impl.engine.runtime.RenderUnit;
-import org.apache.sling.scripting.sightly.impl.engine.runtime.SightlyRuntime;
-import org.apache.sling.scripting.sightly.render.RenderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,23 +91,22 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
     }
 
     private void evaluateScript(Resource scriptResource, Bindings bindings) {
-        RenderUnit renderUnit = unitLoader.createUnit(scriptResource, bindings);
         ResourceResolver resourceResolver = null;
-        RenderContext context = null;
+        RenderContextImpl renderContext = new RenderContextImpl(bindings, extensionRegistryService.extensions());
+        RenderUnit renderUnit = unitLoader.createUnit(scriptResource, bindings, renderContext);
         try {
             resourceResolver = getAdminResourceResolver(bindings);
-            context = provideContext(bindings);
-            renderUnit.render(context, EMPTY_BINDINGS);
+            renderUnit.render(renderContext, EMPTY_BINDINGS);
         } catch (NoClassDefFoundError defFoundError) {
-            if (context != null) {
+            if (renderContext != null) {
                 ClassLoader dcl = renderUnit.getClass().getClassLoader().getParent();
                 if (dcl instanceof DynamicClassLoader && !((DynamicClassLoader) dcl).isLive()) {
                     boolean defError = true;
                     int retries = 0;
                     while (defError) {
                         try {
-                            renderUnit = unitLoader.createUnit(scriptResource, bindings);
-                            renderUnit.render(context, EMPTY_BINDINGS);
+                            renderUnit = unitLoader.createUnit(scriptResource, bindings, renderContext);
+                            renderUnit.render(renderContext, EMPTY_BINDINGS);
                             defError = false;
                         } catch (Throwable t) {
                             if (!(t instanceof NoClassDefFoundError)) {
@@ -138,13 +135,6 @@ public class SightlyScriptEngine extends AbstractSlingScriptEngine {
                 resourceResolver.close();
             }
         }
-    }
-
-    private RenderContext provideContext(Bindings bindings) {
-        SightlyRuntime runtime = new SightlyRuntime(extensionRegistryService.extensions());
-        RenderContext renderContext = new RenderContextImpl(bindings, runtime);
-        runtime.setRenderContext(renderContext);
-        return renderContext;
     }
 
     private void checkArguments(Reader reader, ScriptContext scriptContext) {

@@ -29,7 +29,6 @@ import javax.script.SimpleBindings;
 
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.Record;
 import org.apache.sling.scripting.sightly.render.RenderContext;
 
@@ -49,14 +48,8 @@ public abstract class RenderUnit implements Record<RenderUnit> {
      */
     public final void render(RenderContext renderContext, Bindings arguments) {
         Bindings globalBindings = renderContext.getBindings();
-        SlingScriptHelper ssh = (SlingScriptHelper) globalBindings.get(SlingBindings.SLING);
-        ObjectModel objectModel = ssh.getService(ObjectModel.class);
         PrintWriter writer = (PrintWriter) globalBindings.get(SlingBindings.OUT);
-        render(writer,
-                buildGlobalScope(globalBindings),
-                new CaseInsensitiveBindings(arguments),
-                objectModel,
-                (RenderContextImpl) renderContext);
+        render(writer, buildGlobalScope(globalBindings), new CaseInsensitiveBindings(arguments), (RenderContextImpl) renderContext);
     }
 
     @Override
@@ -72,7 +65,6 @@ public abstract class RenderUnit implements Record<RenderUnit> {
     protected abstract void render(PrintWriter writer,
                                    Bindings bindings,
                                    Bindings arguments,
-                                   ObjectModel objectModel,
                                    RenderContextImpl renderContext);
 
     @SuppressWarnings({"unused", "unchecked"})
@@ -82,8 +74,7 @@ public abstract class RenderUnit implements Record<RenderUnit> {
         }
         RenderUnit unit = (RenderUnit) templateObj;
         SlingScriptHelper ssh = (SlingScriptHelper) renderContext.getBindings().get(SlingBindings.SLING);
-        ObjectModel objectModel = ssh.getService(ObjectModel.class);
-        Map<String, Object> argumentsMap = objectModel.toMap(argsObj);
+        Map<String, Object> argumentsMap = renderContext.toMap(argsObj);
         Bindings arguments = new SimpleBindings(Collections.unmodifiableMap(argumentsMap));
         unit.render(renderContext, arguments);
     }

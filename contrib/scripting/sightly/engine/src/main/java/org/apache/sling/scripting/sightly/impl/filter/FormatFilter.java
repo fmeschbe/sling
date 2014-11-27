@@ -25,9 +25,7 @@ import java.util.regex.Pattern;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.scripting.sightly.ObjectModel;
 import org.apache.sling.scripting.sightly.extension.ExtensionInstance;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtension;
 import org.apache.sling.scripting.sightly.extension.RuntimeExtensionException;
@@ -51,9 +49,6 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
     private static final Pattern PLACEHOLDER_REGEX = Pattern.compile("\\{\\d}");
 
-    @Reference
-    private ObjectModel objectModel = null;
-
     @Override
     public Expression apply(Expression expression) {
         //todo: if the expression is a string constant, we can produce the transformation at
@@ -67,7 +62,7 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
     }
 
     @Override
-    public ExtensionInstance provide(RenderContext renderContext) {
+    public ExtensionInstance provide(final RenderContext renderContext) {
 
         return new ExtensionInstance() {
             @Override
@@ -75,14 +70,14 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
                 if (arguments.length != 2) {
                     throw new RuntimeExtensionException("Format function must be called with two arguments");
                 }
-                String source = objectModel.toString(arguments[0]);
+                String source = renderContext.toString(arguments[0]);
                 Object[] params = decodeParams(arguments[1]);
                 return replace(source, params);
             }
 
             private Object[] decodeParams(Object paramObj) {
-                if (objectModel.isCollection(paramObj)) {
-                    return objectModel.toCollection(paramObj).toArray();
+                if (renderContext.isCollection(paramObj)) {
+                    return renderContext.toCollection(paramObj).toArray();
                 }
                 return new Object[] {paramObj};
             }
@@ -109,7 +104,7 @@ public class FormatFilter extends FilterComponent implements RuntimeExtension {
 
             private String param(Object[] params, int index) {
                 if (index >= 0 && index < params.length) {
-                    return objectModel.toString(params[index]);
+                    return renderContext.toString(params[index]);
                 }
                 return "";
             }

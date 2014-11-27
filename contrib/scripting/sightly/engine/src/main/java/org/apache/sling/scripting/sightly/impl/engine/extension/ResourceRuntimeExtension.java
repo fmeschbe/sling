@@ -207,7 +207,8 @@ public class ResourceRuntimeExtension implements RuntimeExtension {
                 if (StringUtils.isEmpty(script)) {
                     LOG.error("Script path cannot be empty");
                 } else {
-                    SlingHttpServletResponse customResponse = new PrintWriterResponseWrapper(out, (SlingHttpServletResponse) bindings.get(SlingBindings.RESPONSE));
+                    SlingHttpServletResponse customResponse = new PrintWriterResponseWrapper(out,
+                            (SlingHttpServletResponse) bindings.get(SlingBindings.RESPONSE));
                     SlingHttpServletRequest request = (SlingHttpServletRequest) bindings.get(SlingBindings.REQUEST);
                     script = normalizePath(request, script);
 
